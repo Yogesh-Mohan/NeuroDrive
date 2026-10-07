@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "858743498536",
+    "project_id": "neurodrive-be33a",
+    "storage_bucket": "neurodrive-be33a.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:858743498536:android:3aececbd31ecef7a89d21d",
+        "android_client_info": {
+          "package_name": "com.example.neuro_drive"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyApRClcDfEYw5wEQMxc8sCdembvYF1qcqg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
