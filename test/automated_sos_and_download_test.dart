@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/testing.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -142,6 +143,41 @@ void main() {
       expect(res.status, equals('DELIVERED'));
       expect(res.latitude, equals(13.0827));
       expect(res.deliveredTo.length, equals(2));
+
+      final copied = res.copyWith(
+        deliveryProvider: 'Automated Background SMS',
+        message: 'Updated message',
+      );
+      expect(copied.deliveryProvider, equals('Automated Background SMS'));
+      expect(copied.message, equals('Updated message'));
+      expect(copied.status, equals('DELIVERED'));
+    });
+
+    test('EmergencyService triggerEmergencySos with directSmsDelivered produces DELIVERED status', () async {
+      final service = EmergencyService();
+      final samplePos = Position(
+        latitude: 11.05525,
+        longitude: 78.04857,
+        timestamp: DateTime.now(),
+        accuracy: 5.0,
+        altitude: 100.0,
+        altitudeAccuracy: 1.0,
+        heading: 0.0,
+        headingAccuracy: 1.0,
+        speed: 0.0,
+        speedAccuracy: 1.0,
+      );
+
+      final res = await service.triggerEmergencySos(
+        preloadedPosition: samplePos,
+        directSmsDelivered: true,
+        directDeliveredTo: ['+919876543210'],
+      );
+
+      expect(res.status, equals('DELIVERED'));
+      expect(res.deliveryProvider, equals('Automated Background SMS'));
+      expect(res.deliveredTo, contains('+919876543210'));
+      expect(res.latitude, equals(11.05525));
     });
 
     testWidgets('Automated SOS modal countdown auto-triggers dispatch when timer reaches 0', (tester) async {

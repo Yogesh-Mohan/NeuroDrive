@@ -39,6 +39,34 @@ class SosResult {
     this.deliveredTo = const [],
     this.errors = const [],
   });
+
+  SosResult copyWith({
+    bool? success,
+    String? status,
+    String? message,
+    String? eventId,
+    String? mapsUrl,
+    double? latitude,
+    double? longitude,
+    String? deliveryProvider,
+    int? contactsTargeted,
+    List<String>? deliveredTo,
+    List<String>? errors,
+  }) {
+    return SosResult(
+      success: success ?? this.success,
+      status: status ?? this.status,
+      message: message ?? this.message,
+      eventId: eventId ?? this.eventId,
+      mapsUrl: mapsUrl ?? this.mapsUrl,
+      latitude: latitude ?? this.latitude,
+      longitude: longitude ?? this.longitude,
+      deliveryProvider: deliveryProvider ?? this.deliveryProvider,
+      contactsTargeted: contactsTargeted ?? this.contactsTargeted,
+      deliveredTo: deliveredTo ?? this.deliveredTo,
+      errors: errors ?? this.errors,
+    );
+  }
 }
 
 class EmergencyService {
@@ -345,6 +373,8 @@ class EmergencyService {
   Future<SosResult> triggerEmergencySos({
     String emergencyMessage = 'Urgent: I need emergency assistance while driving.',
     Position? preloadedPosition,
+    bool directSmsDelivered = false,
+    List<String> directDeliveredTo = const [],
   }) async {
     if (_isSosInProgress) {
       throw Exception("An SOS alert dispatch is already in progress. Please wait.");
@@ -405,7 +435,7 @@ class EmergencyService {
       List<String> deliveredTo = [];
       List<String> deliveryErrors = [];
 
-      if (contacts.isEmpty) {
+      if (contacts.isEmpty && !directSmsDelivered) {
         deliveryStatus = 'CONFIG_REQUIRED';
         deliveryMessage = 'No emergency contacts configured. Please add contacts in Settings.';
         deliveryErrors.add("No emergency contacts configured for user.");
@@ -464,7 +494,16 @@ class EmergencyService {
           }
         }
 
-        if (!dispatched && contacts.isNotEmpty) {
+        if (directSmsDelivered) {
+          deliveryStatus = 'DELIVERED';
+          deliveryProvider = 'Automated Background SMS';
+          deliveryMessage = 'Automated emergency SMS dispatched to emergency contacts with live GPS coordinates.';
+          if (directDeliveredTo.isNotEmpty) {
+            deliveredTo = directDeliveredTo;
+          } else {
+            deliveredTo = contacts.map((c) => '${c.name} (${c.phone})').toList();
+          }
+        } else if (!dispatched && contacts.isNotEmpty) {
           deliveryStatus = 'DELIVERY_FAILED';
           deliveryMessage = 'Unable to reach backend alert delivery service. SMS fallback available.';
         }

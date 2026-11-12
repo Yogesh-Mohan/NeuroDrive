@@ -126,8 +126,8 @@ class _SosActionDialogState extends State<_SosActionDialog> {
     try {
       // 1. Immediately launch direct automated SMS to emergency contacts in background
       // Zero chooser dialogs, 100% automated background delivery!
-      final smsFuture = _contacts.isNotEmpty
-          ? widget.emergencyService.sendDirectSmsToContacts(
+      final smsSent = _contacts.isNotEmpty
+          ? await widget.emergencyService.sendDirectSmsToContacts(
               contacts: _contacts,
               emergencyMessage: 'Urgent: I need emergency assistance while driving.',
               latitude: widget.initialPosition?.latitude,
@@ -136,14 +136,24 @@ class _SosActionDialogState extends State<_SosActionDialog> {
               debugPrint('Direct SMS trigger notice: $e');
               return false;
             })
-          : Future.value(false);
+          : false;
 
-      final sosFuture = widget.emergencyService.triggerEmergencySos(
+      var res = await widget.emergencyService.triggerEmergencySos(
         preloadedPosition: widget.initialPosition,
+        directSmsDelivered: smsSent,
+        directDeliveredTo: _contacts.map((c) => '${c.name} (${c.phone})').toList(),
       );
 
-      final results = await Future.wait([smsFuture, sosFuture]);
-      final res = results[1] as SosResult;
+      // If direct automated SMS succeeded, guarantee DELIVERED status in UI
+      if (smsSent && res.status != 'DELIVERED') {
+        res = res.copyWith(
+          success: true,
+          status: 'DELIVERED',
+          deliveryProvider: 'Automated Background SMS',
+          message: 'Automated emergency SMS dispatched to ${_contacts.map((c) => c.name).join(', ')} with live GPS coordinates.',
+          deliveredTo: _contacts.map((c) => '${c.name} (${c.phone})').toList(),
+        );
+      }
 
       if (mounted) {
         setState(() {
@@ -425,7 +435,9 @@ class _SosActionDialogState extends State<_SosActionDialog> {
                 ),
                 const SizedBox(height: 8),
                 Text(
-                  'Delivered via ${_result!.deliveryProvider} to ${_result!.deliveredTo.join(', ')}.',
+                  _result!.deliveredTo.isNotEmpty
+                      ? 'Delivered via ${_result!.deliveryProvider} to ${_result!.deliveredTo.join(', ')}.'
+                      : (_result!.message.isNotEmpty ? _result!.message : 'Emergency alert dispatched to your contacts with live GPS coordinates.'),
                   textAlign: TextAlign.center,
                   style: const TextStyle(color: Color(0xFF8892B0), fontSize: 12),
                 ),
@@ -496,7 +508,8 @@ class _SosActionDialogState extends State<_SosActionDialog> {
               ],
 
               // RESULT ACTION BUTTONS
-              if (_contacts.isNotEmpty) ...[
+              // ONLY show fallback "Send / Open SMS to Contacts" when delivery actually FAILED!
+              if (_result != null && _result!.status != 'DELIVERED' && _contacts.isNotEmpty) ...[
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton.icon(
@@ -519,7 +532,7 @@ class _SosActionDialogState extends State<_SosActionDialog> {
                   ),
                 ),
                 const SizedBox(height: 10),
-              ] else ...[
+              ] else if (_contacts.isEmpty) ...[
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton.icon(
@@ -563,13 +576,15 @@ class _SosActionDialogState extends State<_SosActionDialog> {
                   Expanded(
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFF1F4068),
+                        backgroundColor: (_result != null && _result!.status == 'DELIVERED')
+                            ? Colors.greenAccent.shade700
+                            : const Color(0xFF1F4068),
                         foregroundColor: Colors.white,
                         padding: const EdgeInsets.symmetric(vertical: 12),
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                       ),
                       onPressed: () => Navigator.of(context).pop(),
-                      child: const Text('Close'),
+                      child: Text((_result != null && _result!.status == 'DELIVERED') ? 'Done' : 'Close'),
                     ),
                   ),
                 ],

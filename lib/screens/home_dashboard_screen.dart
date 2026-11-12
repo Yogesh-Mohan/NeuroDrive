@@ -124,45 +124,45 @@ class _HomeDashboardScreenState extends State<HomeDashboardScreen> {
       ),
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        title: Row(
-          children: [
-            const Icon(Icons.menu_rounded, color: Colors.white),
-            const SizedBox(width: 16),
-            const Text(
-              'NeuroDrive',
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20, letterSpacing: 0.5),
-            ),
-          ],
+        leading: const Icon(Icons.menu_rounded, color: Colors.white),
+        titleSpacing: 0,
+        title: const FittedBox(
+          fit: BoxFit.scaleDown,
+          alignment: Alignment.centerLeft,
+          child: Text(
+            'NeuroDrive',
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 19, letterSpacing: 0.5),
+          ),
         ),
         actions: [
           Container(
-            margin: const EdgeInsets.only(right: 6),
+            margin: const EdgeInsets.only(right: 4),
             child: Material(
               color: Colors.transparent,
               child: InkWell(
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: BorderRadius.circular(16),
                 onTap: () => SosDialogHelper.showSosConfirmationDialog(
                   context,
                   currentPosition: _lastPosition,
                 ),
                 child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
                   decoration: BoxDecoration(
                     color: const Color(0xFFFF5252).withValues(alpha: 0.15),
-                    borderRadius: BorderRadius.circular(16),
+                    borderRadius: BorderRadius.circular(14),
                     border: Border.all(color: const Color(0xFFFF5252), width: 1.2),
                   ),
                   child: const Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Icon(Icons.emergency_share_rounded, color: Color(0xFFFF5252), size: 16),
-                      SizedBox(width: 4),
+                      Icon(Icons.emergency_share_rounded, color: Color(0xFFFF5252), size: 15),
+                      SizedBox(width: 3),
                       Text(
                         'SOS',
                         style: TextStyle(
                           color: Color(0xFFFF5252),
                           fontWeight: FontWeight.bold,
-                          fontSize: 12,
+                          fontSize: 11,
                           letterSpacing: 0.5,
                         ),
                       ),
@@ -173,13 +173,16 @@ class _HomeDashboardScreenState extends State<HomeDashboardScreen> {
             ),
           ),
           const Padding(
-            padding: EdgeInsets.symmetric(vertical: 12.0, horizontal: 4.0),
+            padding: EdgeInsets.symmetric(vertical: 12.0, horizontal: 2.0),
             child: SyncStatusBadge(),
           ),
           IconButton(
             icon: const Icon(Icons.notifications_none_rounded, color: Colors.white),
+            padding: const EdgeInsets.symmetric(horizontal: 6),
+            constraints: const BoxConstraints(),
             onPressed: () => Navigator.pushNamed(context, AppRoutes.alertHistory),
           ),
+          const SizedBox(width: 6),
         ],
       ),
       body: SafeArea(
