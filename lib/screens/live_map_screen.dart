@@ -1,14 +1,16 @@
 import 'dart:async';
-import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import '../core/constants/app_routes.dart';
 import '../core/services/location_service.dart';
 import '../core/services/safety_engine.dart';
 import '../core/services/notification_service.dart';
+import '../core/models/trip_model.dart';
+import '../core/services/trip_service.dart';
+import '../widgets/sos_dialog_helper.dart';
+import 'trip_details_screen.dart';
+import '../widgets/copilot_sheet.dart';
 
 class LiveMapScreen extends StatefulWidget {
   const LiveMapScreen({super.key});
@@ -36,19 +38,202 @@ class _LiveMapScreenState extends State<LiveMapScreen> {
     message: 'Initializing...',
   );
 
+  // Destination & In-Drive Copilot Tracking
+  String? _destinationName;
+  LatLng? _destinationLatLng;
+  double? _distanceRemainingKm;
+  double? _etaMinutes;
+  int _alertCount = 0;
+  final List<String> _recentAlerts = [];
+
+  // Preset Popular Destinations
+  static const Map<String, LatLng> _presetDestinations = {
+    'Chennai Airport': LatLng(12.9941, 80.1709),
+    'Marina Beach': LatLng(13.0499, 80.2824),
+    'Chennai Central': LatLng(13.0827, 80.2754),
+    'Tambaram Station': LatLng(12.9249, 80.1479),
+    'OMR IT Corridor': LatLng(12.8797, 80.2268),
+  };
+
+  void _setDestination(String name, LatLng latLng) {
+    setState(() {
+      _destinationName = name;
+      _destinationLatLng = latLng;
+      _updateEta();
+    });
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('Destination set: $name'),
+        backgroundColor: const Color(0xFF00E5FF),
+        duration: const Duration(seconds: 2),
+      ),
+    );
+  }
+
+  void _clearDestination() {
+    setState(() {
+      _destinationName = null;
+      _destinationLatLng = null;
+      _distanceRemainingKm = null;
+      _etaMinutes = null;
+    });
+  }
+
+  void _updateEta() {
+    if (_destinationLatLng == null) return;
+    final distMeters = Geolocator.distanceBetween(
+      _userPos.latitude,
+      _userPos.longitude,
+      _destinationLatLng!.latitude,
+      _destinationLatLng!.longitude,
+    );
+    final distKm = distMeters / 1000.0;
+    // Estimate ETA using current speed or default 35 km/h urban speed
+    final effectiveSpeed = _currentSpeedKmh > 10.0 ? _currentSpeedKmh : 35.0;
+    final hours = distKm / effectiveSpeed;
+    final mins = (hours * 60.0).clamp(1.0, 1000.0);
+
+    setState(() {
+      _distanceRemainingKm = distKm;
+      _etaMinutes = mins;
+    });
+  }
+
+  void _openCopilotSheet() {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (ctx) => CopilotSheet(
+        currentLocationName: null,
+        latitude: _userPos.latitude,
+        longitude: _userPos.longitude,
+
+        destinationName: _destinationName,
+        distanceRemainingKm: _distanceRemainingKm,
+        etaMinutes: _etaMinutes,
+        currentSpeedKmh: _currentSpeedKmh,
+        alertCount: _alertCount,
+        recentAlerts: _recentAlerts,
+      ),
+    );
+  }
+
   // Trip Tracking Variables
+  final TripService _tripService = TripService();
+  bool _isSavingTrip = false;
   DateTime? _startTime;
   double _totalDistanceMeters = 0.0;
   Timer? _durationTimer;
   Duration _currentDuration = Duration.zero;
   Position? _startPosition;
+  bool _isFixingLocation = false;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _startDriveAutomatically();
+    });
+  }
 
   @override
   void dispose() {
+    if (_isDriveModeOn && !_isSavingTrip) {
+      _saveTrip();
+    }
     _positionStreamSubscription?.cancel();
     _durationTimer?.cancel();
     _mapController?.dispose();
     super.dispose();
+  }
+
+  Future<void> _startDriveAutomatically() async {
+    if (_isDriveModeOn) return;
+
+    setState(() {
+      _gpsStatus = 'Fixing Location...';
+      _isFixingLocation = true;
+    });
+
+    final hasPermission = await _locationService.handlePermissions();
+    if (!hasPermission) {
+      if (mounted) {
+        setState(() {
+          _gpsStatus = 'Permission Denied';
+          _isFixingLocation = false;
+        });
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Location permission required for Drive Mode'),
+            backgroundColor: Colors.redAccent,
+          ),
+        );
+      }
+      return;
+    }
+
+    // Acquire GPS location
+    final initialPos = await _locationService.getCurrentLocation();
+    if (initialPos != null && mounted) {
+      _updateLocationState(initialPos);
+      _recenterMap();
+    }
+
+    if (!mounted) return;
+
+    setState(() {
+      _isDriveModeOn = true;
+      _followUser = true;
+      _gpsStatus = 'Connected';
+      _isFixingLocation = false;
+      // Reset Trip
+      _startTime = DateTime.now();
+      _totalDistanceMeters = 0.0;
+      _currentDuration = Duration.zero;
+      _startPosition = initialPos;
+    });
+
+    _durationTimer?.cancel();
+    _durationTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      if (mounted) {
+        setState(() {
+          _currentDuration = DateTime.now().difference(_startTime!);
+        });
+      }
+    });
+
+    // Start continuous listening
+    _positionStreamSubscription?.cancel();
+    _positionStreamSubscription = _locationService.getLocationStream()?.listen(
+      (Position position) {
+        _updateLocationState(position);
+      },
+      onError: (error) {
+        if (mounted) {
+          setState(() {
+            _gpsStatus = 'Error/Lost Signal';
+          });
+        }
+      },
+    );
+
+    if (mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Row(
+            children: [
+              Icon(Icons.check_circle_rounded, color: Colors.greenAccent, size: 20),
+              SizedBox(width: 10),
+              Text('Location fixed. Drive Mode started!'),
+            ],
+          ),
+          backgroundColor: Color(0xFF112240),
+          duration: Duration(seconds: 2),
+          behavior: SnackBarBehavior.floating,
+        ),
+      );
+    }
   }
 
   Future<void> _toggleDriveMode() async {
@@ -67,61 +252,7 @@ class _LiveMapScreenState extends State<LiveMapScreen> {
         _heading = 0.0;
       });
     } else {
-      // Turn ON
-      setState(() {
-        _gpsStatus = 'Connecting...';
-      });
-
-      final hasPermission = await _locationService.handlePermissions();
-      if (!hasPermission) {
-        setState(() {
-          _gpsStatus = 'Permission Denied';
-        });
-        if (mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Location permission required for Drive Mode')),
-          );
-        }
-        return;
-      }
-
-      setState(() {
-        _isDriveModeOn = true;
-        _followUser = true;
-        _gpsStatus = 'Connected';
-        // Reset Trip
-        _startTime = DateTime.now();
-        _totalDistanceMeters = 0.0;
-        _currentDuration = Duration.zero;
-        _startPosition = null;
-      });
-
-      _durationTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
-        if (mounted) {
-          setState(() {
-            _currentDuration = DateTime.now().difference(_startTime!);
-          });
-        }
-      });
-
-      // Get initial location quickly
-      final initialPos = await _locationService.getCurrentLocation();
-      if (initialPos != null) {
-        _updateLocationState(initialPos);
-        _recenterMap();
-      }
-
-      // Start continuous listening
-      _positionStreamSubscription = _locationService.getLocationStream()?.listen(
-        (Position position) {
-          _updateLocationState(position);
-        },
-        onError: (error) {
-          setState(() {
-            _gpsStatus = 'Error/Lost Signal';
-          });
-        },
-      );
+      await _startDriveAutomatically();
     }
   }
 
@@ -140,7 +271,16 @@ class _LiveMapScreenState extends State<LiveMapScreen> {
     }
     
     final status = _safetyEngine.evaluateRisk(currentEgoPosition: position);
-    NotificationService().handleSafetyStatus(status);
+    NotificationService().handleSafetyStatus(
+      status,
+      currentPosition: position,
+    );
+
+    if (status.riskLevel == RiskLevel.warning || status.riskLevel == RiskLevel.critical) {
+      _alertCount++;
+      _recentAlerts.add("[${status.riskLevel.name.toUpperCase()}] ${status.message}");
+      if (_recentAlerts.length > 10) _recentAlerts.removeAt(0);
+    }
 
     setState(() {
       _startPosition ??= position;
@@ -152,6 +292,7 @@ class _LiveMapScreenState extends State<LiveMapScreen> {
       _gpsStatus = 'Connected';
       _currentSafetyStatus = status;
     });
+    _updateEta();
 
     if (_followUser && _mapController != null) {
       _mapController!.animateCamera(
@@ -185,41 +326,80 @@ class _LiveMapScreenState extends State<LiveMapScreen> {
     }
   }
 
-  Future<void> _saveTrip() async {
-    if (_startPosition == null || _currentPosition == null || _startTime == null) return;
-    
-    // Lowered to 5 meters for testing purposes (previously 50)
-    if (_totalDistanceMeters < 5 && _currentDuration.inSeconds < 10) return; 
+  Future<TripModel?> _saveTrip() async {
+    if (_isSavingTrip) return null; // Prevent duplicate concurrent saves
+
+    final pos = _currentPosition ?? _startPosition;
+    final startLat = _startPosition?.latitude ?? pos?.latitude ?? _userPos.latitude;
+    final startLng = _startPosition?.longitude ?? pos?.longitude ?? _userPos.longitude;
+    final endLat = _currentPosition?.latitude ?? pos?.latitude ?? _userPos.latitude;
+    final endLng = _currentPosition?.longitude ?? pos?.longitude ?? _userPos.longitude;
+
+    if (_startTime == null) {
+      debugPrint('Trip has no startTime, cannot save.');
+      return null;
+    }
+
+    final durationSec = _currentDuration.inSeconds > 0
+        ? _currentDuration.inSeconds
+        : DateTime.now().difference(_startTime!).inSeconds;
+
+    _isSavingTrip = true;
+    final now = DateTime.now();
 
     try {
-      final uid = FirebaseAuth.instance.currentUser?.uid;
-      if (uid == null) return; // Don't save if not logged in
+      final trip = await _tripService.saveCompletedTrip(
+        startTime: _startTime!,
+        endTime: now,
+        distanceMeters: _totalDistanceMeters,
+        durationSeconds: durationSec > 0 ? durationSec : 1,
+        startLat: startLat,
+        startLng: startLng,
+        endLat: endLat,
+        endLng: endLng,
+        avgSpeedKmh: _currentSpeedKmh,
+      );
 
-      final prefs = await SharedPreferences.getInstance();
-      List<String> tripsStr = prefs.getStringList('neurodrive_trips_$uid') ?? [];
-      
-      final tripData = {
-        'id': DateTime.now().millisecondsSinceEpoch.toString(),
-        'startTime': _startTime!.toIso8601String(),
-        'endTime': DateTime.now().toIso8601String(),
-        'durationSeconds': _currentDuration.inSeconds,
-        'distanceMeters': _totalDistanceMeters,
-        'startLat': _startPosition!.latitude,
-        'startLng': _startPosition!.longitude,
-        'endLat': _currentPosition!.latitude,
-        'endLng': _currentPosition!.longitude,
-      };
-
-      tripsStr.add(json.encode(tripData));
-      await prefs.setStringList('neurodrive_trips_$uid', tripsStr);
-      
       if (mounted) {
+        final syncMsg = trip.isSynced
+            ? 'Trip saved to Cloud Firestore!'
+            : 'Trip saved locally in History (sync pending)!';
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Trip saved successfully!'), backgroundColor: Colors.green),
+          SnackBar(
+            content: Text(syncMsg),
+            backgroundColor: const Color(0xFF112240),
+            behavior: SnackBarBehavior.floating,
+            duration: const Duration(seconds: 4),
+            action: SnackBarAction(
+              label: 'AI REPORT',
+              textColor: const Color(0xFF00D2FF),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => TripDetailsScreen(trip: trip),
+                  ),
+                );
+              },
+            ),
+          ),
         );
       }
+      return trip;
     } catch (e) {
       debugPrint('Failed to save trip: $e');
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Trip saved locally. Notice: ${e.toString().replaceAll('Exception: ', '')}'),
+            backgroundColor: const Color(0xFF112240),
+            behavior: SnackBarBehavior.floating,
+          ),
+        );
+      }
+      return null;
+    } finally {
+      _isSavingTrip = false;
     }
   }
 
@@ -230,12 +410,34 @@ class _LiveMapScreenState extends State<LiveMapScreen> {
     return "${twoDigits(d.inHours)}:$twoDigitMinutes:$twoDigitSeconds";
   }
 
+  Future<void> _handleBackPress() async {
+    if (_isDriveModeOn) {
+      _positionStreamSubscription?.cancel();
+      _durationTimer?.cancel();
+      await _saveTrip();
+    }
+    if (mounted) {
+      Navigator.of(context).pop();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     const primaryColor = Color(0xFF00D2FF);
 
-    return Scaffold(
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, result) {
+        if (!didPop) {
+          _handleBackPress();
+        }
+      },
+      child: Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: _handleBackPress,
+        ),
         title: Row(
           children: [
             const Text('NeuroDrive', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
@@ -313,6 +515,141 @@ class _LiveMapScreenState extends State<LiveMapScreen> {
               },
             ),
 
+            // Top Fixing Location Feedback Banner
+            if (_isFixingLocation)
+              Positioned(
+                top: 16,
+                left: 16,
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFF112240).withValues(alpha: 0.95),
+                    borderRadius: BorderRadius.circular(20),
+                    border: Border.all(color: const Color(0xFF00D2FF), width: 1.5),
+                    boxShadow: [
+                      BoxShadow(
+                        color: const Color(0xFF00D2FF).withValues(alpha: 0.35),
+                        blurRadius: 10,
+                        spreadRadius: 1,
+                      ),
+                    ],
+                  ),
+                  child: const Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      SizedBox(
+                        width: 14,
+                        height: 14,
+                        child: CircularProgressIndicator(
+                          strokeWidth: 2,
+                          valueColor: AlwaysStoppedAnimation<Color>(Color(0xFF00D2FF)),
+                        ),
+                      ),
+                      SizedBox(width: 8),
+                      Text(
+                        'Fixing GPS Location...',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+
+            // Top Destination Bar (NeuroCopilot)
+            Positioned(
+              top: 16,
+              left: 16,
+              right: 170, // Leave space for GPS status on right
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                decoration: BoxDecoration(
+                  color: const Color(0xFF0D1B2A).withValues(alpha: 0.95),
+                  borderRadius: BorderRadius.circular(16),
+                  border: Border.all(color: const Color(0xFF00E5FF).withValues(alpha: 0.5)),
+                  boxShadow: [
+                    BoxShadow(
+                      color: const Color(0xFF00E5FF).withValues(alpha: 0.2),
+                      blurRadius: 8,
+                    ),
+                  ],
+                ),
+                child: Row(
+                  children: [
+                    const Icon(Icons.navigation_rounded, color: Color(0xFF00E5FF), size: 18),
+                    const SizedBox(width: 6),
+                    Expanded(
+                      child: _destinationName != null
+                          ? Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Text(
+                                  'TO: ',
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                                Text(
+                                  ' km • ETA m',
+                                  style: const TextStyle(
+                                    color: Color(0xFF00E5FF),
+                                    fontSize: 10,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                              ],
+                            )
+                          : const Text(
+                              'Destination: Set Dest',
+                              style: TextStyle(color: Colors.white70, fontSize: 11),
+                            ),
+                    ),
+                    PopupMenuButton<String>(
+                      icon: const Icon(Icons.add_location_alt_rounded, color: Color(0xFF00E5FF), size: 20),
+                      padding: EdgeInsets.zero,
+                      tooltip: 'Choose Destination',
+                      color: const Color(0xFF132238),
+                      onSelected: (val) {
+                        if (val == 'CLEAR') {
+                          _clearDestination();
+                        } else if (_presetDestinations.containsKey(val)) {
+                          _setDestination(val, _presetDestinations[val]!);
+                        }
+                      },
+                      itemBuilder: (ctx) => [
+                        const PopupMenuItem(
+                          enabled: false,
+                          child: Text(
+                            'Select Destination:',
+                            style: TextStyle(color: Color(0xFF00E5FF), fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                        ..._presetDestinations.entries.map(
+                          (e) => PopupMenuItem(
+                            value: e.key,
+                            child: Text(e.key, style: const TextStyle(color: Colors.white, fontSize: 13)),
+                          ),
+                        ),
+                        if (_destinationName != null)
+                          const PopupMenuItem(
+                            value: 'CLEAR',
+                            child: Text('Clear Destination', style: TextStyle(color: Colors.redAccent, fontSize: 13)),
+                          ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+
             // Top GPS Status & Safety Warning
             Positioned(
               top: 16,
@@ -375,7 +712,7 @@ class _LiveMapScreenState extends State<LiveMapScreen> {
               ),
             ),
 
-            // Floating Control Buttons (Recenter)
+            // Floating Control Buttons (Recenter & Emergency SOS)
             Positioned(
               right: 16,
               top: 110,
@@ -395,6 +732,26 @@ class _LiveMapScreenState extends State<LiveMapScreen> {
                       backgroundColor: const Color(0xFF112240),
                       child: const Icon(Icons.my_location_rounded, color: primaryColor),
                     ),
+                  const SizedBox(height: 12),
+                  // NeuroCopilot AI Floating Trigger
+                  FloatingActionButton(
+                    heroTag: 'copilot_live_btn',
+                    onPressed: _openCopilotSheet,
+                    backgroundColor: const Color(0xFF00E5FF),
+                    elevation: 8,
+                    child: const Icon(Icons.psychology_rounded, color: Color(0xFF0D1B2A), size: 30),
+                  ),
+                  const SizedBox(height: 12),
+                  FloatingActionButton(
+                    heroTag: 'sos_live_map_btn',
+                    onPressed: () => SosDialogHelper.showSosConfirmationDialog(
+                      context,
+                      currentPosition: _currentPosition,
+                    ),
+                    backgroundColor: const Color(0xFFFF5252),
+                    elevation: 6,
+                    child: const Icon(Icons.emergency_share_rounded, color: Colors.white, size: 28),
+                  ),
                 ],
               ),
             ),
@@ -446,6 +803,36 @@ class _LiveMapScreenState extends State<LiveMapScreen> {
                         ),
                       ],
                     ),
+                    if (_isDriveModeOn) ...[
+                      const SizedBox(height: 14),
+                      SizedBox(
+                        width: double.infinity,
+                        height: 44,
+                        child: ElevatedButton.icon(
+                          onPressed: () async {
+                            await _toggleDriveMode();
+                          },
+                          icon: const Icon(Icons.stop_circle_rounded, color: Colors.white, size: 22),
+                          label: const Text(
+                            'END DRIVE & SAVE TRIP',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                              letterSpacing: 0.8,
+                            ),
+                          ),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: const Color(0xFFFF4D4D),
+                            foregroundColor: Colors.white,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(14),
+                            ),
+                            elevation: 4,
+                          ),
+                        ),
+                      ),
+                    ],
                   ],
                 ),
               ),
@@ -453,6 +840,7 @@ class _LiveMapScreenState extends State<LiveMapScreen> {
           ],
         ),
       ),
+    ),
     );
   }
 

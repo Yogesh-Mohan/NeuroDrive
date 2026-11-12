@@ -403,6 +403,22 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                     ),
                   ),
+
+                  const SizedBox(height: 12),
+
+                  // Skip / Continue as Guest Button
+                  TextButton.icon(
+                    onPressed: _isLoading
+                        ? null
+                        : () {
+                            Navigator.of(context).pushReplacementNamed(AppRoutes.home);
+                          },
+                    icon: const Icon(Icons.arrow_forward_rounded, color: Color(0xFF8892B0), size: 18),
+                    label: const Text(
+                      'Skip / Continue as Guest',
+                      style: TextStyle(color: Color(0xFF8892B0), fontSize: 14),
+                    ),
+                  ),
                 ],
               ),
             ),

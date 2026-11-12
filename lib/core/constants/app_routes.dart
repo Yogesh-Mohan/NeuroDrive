@@ -15,4 +15,5 @@ class AppRoutes {
   static const String offlineMode = '/offline';
   static const String profile = '/profile';
   static const String vehicle = '/vehicle';
+  static const String emergencyContacts = '/emergency-contacts';
 }

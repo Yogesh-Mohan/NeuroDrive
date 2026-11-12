@@ -5,6 +5,10 @@ import '../core/constants/app_routes.dart';
 import '../core/services/location_service.dart';
 import '../core/services/safety_engine.dart';
 import '../core/services/notification_service.dart';
+import '../widgets/sos_dialog_helper.dart';
+import '../widgets/sync_status_badge.dart';
+import '../widgets/copilot_sheet.dart';
+import '../main_shell.dart';
 
 class HomeDashboardScreen extends StatefulWidget {
   const HomeDashboardScreen({super.key});
@@ -29,6 +33,8 @@ class _HomeDashboardScreenState extends State<HomeDashboardScreen> {
     message: 'Initializing...',
   );
 
+  Position? _lastPosition;
+
   @override
   void initState() {
     super.initState();
@@ -44,8 +50,12 @@ class _HomeDashboardScreenState extends State<HomeDashboardScreen> {
     
     _positionSubscription = _locationService.getLocationStream()?.listen((Position position) {
       if (mounted) {
+        _lastPosition = position;
         final status = _safetyEngine.evaluateRisk(currentEgoPosition: position);
-        NotificationService().handleSafetyStatus(status);
+        NotificationService().handleSafetyStatus(
+          status,
+          currentPosition: position,
+        );
         
         setState(() {
           // Convert m/s to km/h
@@ -83,6 +93,35 @@ class _HomeDashboardScreenState extends State<HomeDashboardScreen> {
     const primaryColor = Color(0xFF00D2FF);
 
     return Scaffold(
+      floatingActionButton: FloatingActionButton.extended(
+        heroTag: 'home_copilot_fab',
+        onPressed: () {
+          showModalBottomSheet(
+            context: context,
+            isScrollControlled: true,
+            backgroundColor: Colors.transparent,
+            builder: (ctx) => CopilotSheet(
+              currentLocationName: null,
+              latitude: _lastPosition?.latitude,
+              longitude: _lastPosition?.longitude,
+
+              currentSpeedKmh: _currentSpeed,
+              alertCount: 0,
+            ),
+          );
+        },
+        backgroundColor: const Color(0xFF00E5FF),
+        elevation: 8,
+        icon: const Icon(Icons.smart_toy_rounded, color: Color(0xFF0A192F), size: 24),
+        label: const Text(
+          'NeuroCopilot AI',
+          style: TextStyle(
+            color: Color(0xFF0A192F),
+            fontWeight: FontWeight.bold,
+            letterSpacing: 0.5,
+          ),
+        ),
+      ),
       appBar: AppBar(
         automaticallyImplyLeading: false,
         title: Row(
@@ -96,6 +135,47 @@ class _HomeDashboardScreenState extends State<HomeDashboardScreen> {
           ],
         ),
         actions: [
+          Container(
+            margin: const EdgeInsets.only(right: 6),
+            child: Material(
+              color: Colors.transparent,
+              child: InkWell(
+                borderRadius: BorderRadius.circular(20),
+                onTap: () => SosDialogHelper.showSosConfirmationDialog(
+                  context,
+                  currentPosition: _lastPosition,
+                ),
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFFF5252).withValues(alpha: 0.15),
+                    borderRadius: BorderRadius.circular(16),
+                    border: Border.all(color: const Color(0xFFFF5252), width: 1.2),
+                  ),
+                  child: const Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(Icons.emergency_share_rounded, color: Color(0xFFFF5252), size: 16),
+                      SizedBox(width: 4),
+                      Text(
+                        'SOS',
+                        style: TextStyle(
+                          color: Color(0xFFFF5252),
+                          fontWeight: FontWeight.bold,
+                          fontSize: 12,
+                          letterSpacing: 0.5,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
+          const Padding(
+            padding: EdgeInsets.symmetric(vertical: 12.0, horizontal: 4.0),
+            child: SyncStatusBadge(),
+          ),
           IconButton(
             icon: const Icon(Icons.notifications_none_rounded, color: Colors.white),
             onPressed: () => Navigator.pushNamed(context, AppRoutes.alertHistory),
@@ -213,7 +293,7 @@ class _HomeDashboardScreenState extends State<HomeDashboardScreen> {
                 ],
               ),
 
-              const SizedBox(height: 28),
+              const SizedBox(height: 24),
 
               // Start Drive Large Button
               SizedBox(
@@ -221,7 +301,8 @@ class _HomeDashboardScreenState extends State<HomeDashboardScreen> {
                 height: 56,
                 child: ElevatedButton(
                   onPressed: () {
-                    Navigator.pushNamed(context, AppRoutes.liveMap);
+                    // Switch to Map View tab with destination search
+                    MainShell.switchToTab(context, 1);
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xFF0088FF),
@@ -242,6 +323,44 @@ class _HomeDashboardScreenState extends State<HomeDashboardScreen> {
                         style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+
+              const SizedBox(height: 14),
+
+              // EMERGENCY SOS DEDICATED ACTION BUTTON
+              SizedBox(
+                width: double.infinity,
+                height: 52,
+                child: OutlinedButton(
+                  onPressed: () => SosDialogHelper.showSosConfirmationDialog(
+                    context,
+                    currentPosition: _lastPosition,
+                  ),
+                  style: OutlinedButton.styleFrom(
+                    foregroundColor: const Color(0xFFFF5252),
+                    backgroundColor: const Color(0xFFFF5252).withValues(alpha: 0.08),
+                    side: const BorderSide(color: Color(0xFFFF5252), width: 1.5),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(28),
+                    ),
+                  ),
+                  child: const Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(Icons.emergency_share_rounded, color: Color(0xFFFF5252), size: 22),
+                      SizedBox(width: 8),
+                      Text(
+                        'EMERGENCY SOS',
+                        style: TextStyle(
+                          color: Color(0xFFFF5252),
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
+                          letterSpacing: 1,
                         ),
                       ),
                     ],

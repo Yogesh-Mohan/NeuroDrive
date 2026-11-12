@@ -1,0 +1,948 @@
+{
+  "version": "1.0.0",
+  "dataset_name": "Global_Potholes_Dataset_TamilNadu",
+  "total_records": 47,
+  "last_updated": "2026-11-04T17:39:32.826005Z",
+  "records": [
+    {
+      "damage_id": "2d446929-31f5-4d5f-a5a0-0d3d5870db09",
+      "latitude": 12.950329645526,
+      "longitude": 77.595799496264,
+      "damage_type": "pothole",
+      "severity": "medium",
+      "status": "active",
+      "district": "Krishnagiri / Hosur Corridor",
+      "source": "outerview,mapilliary",
+      "region": "India",
+      "filename": "2d446929-31f5-4d5f-a5a0-0d3d5870db09.jpg",
+      "verification_status": "verified",
+      "reported_at": "2026-11-04T17:39:32.823021Z",
+      "metadata": {
+        "dataset": "Global_Potholes_Dataset",
+        "original_source": "outerview,mapilliary",
+        "filename": "2d446929-31f5-4d5f-a5a0-0d3d5870db09.jpg",
+        "region": "India"
+      }
+    },
+    {
+      "damage_id": "8af851dd-f497-4d5a-87bc-96d2fe9e4550",
+      "latitude": 12.956986064121,
+      "longitude": 77.74353811522,
+      "damage_type": "pothole",
+      "severity": "high",
+      "status": "active",
+      "district": "Krishnagiri / Hosur Corridor",
+      "source": "outerview,mapilliary",
+      "region": "India",
+      "filename": "8af851dd-f497-4d5a-87bc-96d2fe9e4550.jpg",
+      "verification_status": "verified",
+      "reported_at": "2026-11-04T17:39:32.823021Z",
+      "metadata": {
+        "dataset": "Global_Potholes_Dataset",
+        "original_source": "outerview,mapilliary",
+        "filename": "8af851dd-f497-4d5a-87bc-96d2fe9e4550.jpg",
+        "region": "India"
+      }
+    },
+    {
+      "damage_id": "976986a5-e318-44b1-b628-cf38955ab9d3",
+      "latitude": 12.9630462,
+      "longitude": 77.6017791,
+      "damage_type": "pothole",
+      "severity": "high",
+      "status": "active",
+      "district": "Krishnagiri / Hosur Corridor",
+      "source": "outerview,mapilliary",
+      "region": "India",
+      "filename": "976986a5-e318-44b1-b628-cf38955ab9d3.jpg",
+      "verification_status": "verified",
+      "reported_at": "2026-11-04T17:39:32.823021Z",
+      "metadata": {
+        "dataset": "Global_Potholes_Dataset",
+        "original_source": "outerview,mapilliary",
+        "filename": "976986a5-e318-44b1-b628-cf38955ab9d3.jpg",
+        "region": "India"
+      }
+    },
+    {
+      "damage_id": "8c6cd315-b8bb-4e16-9800-9a552182864b",
+      "latitude": 12.91271121708,
+      "longitude": 77.623007437287,
+      "damage_type": "pothole",
+      "severity": "medium",
+      "status": "active",
+      "district": "Krishnagiri / Hosur Corridor",
+      "source": "outerview,mapilliary",
+      "region": "India",
+      "filename": "8c6cd315-b8bb-4e16-9800-9a552182864b.jpg",
+      "verification_status": "verified",
+      "reported_at": "2026-11-04T17:39:32.823021Z",
+      "metadata": {
+        "dataset": "Global_Potholes_Dataset",
+        "original_source": "outerview,mapilliary",
+        "filename": "8c6cd315-b8bb-4e16-9800-9a552182864b.jpg",
+        "region": "India"
+      }
+    },
+    {
+      "damage_id": "bbd9291f-858b-4503-860e-38099166325c",
+      "latitude": 12.9630006,
+      "longitude": 77.6020629,
+      "damage_type": "pothole",
+      "severity": "medium",
+      "status": "active",
+      "district": "Krishnagiri / Hosur Corridor",
+      "source": "outerview,mapilliary",
+      "region": "India",
+      "filename": "bbd9291f-858b-4503-860e-38099166325c.jpg",
+      "verification_status": "verified",
+      "reported_at": "2026-11-04T17:39:32.823021Z",
+      "metadata": {
+        "dataset": "Global_Potholes_Dataset",
+        "original_source": "outerview,mapilliary",
+        "filename": "bbd9291f-858b-4503-860e-38099166325c.jpg",
+        "region": "India"
+      }
+    },
+    {
+      "damage_id": "9bbd6d49-050e-4225-b849-36f1d3bcdc29",
+      "latitude": 13.059061111111,
+      "longitude": 80.219527777778,
+      "damage_type": "pothole",
+      "severity": "high",
+      "status": "active",
+      "district": "Chennai",
+      "source": "outerview,mapilliary",
+      "region": "India",
+      "filename": "9bbd6d49-050e-4225-b849-36f1d3bcdc29.jpg",
+      "verification_status": "verified",
+      "reported_at": "2026-11-04T17:39:32.823021Z",
+      "metadata": {
+        "dataset": "Global_Potholes_Dataset",
+        "original_source": "outerview,mapilliary",
+        "filename": "9bbd6d49-050e-4225-b849-36f1d3bcdc29.jpg",
+        "region": "India"
+      }
+    },
+    {
+      "damage_id": "09000daf-d408-42e3-aaa2-cd4095a9e511",
+      "latitude": 12.951478654273,
+      "longitude": 77.594924296767,
+      "damage_type": "pothole",
+      "severity": "medium",
+      "status": "active",
+      "district": "Krishnagiri / Hosur Corridor",
+      "source": "outerview,mapilliary",
+      "region": "India",
+      "filename": "09000daf-d408-42e3-aaa2-cd4095a9e511.jpg",
+      "verification_status": "verified",
+      "reported_at": "2026-11-04T17:39:32.823021Z",
+      "metadata": {
+        "dataset": "Global_Potholes_Dataset",
+        "original_source": "outerview,mapilliary",
+        "filename": "09000daf-d408-42e3-aaa2-cd4095a9e511.jpg",
+        "region": "India"
+      }
+    },
+    {
+      "damage_id": "d21fea4c-6938-4116-b23b-c39095fc1c47",
+      "latitude": 12.992238718957,
+      "longitude": 77.667331009896,
+      "damage_type": "pothole",
+      "severity": "low",
+      "status": "active",
+      "district": "Krishnagiri / Hosur Corridor",
+      "source": "outerview,mapilliary",
+      "region": "India",
+      "filename": "d21fea4c-6938-4116-b23b-c39095fc1c47.jpg",
+      "verification_status": "verified",
+      "reported_at": "2026-11-04T17:39:32.823021Z",
+      "metadata": {
+        "dataset": "Global_Potholes_Dataset",
+        "original_source": "outerview,mapilliary",
+        "filename": "d21fea4c-6938-4116-b23b-c39095fc1c47.jpg",
+        "region": "India"
+      }
+    },
+    {
+      "damage_id": "fc1010eb-555a-4a90-a658-6b62717c0117",
+      "latitude": 12.936844829719,
+      "longitude": 77.625445205623,
+      "damage_type": "pothole",
+      "severity": "low",
+      "status": "active",
+      "district": "Krishnagiri / Hosur Corridor",
+      "source": "outerview,mapilliary",
+      "region": "India",
+      "filename": "fc1010eb-555a-4a90-a658-6b62717c0117.jpg",
+      "verification_status": "verified",
+      "reported_at": "2026-11-04T17:39:32.823021Z",
+      "metadata": {
+        "dataset": "Global_Potholes_Dataset",
+        "original_source": "outerview,mapilliary",
+        "filename": "fc1010eb-555a-4a90-a658-6b62717c0117.jpg",
+        "region": "India"
+      }
+    },
+    {
+      "damage_id": "0667d638-a44b-42d5-88d4-a3ca2206e19f",
+      "latitude": 13.104116,
+      "longitude": 80.274739,
+      "damage_type": "pothole",
+      "severity": "medium",
+      "status": "active",
+      "district": "Chennai",
+      "source": "outerview,mapilliary",
+      "region": "India",
+      "filename": "0667d638-a44b-42d5-88d4-a3ca2206e19f.jpg",
+      "verification_status": "verified",
+      "reported_at": "2026-11-04T17:39:32.824019Z",
+      "metadata": {
+        "dataset": "Global_Potholes_Dataset",
+        "original_source": "outerview,mapilliary",
+        "filename": "0667d638-a44b-42d5-88d4-a3ca2206e19f.jpg",
+        "region": "India"
+      }
+    },
+    {
+      "damage_id": "56bc8888-47a4-4d64-baa7-d25087b9b22b",
+      "latitude": 13.07921652799,
+      "longitude": 80.262953494886,
+      "damage_type": "pothole",
+      "severity": "high",
+      "status": "active",
+      "district": "Chennai",
+      "source": "outerview,mapilliary",
+      "region": "India",
+      "filename": "56bc8888-47a4-4d64-baa7-d25087b9b22b.jpg",
+      "verification_status": "verified",
+      "reported_at": "2026-11-04T17:39:32.824019Z",
+      "metadata": {
+        "dataset": "Global_Potholes_Dataset",
+        "original_source": "outerview,mapilliary",
+        "filename": "56bc8888-47a4-4d64-baa7-d25087b9b22b.jpg",
+        "region": "India"
+      }
+    },
+    {
+      "damage_id": "da8f48da-716e-44fe-88db-f297e5a253d4",
+      "latitude": 12.962626079126,
+      "longitude": 77.749774670204,
+      "damage_type": "pothole",
+      "severity": "medium",
+      "status": "active",
+      "district": "Krishnagiri / Hosur Corridor",
+      "source": "outerview,mapilliary",
+      "region": "India",
+      "filename": "da8f48da-716e-44fe-88db-f297e5a253d4.jpg",
+      "verification_status": "verified",
+      "reported_at": "2026-11-04T17:39:32.824019Z",
+      "metadata": {
+        "dataset": "Global_Potholes_Dataset",
+        "original_source": "outerview,mapilliary",
+        "filename": "da8f48da-716e-44fe-88db-f297e5a253d4.jpg",
+        "region": "India"
+      }
+    },
+    {
+      "damage_id": "4c732ba0-6923-4dea-bfbc-2c77aaeffeaa",
+      "latitude": 12.967594722222,
+      "longitude": 77.636521388889,
+      "damage_type": "pothole",
+      "severity": "high",
+      "status": "active",
+      "district": "Krishnagiri / Hosur Corridor",
+      "source": "outerview,mapilliary",
+      "region": "India",
+      "filename": "4c732ba0-6923-4dea-bfbc-2c77aaeffeaa.jpg",
+      "verification_status": "verified",
+      "reported_at": "2026-11-04T17:39:32.824019Z",
+      "metadata": {
+        "dataset": "Global_Potholes_Dataset",
+        "original_source": "outerview,mapilliary",
+        "filename": "4c732ba0-6923-4dea-bfbc-2c77aaeffeaa.jpg",
+        "region": "India"
+      }
+    },
+    {
+      "damage_id": "59c0015b-d75e-4cc0-98f8-faa3dda270c7",
+      "latitude": 12.95507432,
+      "longitude": 77.69342081,
+      "damage_type": "pothole",
+      "severity": "medium",
+      "status": "active",
+      "district": "Krishnagiri / Hosur Corridor",
+      "source": "outerview,mapilliary",
+      "region": "India",
+      "filename": "59c0015b-d75e-4cc0-98f8-faa3dda270c7.jpg",
+      "verification_status": "verified",
+      "reported_at": "2026-11-04T17:39:32.824019Z",
+      "metadata": {
+        "dataset": "Global_Potholes_Dataset",
+        "original_source": "outerview,mapilliary",
+        "filename": "59c0015b-d75e-4cc0-98f8-faa3dda270c7.jpg",
+        "region": "India"
+      }
+    },
+    {
+      "damage_id": "b9435f92-832f-4554-b660-f31cad340a66",
+      "latitude": 12.964863055556,
+      "longitude": 77.649708055555,
+      "damage_type": "pothole",
+      "severity": "high",
+      "status": "active",
+      "district": "Krishnagiri / Hosur Corridor",
+      "source": "outerview,mapilliary",
+      "region": "India",
+      "filename": "b9435f92-832f-4554-b660-f31cad340a66.jpg",
+      "verification_status": "verified",
+      "reported_at": "2026-11-04T17:39:32.824019Z",
+      "metadata": {
+        "dataset": "Global_Potholes_Dataset",
+        "original_source": "outerview,mapilliary",
+        "filename": "b9435f92-832f-4554-b660-f31cad340a66.jpg",
+        "region": "India"
+      }
+    },
+    {
+      "damage_id": "f8f90497-7a8f-46ee-8321-e443eef18d12",
+      "latitude": 12.963127160208,
+      "longitude": 77.643510127282,
+      "damage_type": "pothole",
+      "severity": "high",
+      "status": "active",
+      "district": "Krishnagiri / Hosur Corridor",
+      "source": "outerview,mapilliary",
+      "region": "India",
+      "filename": "f8f90497-7a8f-46ee-8321-e443eef18d12.jpg",
+      "verification_status": "verified",
+      "reported_at": "2026-11-04T17:39:32.824019Z",
+      "metadata": {
+        "dataset": "Global_Potholes_Dataset",
+        "original_source": "outerview,mapilliary",
+        "filename": "f8f90497-7a8f-46ee-8321-e443eef18d12.jpg",
+        "region": "India"
+      }
+    },
+    {
+      "damage_id": "479c2b3c-ee8b-479f-b5e3-62e4b3b50170",
+      "latitude": 12.947006407599,
+      "longitude": 77.595615572542,
+      "damage_type": "pothole",
+      "severity": "high",
+      "status": "active",
+      "district": "Krishnagiri / Hosur Corridor",
+      "source": "outerview,mapilliary",
+      "region": "India",
+      "filename": "479c2b3c-ee8b-479f-b5e3-62e4b3b50170.jpg",
+      "verification_status": "verified",
+      "reported_at": "2026-11-04T17:39:32.824019Z",
+      "metadata": {
+        "dataset": "Global_Potholes_Dataset",
+        "original_source": "outerview,mapilliary",
+        "filename": "479c2b3c-ee8b-479f-b5e3-62e4b3b50170.jpg",
+        "region": "India"
+      }
+    },
+    {
+      "damage_id": "b5189f92-79d8-4ba2-9d18-b2f0df8a8632",
+      "latitude": 13.015679293324,
+      "longitude": 77.554152282027,
+      "damage_type": "pothole",
+      "severity": "high",
+      "status": "active",
+      "district": "Tamil Nadu Highway Corridor",
+      "source": "outerview,mapilliary",
+      "region": "India",
+      "filename": "b5189f92-79d8-4ba2-9d18-b2f0df8a8632.jpg",
+      "verification_status": "verified",
+      "reported_at": "2026-11-04T17:39:32.824019Z",
+      "metadata": {
+        "dataset": "Global_Potholes_Dataset",
+        "original_source": "outerview,mapilliary",
+        "filename": "b5189f92-79d8-4ba2-9d18-b2f0df8a8632.jpg",
+        "region": "India"
+      }
+    },
+    {
+      "damage_id": "1e61ada8-dd55-41bb-a509-75e061ce21ed",
+      "latitude": 8.5586540289329,
+      "longitude": 76.925162755996,
+      "damage_type": "pothole",
+      "severity": "medium",
+      "status": "active",
+      "district": "Kanyakumari / South Corridor",
+      "source": "outerview,mapilliary",
+      "region": "India",
+      "filename": "1e61ada8-dd55-41bb-a509-75e061ce21ed.jpg",
+      "verification_status": "verified",
+      "reported_at": "2026-11-04T17:39:32.824019Z",
+      "metadata": {
+        "dataset": "Global_Potholes_Dataset",
+        "original_source": "outerview,mapilliary",
+        "filename": "1e61ada8-dd55-41bb-a509-75e061ce21ed.jpg",
+        "region": "India"
+      }
+    },
+    {
+      "damage_id": "1d2bae32-66e4-46d8-9c45-24a4dae61674",
+      "latitude": 8.5588475580933,
+      "longitude": 76.925431964548,
+      "damage_type": "pothole",
+      "severity": "low",
+      "status": "active",
+      "district": "Kanyakumari / South Corridor",
+      "source": "outerview,mapilliary",
+      "region": "India",
+      "filename": "1d2bae32-66e4-46d8-9c45-24a4dae61674.jpg",
+      "verification_status": "verified",
+      "reported_at": "2026-11-04T17:39:32.824019Z",
+      "metadata": {
+        "dataset": "Global_Potholes_Dataset",
+        "original_source": "outerview,mapilliary",
+        "filename": "1d2bae32-66e4-46d8-9c45-24a4dae61674.jpg",
+        "region": "India"
+      }
+    },
+    {
+      "damage_id": "bec7a177-8bb7-44ec-9880-a8dd3240bda0",
+      "latitude": 12.937343549171,
+      "longitude": 77.601368337095,
+      "damage_type": "pothole",
+      "severity": "low",
+      "status": "active",
+      "district": "Krishnagiri / Hosur Corridor",
+      "source": "outerview,mapilliary",
+      "region": "India",
+      "filename": "bec7a177-8bb7-44ec-9880-a8dd3240bda0.jpg",
+      "verification_status": "verified",
+      "reported_at": "2026-11-04T17:39:32.824019Z",
+      "metadata": {
+        "dataset": "Global_Potholes_Dataset",
+        "original_source": "outerview,mapilliary",
+        "filename": "bec7a177-8bb7-44ec-9880-a8dd3240bda0.jpg",
+        "region": "India"
+      }
+    },
+    {
+      "damage_id": "a87e8dd6-bce8-4e7d-a226-550bb284d9c1",
+      "latitude": 12.975604722222,
+      "longitude": 77.641786388889,
+      "damage_type": "pothole",
+      "severity": "medium",
+      "status": "active",
+      "district": "Krishnagiri / Hosur Corridor",
+      "source": "outerview,mapilliary",
+      "region": "India",
+      "filename": "a87e8dd6-bce8-4e7d-a226-550bb284d9c1.jpg",
+      "verification_status": "verified",
+      "reported_at": "2026-11-04T17:39:32.824019Z",
+      "metadata": {
+        "dataset": "Global_Potholes_Dataset",
+        "original_source": "outerview,mapilliary",
+        "filename": "a87e8dd6-bce8-4e7d-a226-550bb284d9c1.jpg",
+        "region": "India"
+      }
+    },
+    {
+      "damage_id": "a938c8c2-4030-4ae8-ac39-6f44e93bfc2b",
+      "latitude": 8.558846700693,
+      "longitude": 76.9254351758,
+      "damage_type": "pothole",
+      "severity": "high",
+      "status": "active",
+      "district": "Kanyakumari / South Corridor",
+      "source": "outerview,mapilliary",
+      "region": "India",
+      "filename": "a938c8c2-4030-4ae8-ac39-6f44e93bfc2b.jpg",
+      "verification_status": "verified",
+      "reported_at": "2026-11-04T17:39:32.824019Z",
+      "metadata": {
+        "dataset": "Global_Potholes_Dataset",
+        "original_source": "outerview,mapilliary",
+        "filename": "a938c8c2-4030-4ae8-ac39-6f44e93bfc2b.jpg",
+        "region": "India"
+      }
+    },
+    {
+      "damage_id": "c686c839-1f27-462d-97f9-717b1d2cb716",
+      "latitude": 12.95038324325,
+      "longitude": 77.5957844765,
+      "damage_type": "pothole",
+      "severity": "high",
+      "status": "active",
+      "district": "Krishnagiri / Hosur Corridor",
+      "source": "outerview,mapilliary",
+      "region": "India",
+      "filename": "c686c839-1f27-462d-97f9-717b1d2cb716.jpg",
+      "verification_status": "verified",
+      "reported_at": "2026-11-04T17:39:32.824019Z",
+      "metadata": {
+        "dataset": "Global_Potholes_Dataset",
+        "original_source": "outerview,mapilliary",
+        "filename": "c686c839-1f27-462d-97f9-717b1d2cb716.jpg",
+        "region": "India"
+      }
+    },
+    {
+      "damage_id": "ca410fd2-7124-4f65-aa57-e577e585c8fe",
+      "latitude": 12.964844014508,
+      "longitude": 77.63801565401,
+      "damage_type": "pothole",
+      "severity": "medium",
+      "status": "active",
+      "district": "Krishnagiri / Hosur Corridor",
+      "source": "outerview,mapilliary",
+      "region": "India",
+      "filename": "ca410fd2-7124-4f65-aa57-e577e585c8fe.jpg",
+      "verification_status": "verified",
+      "reported_at": "2026-11-04T17:39:32.824019Z",
+      "metadata": {
+        "dataset": "Global_Potholes_Dataset",
+        "original_source": "outerview,mapilliary",
+        "filename": "ca410fd2-7124-4f65-aa57-e577e585c8fe.jpg",
+        "region": "India"
+      }
+    },
+    {
+      "damage_id": "dccdfc79-4568-4abf-86ed-f5584d93d40a",
+      "latitude": 12.9620239,
+      "longitude": 77.6013225,
+      "damage_type": "pothole",
+      "severity": "low",
+      "status": "active",
+      "district": "Krishnagiri / Hosur Corridor",
+      "source": "outerview,mapilliary",
+      "region": "India",
+      "filename": "dccdfc79-4568-4abf-86ed-f5584d93d40a.jpg",
+      "verification_status": "verified",
+      "reported_at": "2026-11-04T17:39:32.824019Z",
+      "metadata": {
+        "dataset": "Global_Potholes_Dataset",
+        "original_source": "outerview,mapilliary",
+        "filename": "dccdfc79-4568-4abf-86ed-f5584d93d40a.jpg",
+        "region": "India"
+      }
+    },
+    {
+      "damage_id": "65034c41-6103-4983-8307-c2f226252bab",
+      "latitude": 12.968118782167,
+      "longitude": 77.6331533958,
+      "damage_type": "pothole",
+      "severity": "medium",
+      "status": "active",
+      "district": "Krishnagiri / Hosur Corridor",
+      "source": "outerview,mapilliary",
+      "region": "India",
+      "filename": "65034c41-6103-4983-8307-c2f226252bab.jpg",
+      "verification_status": "verified",
+      "reported_at": "2026-11-04T17:39:32.824019Z",
+      "metadata": {
+        "dataset": "Global_Potholes_Dataset",
+        "original_source": "outerview,mapilliary",
+        "filename": "65034c41-6103-4983-8307-c2f226252bab.jpg",
+        "region": "India"
+      }
+    },
+    {
+      "damage_id": "585eb887-d53e-462b-b251-5cd1b36b9560",
+      "latitude": 12.965095,
+      "longitude": 77.742046388889,
+      "damage_type": "pothole",
+      "severity": "high",
+      "status": "active",
+      "district": "Krishnagiri / Hosur Corridor",
+      "source": "outerview,mapilliary",
+      "region": "India",
+      "filename": "585eb887-d53e-462b-b251-5cd1b36b9560.jpg",
+      "verification_status": "verified",
+      "reported_at": "2026-11-04T17:39:32.824019Z",
+      "metadata": {
+        "dataset": "Global_Potholes_Dataset",
+        "original_source": "outerview,mapilliary",
+        "filename": "585eb887-d53e-462b-b251-5cd1b36b9560.jpg",
+        "region": "India"
+      }
+    },
+    {
+      "damage_id": "5e17bca2-6506-4b56-a7db-88af38f3ec71",
+      "latitude": 12.960581745646,
+      "longitude": 77.643252496866,
+      "damage_type": "pothole",
+      "severity": "medium",
+      "status": "active",
+      "district": "Krishnagiri / Hosur Corridor",
+      "source": "outerview,mapilliary",
+      "region": "India",
+      "filename": "5e17bca2-6506-4b56-a7db-88af38f3ec71.jpg",
+      "verification_status": "verified",
+      "reported_at": "2026-11-04T17:39:32.824019Z",
+      "metadata": {
+        "dataset": "Global_Potholes_Dataset",
+        "original_source": "outerview,mapilliary",
+        "filename": "5e17bca2-6506-4b56-a7db-88af38f3ec71.jpg",
+        "region": "India"
+      }
+    },
+    {
+      "damage_id": "58fbde7e-c6a8-4fd2-906c-30a8cbe22058",
+      "latitude": 12.912660284827,
+      "longitude": 77.619276647454,
+      "damage_type": "pothole",
+      "severity": "high",
+      "status": "active",
+      "district": "Krishnagiri / Hosur Corridor",
+      "source": "outerview,mapilliary",
+      "region": "India",
+      "filename": "58fbde7e-c6a8-4fd2-906c-30a8cbe22058.jpg",
+      "verification_status": "verified",
+      "reported_at": "2026-11-04T17:39:32.824019Z",
+      "metadata": {
+        "dataset": "Global_Potholes_Dataset",
+        "original_source": "outerview,mapilliary",
+        "filename": "58fbde7e-c6a8-4fd2-906c-30a8cbe22058.jpg",
+        "region": "India"
+      }
+    },
+    {
+      "damage_id": "86292bd2-a3a7-46f0-b636-84cd3a6d1375",
+      "latitude": 13.079898555477,
+      "longitude": 80.275275963978,
+      "damage_type": "pothole",
+      "severity": "medium",
+      "status": "active",
+      "district": "Chennai",
+      "source": "outerview,mapilliary",
+      "region": "India",
+      "filename": "86292bd2-a3a7-46f0-b636-84cd3a6d1375.jpg",
+      "verification_status": "verified",
+      "reported_at": "2026-11-04T17:39:32.824019Z",
+      "metadata": {
+        "dataset": "Global_Potholes_Dataset",
+        "original_source": "outerview,mapilliary",
+        "filename": "86292bd2-a3a7-46f0-b636-84cd3a6d1375.jpg",
+        "region": "India"
+      }
+    },
+    {
+      "damage_id": "22b489c2-c9cf-4db1-944a-a324d55b0139",
+      "latitude": 13.081213416799,
+      "longitude": 80.275174516014,
+      "damage_type": "pothole",
+      "severity": "medium",
+      "status": "active",
+      "district": "Chennai",
+      "source": "outerview,mapilliary",
+      "region": "India",
+      "filename": "22b489c2-c9cf-4db1-944a-a324d55b0139.jpg",
+      "verification_status": "verified",
+      "reported_at": "2026-11-04T17:39:32.825017Z",
+      "metadata": {
+        "dataset": "Global_Potholes_Dataset",
+        "original_source": "outerview,mapilliary",
+        "filename": "22b489c2-c9cf-4db1-944a-a324d55b0139.jpg",
+        "region": "India"
+      }
+    },
+    {
+      "damage_id": "8ecf93f8-ed04-4086-af42-c26688f7c9c7",
+      "latitude": 12.957063261351,
+      "longitude": 77.739985948408,
+      "damage_type": "pothole",
+      "severity": "medium",
+      "status": "active",
+      "district": "Krishnagiri / Hosur Corridor",
+      "source": "outerview,mapilliary",
+      "region": "India",
+      "filename": "8ecf93f8-ed04-4086-af42-c26688f7c9c7.jpg",
+      "verification_status": "verified",
+      "reported_at": "2026-11-04T17:39:32.825017Z",
+      "metadata": {
+        "dataset": "Global_Potholes_Dataset",
+        "original_source": "outerview,mapilliary",
+        "filename": "8ecf93f8-ed04-4086-af42-c26688f7c9c7.jpg",
+        "region": "India"
+      }
+    },
+    {
+      "damage_id": "0d5387cb-790f-4767-b8fc-d75b0acf160c",
+      "latitude": 12.962143055556,
+      "longitude": 77.647485,
+      "damage_type": "pothole",
+      "severity": "medium",
+      "status": "active",
+      "district": "Krishnagiri / Hosur Corridor",
+      "source": "outerview,mapilliary",
+      "region": "India",
+      "filename": "0d5387cb-790f-4767-b8fc-d75b0acf160c.jpg",
+      "verification_status": "verified",
+      "reported_at": "2026-11-04T17:39:32.825017Z",
+      "metadata": {
+        "dataset": "Global_Potholes_Dataset",
+        "original_source": "outerview,mapilliary",
+        "filename": "0d5387cb-790f-4767-b8fc-d75b0acf160c.jpg",
+        "region": "India"
+      }
+    },
+    {
+      "damage_id": "63628844-6dc1-499f-ad2c-a2a83c4663f9",
+      "latitude": 12.970258556302,
+      "longitude": 77.702310131907,
+      "damage_type": "pothole",
+      "severity": "high",
+      "status": "active",
+      "district": "Krishnagiri / Hosur Corridor",
+      "source": "outerview,mapilliary",
+      "region": "India",
+      "filename": "63628844-6dc1-499f-ad2c-a2a83c4663f9.jpg",
+      "verification_status": "verified",
+      "reported_at": "2026-11-04T17:39:32.825017Z",
+      "metadata": {
+        "dataset": "Global_Potholes_Dataset",
+        "original_source": "outerview,mapilliary",
+        "filename": "63628844-6dc1-499f-ad2c-a2a83c4663f9.jpg",
+        "region": "India"
+      }
+    },
+    {
+      "damage_id": "b95843de-f7d1-4ea0-8554-028d954d5227",
+      "latitude": 12.967386388889,
+      "longitude": 77.638968055556,
+      "damage_type": "pothole",
+      "severity": "medium",
+      "status": "active",
+      "district": "Krishnagiri / Hosur Corridor",
+      "source": "outerview,mapilliary",
+      "region": "India",
+      "filename": "b95843de-f7d1-4ea0-8554-028d954d5227.jpg",
+      "verification_status": "verified",
+      "reported_at": "2026-11-04T17:39:32.825017Z",
+      "metadata": {
+        "dataset": "Global_Potholes_Dataset",
+        "original_source": "outerview,mapilliary",
+        "filename": "b95843de-f7d1-4ea0-8554-028d954d5227.jpg",
+        "region": "India"
+      }
+    },
+    {
+      "damage_id": "b81dc11f-8233-4046-bf2c-693f7db3143e",
+      "latitude": 12.978202777778,
+      "longitude": 77.632405555556,
+      "damage_type": "pothole",
+      "severity": "medium",
+      "status": "active",
+      "district": "Krishnagiri / Hosur Corridor",
+      "source": "outerview,mapilliary",
+      "region": "India",
+      "filename": "b81dc11f-8233-4046-bf2c-693f7db3143e.jpg",
+      "verification_status": "verified",
+      "reported_at": "2026-11-04T17:39:32.825017Z",
+      "metadata": {
+        "dataset": "Global_Potholes_Dataset",
+        "original_source": "outerview,mapilliary",
+        "filename": "b81dc11f-8233-4046-bf2c-693f7db3143e.jpg",
+        "region": "India"
+      }
+    },
+    {
+      "damage_id": "b4568c1f-f6a7-456d-b921-6286caccfab1",
+      "latitude": 12.956655198185,
+      "longitude": 77.701249714919,
+      "damage_type": "pothole",
+      "severity": "high",
+      "status": "active",
+      "district": "Krishnagiri / Hosur Corridor",
+      "source": "outerview,mapilliary",
+      "region": "India",
+      "filename": "b4568c1f-f6a7-456d-b921-6286caccfab1.jpg",
+      "verification_status": "verified",
+      "reported_at": "2026-11-04T17:39:32.825017Z",
+      "metadata": {
+        "dataset": "Global_Potholes_Dataset",
+        "original_source": "outerview,mapilliary",
+        "filename": "b4568c1f-f6a7-456d-b921-6286caccfab1.jpg",
+        "region": "India"
+      }
+    },
+    {
+      "damage_id": "4436d7cd-32cc-4f36-a3e3-32a7d1462ef6",
+      "latitude": 12.97728451908,
+      "longitude": 77.696520164609,
+      "damage_type": "pothole",
+      "severity": "medium",
+      "status": "active",
+      "district": "Krishnagiri / Hosur Corridor",
+      "source": "outerview,mapilliary",
+      "region": "India",
+      "filename": "4436d7cd-32cc-4f36-a3e3-32a7d1462ef6.jpg",
+      "verification_status": "verified",
+      "reported_at": "2026-11-04T17:39:32.825017Z",
+      "metadata": {
+        "dataset": "Global_Potholes_Dataset",
+        "original_source": "outerview,mapilliary",
+        "filename": "4436d7cd-32cc-4f36-a3e3-32a7d1462ef6.jpg",
+        "region": "India"
+      }
+    },
+    {
+      "damage_id": "9dcf06e3-351e-4859-b767-c05e7aaafa46",
+      "latitude": 12.977573443273,
+      "longitude": 77.696358980662,
+      "damage_type": "pothole",
+      "severity": "medium",
+      "status": "active",
+      "district": "Krishnagiri / Hosur Corridor",
+      "source": "outerview,mapilliary",
+      "region": "India",
+      "filename": "9dcf06e3-351e-4859-b767-c05e7aaafa46.jpg",
+      "verification_status": "verified",
+      "reported_at": "2026-11-04T17:39:32.825017Z",
+      "metadata": {
+        "dataset": "Global_Potholes_Dataset",
+        "original_source": "outerview,mapilliary",
+        "filename": "9dcf06e3-351e-4859-b767-c05e7aaafa46.jpg",
+        "region": "India"
+      }
+    },
+    {
+      "damage_id": "e2d62a2c-9282-4219-9b83-e29e7af9d444",
+      "latitude": 12.990005730292,
+      "longitude": 77.698422579328,
+      "damage_type": "pothole",
+      "severity": "medium",
+      "status": "active",
+      "district": "Krishnagiri / Hosur Corridor",
+      "source": "outerview,mapilliary",
+      "region": "India",
+      "filename": "e2d62a2c-9282-4219-9b83-e29e7af9d444.jpg",
+      "verification_status": "verified",
+      "reported_at": "2026-11-04T17:39:32.825017Z",
+      "metadata": {
+        "dataset": "Global_Potholes_Dataset",
+        "original_source": "outerview,mapilliary",
+        "filename": "e2d62a2c-9282-4219-9b83-e29e7af9d444.jpg",
+        "region": "India"
+      }
+    },
+    {
+      "damage_id": "d8822d08-a199-49bb-ab0c-0f57e624a817",
+      "latitude": 8.5587884820513,
+      "longitude": 76.924996507692,
+      "damage_type": "pothole",
+      "severity": "high",
+      "status": "active",
+      "district": "Kanyakumari / South Corridor",
+      "source": "outerview,mapilliary",
+      "region": "India",
+      "filename": "d8822d08-a199-49bb-ab0c-0f57e624a817.jpg",
+      "verification_status": "verified",
+      "reported_at": "2026-11-04T17:39:32.825017Z",
+      "metadata": {
+        "dataset": "Global_Potholes_Dataset",
+        "original_source": "outerview,mapilliary",
+        "filename": "d8822d08-a199-49bb-ab0c-0f57e624a817.jpg",
+        "region": "India"
+      }
+    },
+    {
+      "damage_id": "2814a8f2-4714-4782-b45e-e7942d034a1f",
+      "latitude": 12.974038710799,
+      "longitude": 77.698407098765,
+      "damage_type": "pothole",
+      "severity": "medium",
+      "status": "active",
+      "district": "Krishnagiri / Hosur Corridor",
+      "source": "outerview,mapilliary",
+      "region": "India",
+      "filename": "2814a8f2-4714-4782-b45e-e7942d034a1f.jpg",
+      "verification_status": "verified",
+      "reported_at": "2026-11-04T17:39:32.825017Z",
+      "metadata": {
+        "dataset": "Global_Potholes_Dataset",
+        "original_source": "outerview,mapilliary",
+        "filename": "2814a8f2-4714-4782-b45e-e7942d034a1f.jpg",
+        "region": "India"
+      }
+    },
+    {
+      "damage_id": "20c4ca18-c374-4e6c-8496-24a40ebdd922",
+      "latitude": 12.956186388631,
+      "longitude": 77.592008560968,
+      "damage_type": "pothole",
+      "severity": "medium",
+      "status": "active",
+      "district": "Krishnagiri / Hosur Corridor",
+      "source": "outerview,mapilliary",
+      "region": "India",
+      "filename": "20c4ca18-c374-4e6c-8496-24a40ebdd922.jpg",
+      "verification_status": "verified",
+      "reported_at": "2026-11-04T17:39:32.825017Z",
+      "metadata": {
+        "dataset": "Global_Potholes_Dataset",
+        "original_source": "outerview,mapilliary",
+        "filename": "20c4ca18-c374-4e6c-8496-24a40ebdd922.jpg",
+        "region": "India"
+      }
+    },
+    {
+      "damage_id": "cbf92549-ac5b-432f-b8d5-40cf29f2bd89",
+      "latitude": 12.946574452087,
+      "longitude": 77.595967812255,
+      "damage_type": "pothole",
+      "severity": "medium",
+      "status": "active",
+      "district": "Krishnagiri / Hosur Corridor",
+      "source": "outerview,mapilliary",
+      "region": "India",
+      "filename": "cbf92549-ac5b-432f-b8d5-40cf29f2bd89.jpg",
+      "verification_status": "verified",
+      "reported_at": "2026-11-04T17:39:32.825017Z",
+      "metadata": {
+        "dataset": "Global_Potholes_Dataset",
+        "original_source": "outerview,mapilliary",
+        "filename": "cbf92549-ac5b-432f-b8d5-40cf29f2bd89.jpg",
+        "region": "India"
+      }
+    },
+    {
+      "damage_id": "8739a2a6-d006-4cf1-bf2b-ca94316526a1",
+      "latitude": 12.95890895651,
+      "longitude": 77.654059957785,
+      "damage_type": "pothole",
+      "severity": "medium",
+      "status": "active",
+      "district": "Krishnagiri / Hosur Corridor",
+      "source": "outerview,mapilliary",
+      "region": "India",
+      "filename": "8739a2a6-d006-4cf1-bf2b-ca94316526a1.jpg",
+      "verification_status": "verified",
+      "reported_at": "2026-11-04T17:39:32.825017Z",
+      "metadata": {
+        "dataset": "Global_Potholes_Dataset",
+        "original_source": "outerview,mapilliary",
+        "filename": "8739a2a6-d006-4cf1-bf2b-ca94316526a1.jpg",
+        "region": "India"
+      }
+    },
+    {
+      "damage_id": "8657da9a-d67c-413e-bdeb-9ebb54b979cf",
+      "latitude": 12.9543076,
+      "longitude": 77.6958165,
+      "damage_type": "pothole",
+      "severity": "high",
+      "status": "active",
+      "district": "Krishnagiri / Hosur Corridor",
+      "source": "outerview,mapilliary",
+      "region": "India",
+      "filename": "8657da9a-d67c-413e-bdeb-9ebb54b979cf.jpg",
+      "verification_status": "verified",
+      "reported_at": "2026-11-04T17:39:32.825017Z",
+      "metadata": {
+        "dataset": "Global_Potholes_Dataset",
+        "original_source": "outerview,mapilliary",
+        "filename": "8657da9a-d67c-413e-bdeb-9ebb54b979cf.jpg",
+        "region": "India"
+      }
+    }
+  ]
+}

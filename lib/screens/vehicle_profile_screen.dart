@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import '../widgets/status_card.dart';
 import '../widgets/app_button.dart';
+import '../core/models/user_profile_model.dart';
 import '../core/services/auth_service.dart';
 
 class VehicleProfileScreen extends StatefulWidget {
@@ -15,75 +16,155 @@ class _VehicleProfileScreenState extends State<VehicleProfileScreen> {
   final AuthService _authService = AuthService();
   bool _isSaving = false;
 
-  void _showEditVehicleDialog(String currentName, String currentPlate, String currentType, String currentModel) {
-    final nameCtrl = TextEditingController(text: currentName);
-    final plateCtrl = TextEditingController(text: currentPlate);
-    final typeCtrl = TextEditingController(text: currentType);
-    final modelCtrl = TextEditingController(text: currentModel);
+  void _showEditVehicleDialog({
+    required String currentName,
+    required String currentPlate,
+    required String currentType,
+    required String currentModel,
+  }) {
+    final nameCtrl = TextEditingController(text: currentName == 'Unknown Vehicle' ? '' : currentName);
+    final plateCtrl = TextEditingController(text: currentPlate == 'NO-PLATE' ? '' : currentPlate);
+    final typeCtrl = TextEditingController(text: currentType == 'Unknown Type' ? '' : currentType);
+    final modelCtrl = TextEditingController(text: currentModel == 'Unknown Model' ? '' : currentModel);
+    final formKey = GlobalKey<FormState>();
 
     showDialog(
       context: context,
-      barrierDismissible: false,
-      builder: (context) => StatefulBuilder(
+      barrierDismissible: !_isSaving,
+      builder: (dialogCtx) => StatefulBuilder(
         builder: (context, setStateDialog) {
           return AlertDialog(
             backgroundColor: Theme.of(context).colorScheme.surface,
-            title: const Text('Edit Vehicle Info', style: TextStyle(color: Colors.white)),
-            content: SingleChildScrollView(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  TextField(controller: nameCtrl, style: const TextStyle(color: Colors.white), decoration: const InputDecoration(labelText: 'Vehicle Name (e.g. My Honda)')),
-                  const SizedBox(height: 12),
-                  TextField(controller: plateCtrl, style: const TextStyle(color: Colors.white), decoration: const InputDecoration(labelText: 'Registration Number')),
-                  const SizedBox(height: 12),
-                  TextField(controller: typeCtrl, style: const TextStyle(color: Colors.white), decoration: const InputDecoration(labelText: 'Type (e.g. Sedan, SUV)')),
-                  const SizedBox(height: 12),
-                  TextField(controller: modelCtrl, style: const TextStyle(color: Colors.white), decoration: const InputDecoration(labelText: 'Model (e.g. 2023 Civic)')),
-                ],
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+            title: const Text('Edit Vehicle Info', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+            content: Form(
+              key: formKey,
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    TextFormField(
+                      controller: nameCtrl,
+                      enabled: !_isSaving,
+                      style: const TextStyle(color: Colors.white),
+                      decoration: const InputDecoration(
+                        labelText: 'Vehicle Name *',
+                        hintText: 'e.g. My Honda Civic',
+                      ),
+                      validator: (val) {
+                        if (val == null || val.trim().isEmpty) {
+                          return 'Vehicle name is required';
+                        }
+                        return null;
+                      },
+                    ),
+                    const SizedBox(height: 12),
+                    TextFormField(
+                      controller: plateCtrl,
+                      enabled: !_isSaving,
+                      style: const TextStyle(color: Colors.white),
+                      decoration: const InputDecoration(
+                        labelText: 'Registration Number *',
+                        hintText: 'e.g. MH12 AB 1234',
+                      ),
+                      validator: (val) {
+                        if (val == null || val.trim().isEmpty) {
+                          return 'Registration number is required';
+                        }
+                        return null;
+                      },
+                    ),
+                    const SizedBox(height: 12),
+                    TextFormField(
+                      controller: typeCtrl,
+                      enabled: !_isSaving,
+                      style: const TextStyle(color: Colors.white),
+                      decoration: const InputDecoration(
+                        labelText: 'Vehicle Type *',
+                        hintText: 'e.g. Sedan, SUV, EV',
+                      ),
+                      validator: (val) {
+                        if (val == null || val.trim().isEmpty) {
+                          return 'Vehicle type is required';
+                        }
+                        return null;
+                      },
+                    ),
+                    const SizedBox(height: 12),
+                    TextFormField(
+                      controller: modelCtrl,
+                      enabled: !_isSaving,
+                      style: const TextStyle(color: Colors.white),
+                      decoration: const InputDecoration(
+                        labelText: 'Vehicle Model *',
+                        hintText: 'e.g. 2024 V Turbo',
+                      ),
+                      validator: (val) {
+                        if (val == null || val.trim().isEmpty) {
+                          return 'Vehicle model is required';
+                        }
+                        return null;
+                      },
+                    ),
+                  ],
+                ),
               ),
             ),
             actions: [
               if (!_isSaving)
                 TextButton(
-                  onPressed: () => Navigator.pop(context),
+                  onPressed: () => Navigator.pop(dialogCtx),
                   child: const Text('Cancel'),
                 ),
               ElevatedButton(
-                onPressed: _isSaving 
-                  ? null 
-                  : () async {
-                      setStateDialog(() => _isSaving = true);
-                      try {
-                        await _authService.updateVehicleInfo(
-                          name: nameCtrl.text,
-                          number: plateCtrl.text,
-                          type: typeCtrl.text,
-                          model: modelCtrl.text,
-                        );
-                        if (context.mounted) {
-                          Navigator.pop(context);
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(content: Text('Vehicle info saved!'), backgroundColor: Colors.green),
-                          );
+                onPressed: _isSaving
+                    ? null
+                    : () async {
+                        if (formKey.currentState!.validate()) {
+                          setStateDialog(() => _isSaving = true);
+                          try {
+                            await _authService.updateVehicleInfo(
+                              name: nameCtrl.text.trim(),
+                              number: plateCtrl.text.trim(),
+                              type: typeCtrl.text.trim(),
+                              model: modelCtrl.text.trim(),
+                            );
+                            if (mounted && dialogCtx.mounted) {
+                              Navigator.pop(dialogCtx);
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text('Vehicle info saved!'),
+                                  backgroundColor: Colors.green,
+                                  behavior: SnackBarBehavior.floating,
+                                ),
+                              );
+                            }
+                          } catch (e) {
+                            if (mounted && dialogCtx.mounted) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text('Failed to save vehicle: ${e.toString().replaceAll('Exception: ', '')}'),
+                                  backgroundColor: Colors.redAccent,
+                                  behavior: SnackBarBehavior.floating,
+                                ),
+                              );
+                            }
+                          } finally {
+                            if (mounted) setStateDialog(() => _isSaving = false);
+                          }
                         }
-                      } catch (e) {
-                        if (context.mounted) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text('Error: $e'), backgroundColor: Colors.red),
-                          );
-                        }
-                      } finally {
-                        if (mounted) setStateDialog(() => _isSaving = false);
-                      }
-                  },
-                child: _isSaving 
-                  ? const SizedBox(width: 16, height: 16, child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2))
-                  : const Text('Save'),
+                      },
+                child: _isSaving
+                    ? const SizedBox(
+                        width: 16,
+                        height: 16,
+                        child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2),
+                      )
+                    : const Text('Save'),
               ),
             ],
           );
-        }
+        },
       ),
     );
   }
@@ -99,20 +180,38 @@ class _VehicleProfileScreenState extends State<VehicleProfileScreen> {
         child: StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
           stream: _authService.getUserProfileStream(),
           builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
+            if (snapshot.connectionState == ConnectionState.waiting && !snapshot.hasData) {
               return const Center(child: CircularProgressIndicator());
             }
-            if (snapshot.hasError || !snapshot.hasData || snapshot.data?.data() == null) {
-              return const Center(child: Text("Failed to load vehicle data.", style: TextStyle(color: Colors.white)));
+
+            if (snapshot.hasError) {
+              return Center(
+                child: Padding(
+                  padding: const EdgeInsets.all(24.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Icon(Icons.error_outline_rounded, size: 48, color: Colors.redAccent),
+                      const SizedBox(height: 12),
+                      Text("Failed to load vehicle data: ${snapshot.error}",
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(color: Colors.white70)),
+                    ],
+                  ),
+                ),
+              );
             }
 
-            final data = snapshot.data!.data()!;
-            final vehicle = data['vehicle'] as Map<String, dynamic>? ?? {};
-            
-            final vName = vehicle['name']?.toString().isNotEmpty == true ? vehicle['name'] : 'Unknown Vehicle';
-            final vNumber = vehicle['number']?.toString().isNotEmpty == true ? vehicle['number'] : 'NO-PLATE';
-            final vType = vehicle['type']?.toString().isNotEmpty == true ? vehicle['type'] : 'Unknown Type';
-            final vModel = vehicle['model']?.toString().isNotEmpty == true ? vehicle['model'] : 'Unknown Model';
+            final data = snapshot.data?.data();
+            final vehicleMap = data?['vehicle'] is Map<String, dynamic>
+                ? data!['vehicle'] as Map<String, dynamic>
+                : (data?['vehicle'] is Map ? Map<String, dynamic>.from(data!['vehicle'] as Map) : null);
+            final vehicle = VehicleModel.fromMap(vehicleMap);
+
+            final vName = vehicle.name.isNotEmpty ? vehicle.name : 'Unknown Vehicle';
+            final vNumber = vehicle.registrationNumber.isNotEmpty ? vehicle.registrationNumber : 'NO-PLATE';
+            final vType = vehicle.type.isNotEmpty ? vehicle.type : 'Unknown Type';
+            final vModel = vehicle.model.isNotEmpty ? vehicle.model : 'Unknown Model';
 
             return SingleChildScrollView(
               padding: const EdgeInsets.all(20),
@@ -178,7 +277,12 @@ class _VehicleProfileScreenState extends State<VehicleProfileScreen> {
                     child: AppButton(
                       label: 'UPDATE VEHICLE INFO',
                       isSecondary: true,
-                      onPressed: () => _showEditVehicleDialog(vName, vNumber, vType, vModel),
+                      onPressed: () => _showEditVehicleDialog(
+                        currentName: vName,
+                        currentPlate: vNumber,
+                        currentType: vType,
+                        currentModel: vModel,
+                      ),
                     ),
                   ),
                 ],

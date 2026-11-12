@@ -1,0 +1,96 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // ===============================================================
+    // Assumed Data Model
+    // ===============================================================
+    //
+    // Collection: users/{userId}
+    // Document ID: Firebase Auth UID
+    // Fields: User profile and vehicle configuration
+    // Subcollections:
+    //   - trips/{tripId}: Telemetry and driving session records
+    //   - alerts/{alertId}: Real-time driving hazard/infraction alerts
+    //   - emergency_contacts/{contactId}: User emergency contacts
+    //   - sos_events/{eventId}: Incident logs and emergency trigger events
+    // Access: Restricted strictly to the authenticated document owner (request.auth.uid == userId)
+    //
+    // Collection: road_damage/{damageId}
+    // Document ID: damageId (unique string identifier)
+    // Fields:
+    //   - damage_id: string
+    //   - latitude: float/number
+    //   - longitude: float/number
+    //   - damage_type: string
+    //   - severity: string ('high', 'medium', 'low')
+    //   - status: string ('active', 'repaired')
+    //   - district: string
+    //   - source: string
+    //   - region: string
+    //   - filename: string (optional)
+    //   - verification_status: string
+    //   - reported_at: string / timestamp
+    //   - metadata: map (optional)
+    // Access:
+    //   - Read: Authenticated users can read road hazard records for safe navigation
+    //   - Write: Denied to all client SDKs; imported and maintained strictly by server/admin backend processes
+    //
+    // ===============================================================
+
+    // Helper functions
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+
+    // User profile and embedded vehicle document
+    // Path: users/{userId}
+    match /users/{userId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+
+      // User trips subcollection
+      // Path: users/{userId}/trips/{tripId}
+      match /trips/{tripId} {
+        allow read, write: if request.auth != null && request.auth.uid == userId;
+      }
+
+      // User alerts subcollection
+      // Path: users/{userId}/alerts/{alertId}
+      match /alerts/{alertId} {
+        allow read, write: if request.auth != null && request.auth.uid == userId;
+      }
+
+      // User emergency contacts subcollection
+      // Path: users/{userId}/emergency_contacts/{contactId}
+      match /emergency_contacts/{contactId} {
+        allow read, write: if request.auth != null && request.auth.uid == userId;
+      }
+
+      // User SOS emergency events subcollection
+      // Path: users/{userId}/sos_events/{eventId}
+      match /sos_events/{eventId} {
+        allow read, write: if request.auth != null && request.auth.uid == userId;
+      }
+    }
+
+    // Global Road Damage hazard dataset
+    // Path: road_damage/{damageId}
+    match /road_damage/{damageId} {
+      // Authenticated users can read road damage documents for hazard avoidance
+      allow read: if request.auth != null;
+
+      // Writes from clients must be denied; records are imported and maintained exclusively by server/admin processes
+      allow write: if false;
+    }
+
+    // Default deny-all for all other paths to strictly adhere to least privilege
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

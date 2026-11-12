@@ -9,16 +9,37 @@ import 'screens/signup_screen.dart';
 import 'screens/live_map_screen.dart';
 import 'screens/alert_warning_screen.dart';
 import 'screens/alert_details_screen.dart';
+import 'screens/alert_history_screen.dart';
 import 'screens/glasses_screen.dart';
 import 'screens/offline_maps_screen.dart';
 import 'screens/profile_screen.dart';
 import 'screens/vehicle_profile_screen.dart';
+import 'screens/emergency_contacts_screen.dart';
 import 'core/services/notification_service.dart';
+import 'core/services/sync_service.dart';
+
+
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
-  await NotificationService().initialize();
+  try {
+    await Firebase.initializeApp();
+  } catch (e) {
+    debugPrint('[NeuroDrive] Firebase initialize notice: $e');
+  }
+
+  try {
+    await NotificationService().initialize();
+  } catch (e) {
+    debugPrint('[NeuroDrive] NotificationService initialize notice: $e');
+  }
+
+  try {
+    SyncService();
+  } catch (e) {
+    debugPrint('[NeuroDrive] SyncService initialize notice: $e');
+  }
+
   runApp(const NeuroDriveApp());
 }
 
@@ -41,7 +62,7 @@ class NeuroDriveApp extends StatelessWidget {
         AppRoutes.liveMap: (context) => const LiveMapScreen(),
         AppRoutes.alertWarning: (context) => const AlertWarningScreen(),
         AppRoutes.tripHistory: (context) => const MainShell(initialTab: 2),
-        AppRoutes.alertHistory: (context) => const MainShell(initialTab: 2),
+        AppRoutes.alertHistory: (context) => const AlertHistoryScreen(),
         AppRoutes.alertDetails: (context) => const AlertDetailsScreen(),
         AppRoutes.mapView: (context) => const MainShell(initialTab: 1),
         AppRoutes.settings: (context) => const MainShell(initialTab: 3),
@@ -49,6 +70,7 @@ class NeuroDriveApp extends StatelessWidget {
         AppRoutes.offlineMode: (context) => const OfflineMapsScreen(),
         AppRoutes.profile: (context) => const ProfileScreen(),
         AppRoutes.vehicle: (context) => const VehicleProfileScreen(),
+        AppRoutes.emergencyContacts: (context) => const EmergencyContactsScreen(),
       },
     );
   }

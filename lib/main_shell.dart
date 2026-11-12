@@ -8,12 +8,25 @@ class MainShell extends StatefulWidget {
   final int initialTab;
   const MainShell({super.key, this.initialTab = 0});
 
+  static void switchToTab(BuildContext context, int tabIndex) {
+    final state = context.findAncestorStateOfType<_MainShellState>();
+    if (state != null) {
+      state.switchTab(tabIndex);
+    }
+  }
+
   @override
   State<MainShell> createState() => _MainShellState();
 }
 
 class _MainShellState extends State<MainShell> {
   late int _currentIndex;
+
+  void switchTab(int index) {
+    setState(() {
+      _currentIndex = index;
+    });
+  }
 
   @override
   void initState() {
@@ -33,7 +46,10 @@ class _MainShellState extends State<MainShell> {
     const primaryColor = Color(0xFF00D2FF);
 
     return Scaffold(
-      body: _screens[_currentIndex],
+      body: IndexedStack(
+        index: _currentIndex,
+        children: _screens,
+      ),
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
           color: const Color(0xFF0A192F),

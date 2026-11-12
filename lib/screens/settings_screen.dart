@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../core/constants/app_routes.dart';
 import '../core/services/auth_service.dart';
+import '../core/services/ai_safety_service.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -106,6 +107,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
   }
 
   void _showAlertSettingsDialog() {
+    bool aiPriorityEnabled = _prefs.getBool('ai_priority_enabled') ?? true;
+    bool voiceWarningsEnabled = _prefs.getBool('voice_warnings_enabled') ?? true;
+
     showDialog(
       context: context,
       builder: (context) => StatefulBuilder(
@@ -113,21 +117,43 @@ class _SettingsScreenState extends State<SettingsScreen> {
           return AlertDialog(
             backgroundColor: const Color(0xFF112240),
             title: const Text('Alert Settings', style: TextStyle(color: Colors.white)),
-            content: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                SwitchListTile(
-                  title: const Text('Enable Notifications', style: TextStyle(color: Colors.white)),
-                  subtitle: const Text('Receive driving alerts', style: TextStyle(color: Colors.white54, fontSize: 12)),
-                  value: _notificationsEnabled,
-                  activeTrackColor: const Color(0xFF00D2FF),
-                  onChanged: (val) {
-                    setStateDialog(() => _notificationsEnabled = val);
-                    setState(() => _notificationsEnabled = val);
-                    _saveBoolPref('notifications_enabled', val);
-                  },
-                ),
-              ],
+            content: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  SwitchListTile(
+                    title: const Text('Enable Notifications', style: TextStyle(color: Colors.white)),
+                    subtitle: const Text('Receive driving alerts', style: TextStyle(color: Colors.white54, fontSize: 12)),
+                    value: _notificationsEnabled,
+                    activeTrackColor: const Color(0xFF00D2FF),
+                    onChanged: (val) {
+                      setStateDialog(() => _notificationsEnabled = val);
+                      setState(() => _notificationsEnabled = val);
+                      _saveBoolPref('notifications_enabled', val);
+                    },
+                  ),
+                  SwitchListTile(
+                    title: const Text('AI Alert Priority Assistant', style: TextStyle(color: Colors.white)),
+                    subtitle: const Text('Prioritize urgent alerts & explain reasons', style: TextStyle(color: Colors.white54, fontSize: 12)),
+                    value: aiPriorityEnabled,
+                    activeTrackColor: const Color(0xFF00D2FF),
+                    onChanged: (val) {
+                      setStateDialog(() => aiPriorityEnabled = val);
+                      _saveBoolPref('ai_priority_enabled', val);
+                    },
+                  ),
+                  SwitchListTile(
+                    title: const Text('Spoken Voice Warnings', style: TextStyle(color: Colors.white)),
+                    subtitle: const Text('Audible prompts for urgent hazards', style: TextStyle(color: Colors.white54, fontSize: 12)),
+                    value: voiceWarningsEnabled,
+                    activeTrackColor: const Color(0xFF00D2FF),
+                    onChanged: (val) {
+                      setStateDialog(() => voiceWarningsEnabled = val);
+                      _saveBoolPref('voice_warnings_enabled', val);
+                    },
+                  ),
+                ],
+              ),
             ),
             actions: [
               TextButton(
@@ -137,6 +163,111 @@ class _SettingsScreenState extends State<SettingsScreen> {
             ],
           );
         }
+      ),
+    );
+  }
+
+  void _showGeminiConfigDialog() {
+    final keyController = TextEditingController(text: _prefs.getString('gemini_api_key') ?? '');
+    String selectedModel = _prefs.getString('gemini_model') ?? 'gemini-1.5-flash';
+    bool useCloudAi = _prefs.getBool('gemini_cloud_enabled') ?? true;
+
+    showDialog(
+      context: context,
+      builder: (context) => StatefulBuilder(
+        builder: (context, setStateDialog) {
+          return AlertDialog(
+            backgroundColor: const Color(0xFF112240),
+            title: const Row(
+              children: [
+                Icon(Icons.auto_awesome_rounded, color: Color(0xFF00D2FF), size: 22),
+                SizedBox(width: 8),
+                Text('Gemini AI Configuration', style: TextStyle(color: Colors.white, fontSize: 16)),
+              ],
+            ),
+            content: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    'Direct 1-second Cloud AI reports powered by Google Gemini Flash without needing a Python laptop server.',
+                    style: TextStyle(color: Color(0xFF8892B0), fontSize: 12),
+                  ),
+                  const SizedBox(height: 16),
+                  const Text('Gemini API Key', style: TextStyle(color: Colors.white, fontSize: 13, fontWeight: FontWeight.bold)),
+                  const SizedBox(height: 6),
+                  TextField(
+                    controller: keyController,
+                    style: const TextStyle(color: Colors.white, fontSize: 13),
+                    decoration: InputDecoration(
+                      hintText: 'Enter API key from Google AI Studio...',
+                      hintStyle: const TextStyle(color: Colors.white30, fontSize: 12),
+                      filled: true,
+                      fillColor: const Color(0xFF0A192F),
+                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+                    ),
+                  ),
+                  const SizedBox(height: 14),
+                  const Text('AI Model', style: TextStyle(color: Colors.white, fontSize: 13, fontWeight: FontWeight.bold)),
+                  const SizedBox(height: 6),
+                  DropdownButtonFormField<String>(
+                    dropdownColor: const Color(0xFF0A192F),
+                    initialValue: selectedModel,
+                    style: const TextStyle(color: Color(0xFF00D2FF), fontSize: 13),
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: const Color(0xFF0A192F),
+                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+                    ),
+                    items: const [
+                      DropdownMenuItem(value: 'gemini-1.5-flash', child: Text('gemini-1.5-flash (Fastest, ~1s)')),
+                      DropdownMenuItem(value: 'gemini-2.0-flash', child: Text('gemini-2.0-flash (Next-Gen)')),
+                      DropdownMenuItem(value: 'gemini-2.5-flash', child: Text('gemini-2.5-flash')),
+                    ],
+                    onChanged: (val) {
+                      if (val != null) setStateDialog(() => selectedModel = val);
+                    },
+                  ),
+                  const SizedBox(height: 14),
+                  SwitchListTile(
+                    contentPadding: EdgeInsets.zero,
+                    title: const Text('Prefer Direct Cloud AI', style: TextStyle(color: Colors.white, fontSize: 13)),
+                    subtitle: const Text('Uses Gemini Flash before trying local server', style: TextStyle(color: Colors.white54, fontSize: 11)),
+                    value: useCloudAi,
+                    activeTrackColor: const Color(0xFF00D2FF),
+                    onChanged: (val) {
+                      setStateDialog(() => useCloudAi = val);
+                    },
+                  ),
+                ],
+              ),
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: const Text('Cancel', style: TextStyle(color: Colors.white70)),
+              ),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(backgroundColor: const Color(0xFF00D2FF), foregroundColor: Colors.black),
+                onPressed: () async {
+                  await _saveStringPref('gemini_api_key', keyController.text.trim());
+                  await _saveStringPref('gemini_model', selectedModel);
+                  await _saveBoolPref('gemini_cloud_enabled', useCloudAi);
+                  AiSafetyService.configuredGeminiApiKey = keyController.text.trim();
+                  AiSafetyService.configuredGeminiModel = selectedModel;
+                  if (context.mounted) {
+                    Navigator.pop(context);
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('Gemini AI Configuration saved successfully!')),
+                    );
+                  }
+                },
+                child: const Text('Save'),
+              ),
+            ],
+          );
+        },
       ),
     );
   }
@@ -171,6 +302,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
               primaryColor: primaryColor,
             ),
             _buildSettingTile(
+              icon: Icons.contact_phone_outlined,
+              title: 'Emergency Contacts',
+              subtitle: 'Configure SOS alert recipients',
+              onTap: () => Navigator.pushNamed(context, AppRoutes.emergencyContacts),
+              primaryColor: const Color(0xFFFF5252),
+            ),
+            _buildSettingTile(
               icon: Icons.tune_rounded,
               title: 'App Preferences',
               subtitle: 'Theme, Distance Unit',
@@ -182,6 +320,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
               title: 'Alert Settings',
               subtitle: _notificationsEnabled ? 'Notifications ON' : 'Notifications OFF',
               onTap: _showAlertSettingsDialog,
+              primaryColor: primaryColor,
+            ),
+            _buildSettingTile(
+              icon: Icons.auto_awesome_rounded,
+              title: 'Gemini AI Configuration',
+              subtitle: 'Gemini Flash API key & direct cloud model',
+              onTap: _showGeminiConfigDialog,
               primaryColor: primaryColor,
             ),
             _buildSettingTile(

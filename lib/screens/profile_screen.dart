@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import '../core/models/user_profile_model.dart';
 import '../core/services/auth_service.dart';
 import '../core/constants/app_routes.dart';
 
@@ -14,44 +16,89 @@ class _ProfileScreenState extends State<ProfileScreen> {
   final AuthService _authService = AuthService();
   bool _isSaving = false;
 
-  void _showEditProfileDialog(BuildContext context, String currentName, String currentPhone) {
+  void _showEditProfileDialog(
+    BuildContext context, {
+    required String currentName,
+    required String currentEmail,
+    required String currentPhone,
+  }) {
     final nameController = TextEditingController(text: currentName);
+    final emailController = TextEditingController(text: currentEmail);
     final phoneController = TextEditingController(text: currentPhone);
     final formKey = GlobalKey<FormState>();
 
     showDialog(
       context: context,
-      barrierDismissible: false,
-      builder: (context) => StatefulBuilder(
+      barrierDismissible: !_isSaving,
+      builder: (dialogCtx) => StatefulBuilder(
         builder: (context, setStateDialog) {
           return AlertDialog(
             backgroundColor: Theme.of(context).colorScheme.surface,
-            title: const Text('Edit Profile', style: TextStyle(color: Colors.white)),
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+            title: const Text('Edit Profile', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
             content: Form(
               key: formKey,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  TextFormField(
-                    controller: nameController,
-                    style: const TextStyle(color: Colors.white),
-                    decoration: const InputDecoration(labelText: 'Full Name'),
-                    validator: (v) => v!.isEmpty ? 'Name required' : null,
-                  ),
-                  const SizedBox(height: 12),
-                  TextFormField(
-                    controller: phoneController,
-                    style: const TextStyle(color: Colors.white),
-                    keyboardType: TextInputType.phone,
-                    decoration: const InputDecoration(labelText: 'Phone Number'),
-                  ),
-                ],
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    TextFormField(
+                      controller: nameController,
+                      enabled: !_isSaving,
+                      style: const TextStyle(color: Colors.white),
+                      decoration: const InputDecoration(
+                        labelText: 'Full Name *',
+                        prefixIcon: Icon(Icons.person_outline),
+                      ),
+                      validator: (v) {
+                        if (v == null || v.trim().isEmpty) {
+                          return 'Full name is required';
+                        }
+                        if (v.trim().length < 2) {
+                          return 'Name must be at least 2 characters';
+                        }
+                        return null;
+                      },
+                    ),
+                    const SizedBox(height: 14),
+                    TextFormField(
+                      controller: emailController,
+                      enabled: !_isSaving,
+                      style: const TextStyle(color: Colors.white),
+                      keyboardType: TextInputType.emailAddress,
+                      decoration: const InputDecoration(
+                        labelText: 'Email Address *',
+                        prefixIcon: Icon(Icons.email_outlined),
+                      ),
+                      validator: (v) {
+                        if (v == null || v.trim().isEmpty) {
+                          return 'Email is required';
+                        }
+                        if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(v.trim())) {
+                          return 'Enter a valid email address';
+                        }
+                        return null;
+                      },
+                    ),
+                    const SizedBox(height: 14),
+                    TextFormField(
+                      controller: phoneController,
+                      enabled: !_isSaving,
+                      style: const TextStyle(color: Colors.white),
+                      keyboardType: TextInputType.phone,
+                      decoration: const InputDecoration(
+                        labelText: 'Phone Number',
+                        prefixIcon: Icon(Icons.phone_outlined),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
             actions: [
               if (!_isSaving)
                 TextButton(
-                  onPressed: () => Navigator.pop(context),
+                  onPressed: () => Navigator.pop(dialogCtx),
                   child: const Text('Cancel'),
                 ),
               ElevatedButton(
@@ -62,19 +109,28 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           setStateDialog(() => _isSaving = true);
                           try {
                             await _authService.updateDriverProfile(
-                              name: nameController.text,
-                              phone: phoneController.text,
+                              name: nameController.text.trim(),
+                              email: emailController.text.trim(),
+                              phone: phoneController.text.trim(),
                             );
-                            if (context.mounted) {
-                              Navigator.pop(context);
+                            if (mounted && dialogCtx.mounted) {
+                              Navigator.pop(dialogCtx);
                               ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(content: Text('Profile saved!'), backgroundColor: Colors.green),
+                                const SnackBar(
+                                  content: Text('Profile saved successfully!'),
+                                  backgroundColor: Colors.green,
+                                  behavior: SnackBarBehavior.floating,
+                                ),
                               );
                             }
                           } catch (e) {
-                            if (context.mounted) {
+                            if (mounted && dialogCtx.mounted) {
                               ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(content: Text('Error: $e'), backgroundColor: Colors.red),
+                                SnackBar(
+                                  content: Text('Failed to save profile: ${e.toString().replaceAll('Exception: ', '')}'),
+                                  backgroundColor: Colors.redAccent,
+                                  behavior: SnackBarBehavior.floating,
+                                ),
                               );
                             }
                           } finally {
@@ -82,13 +138,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           }
                         }
                       },
-                child: _isSaving 
-                  ? const SizedBox(width: 16, height: 16, child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2)) 
-                  : const Text('Save'),
+                child: _isSaving
+                    ? const SizedBox(
+                        width: 16,
+                        height: 16,
+                        child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2),
+                      )
+                    : const Text('Save'),
               ),
             ],
           );
-        }
+        },
       ),
     );
   }
@@ -96,8 +156,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     const primaryColor = Color(0xFF00D2FF);
+    final currentUser = _authService.currentUser;
 
-    if (_authService.currentUser == null) {
+    if (currentUser == null) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         Navigator.of(context).pushReplacementNamed(AppRoutes.login);
       });
@@ -110,14 +171,37 @@ class _ProfileScreenState extends State<ProfileScreen> {
         child: StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
           stream: _authService.getUserProfileStream(),
           builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
+            if (snapshot.connectionState == ConnectionState.waiting && !snapshot.hasData) {
               return const Center(child: CircularProgressIndicator());
             }
 
-            final data = snapshot.data?.data();
-            final String name = data?['name'] ?? _authService.currentUser?.displayName ?? 'NeuroDrive Driver';
-            final String email = data?['email'] ?? _authService.currentUser?.email ?? '--';
-            final String phone = data?['phone'] ?? '';
+            final profile = snapshot.hasData && snapshot.data != null
+                ? UserProfile.fromFirestore(
+                    snapshot.data!,
+                    fallbackEmail: currentUser.email,
+                    fallbackName: currentUser.displayName,
+                  )
+                : UserProfile(
+                    uid: currentUser.uid,
+                    name: currentUser.displayName ?? 'NeuroDrive Driver',
+                    email: currentUser.email ?? '--',
+                  );
+
+            final String displayName = profile.name.isNotEmpty
+                ? profile.name
+                : (currentUser.displayName ?? 'NeuroDrive Driver');
+            final String displayEmail = profile.email.isNotEmpty
+                ? profile.email
+                : (currentUser.email ?? '--');
+            final String phone = profile.phone;
+
+            final dateFormat = DateFormat('MMM d, yyyy • h:mm a');
+            final String? createdDateStr = profile.createdAt != null
+                ? dateFormat.format(profile.createdAt!.toLocal())
+                : null;
+            final String? updatedDateStr = profile.updatedAt != null
+                ? dateFormat.format(profile.updatedAt!.toLocal())
+                : null;
 
             return SingleChildScrollView(
               padding: const EdgeInsets.all(24.0),
@@ -146,18 +230,79 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ],
                   ),
                   const SizedBox(height: 16),
-                  Text(name, style: const TextStyle(color: Colors.white, fontSize: 22, fontWeight: FontWeight.bold)),
+                  Text(
+                    displayName,
+                    style: const TextStyle(color: Colors.white, fontSize: 22, fontWeight: FontWeight.bold),
+                  ),
                   const SizedBox(height: 4),
-                  Text(email, style: const TextStyle(color: Color(0xFF8892B0), fontSize: 14)),
+                  Text(displayEmail, style: const TextStyle(color: Color(0xFF8892B0), fontSize: 14)),
                   if (phone.isNotEmpty) ...[
                     const SizedBox(height: 4),
                     Text(phone, style: const TextStyle(color: Color(0xFF8892B0), fontSize: 14)),
                   ],
-                  const SizedBox(height: 28),
-                  
+                  const SizedBox(height: 24),
+
+                  // Metadata Card (createdAt, updatedAt)
+                  if (createdDateStr != null || updatedDateStr != null) ...[
+                    Container(
+                      width: double.infinity,
+                      padding: const EdgeInsets.all(16),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFF112240).withValues(alpha: 0.6),
+                        borderRadius: BorderRadius.circular(16),
+                        border: Border.all(color: const Color(0xFF233554)),
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          if (createdDateStr != null) ...[
+                            Row(
+                              children: [
+                                const Icon(Icons.calendar_today_rounded, size: 14, color: Color(0xFF8892B0)),
+                                const SizedBox(width: 8),
+                                const Text('Member since: ', style: TextStyle(color: Color(0xFF8892B0), fontSize: 12)),
+                                Expanded(
+                                  child: Text(
+                                    createdDateStr,
+                                    style: const TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.w500),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                          if (createdDateStr != null && updatedDateStr != null) const SizedBox(height: 8),
+                          if (updatedDateStr != null) ...[
+                            Row(
+                              children: [
+                                const Icon(Icons.update_rounded, size: 14, color: Color(0xFF8892B0)),
+                                const SizedBox(width: 8),
+                                const Text('Last updated: ', style: TextStyle(color: Color(0xFF8892B0), fontSize: 12)),
+                                Expanded(
+                                  child: Text(
+                                    updatedDateStr,
+                                    style: const TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.w500),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                  ],
+
                   // Action Options
                   _buildOptionTile(Icons.person_outline_rounded, 'Edit Profile', () {
-                    _showEditProfileDialog(context, name, phone);
+                    _showEditProfileDialog(
+                      context,
+                      currentName: displayName,
+                      currentEmail: displayEmail,
+                      currentPhone: phone,
+                    );
+                  }),
+                  _buildOptionTile(Icons.contact_phone_outlined, 'Emergency Contacts', () {
+                    Navigator.pushNamed(context, AppRoutes.emergencyContacts);
                   }),
                   _buildOptionTile(Icons.logout_rounded, 'Logout', () async {
                     await _authService.signOut();
