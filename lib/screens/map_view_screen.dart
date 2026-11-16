@@ -766,8 +766,24 @@ class _MapViewScreenState extends State<MapViewScreen> with TickerProviderStateM
     LatLng? startPoint,
     String? startTitle,
   }) async {
-    final effectiveStart = startPoint ?? _customStartPos ?? _userPos;
-    if (effectiveStart == null) return;
+    LatLng? effectiveStart = startPoint ?? _customStartPos ?? _userPos;
+    if (effectiveStart == null) {
+      final p = await _locationService.getCurrentLocation();
+      if (p != null) {
+        effectiveStart = LatLng(p.latitude, p.longitude);
+        _userPos = effectiveStart;
+      }
+    }
+    if (effectiveStart == null) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Please enable GPS or select a Start Location.'),
+          ),
+        );
+      }
+      return;
+    }
 
     setState(() {
       _isFetchingRoute = true;
@@ -945,15 +961,24 @@ class _MapViewScreenState extends State<MapViewScreen> with TickerProviderStateM
             ),
           );
         } else {
-          _mapController!.animateCamera(
-            CameraUpdate.newLatLngBounds(
-              LatLngBounds(
-                southwest: LatLng(minLat, minLng),
-                northeast: LatLng(maxLat, maxLng),
+          try {
+            await _mapController!.animateCamera(
+              CameraUpdate.newLatLngBounds(
+                LatLngBounds(
+                  southwest: LatLng(minLat, minLng),
+                  northeast: LatLng(maxLat, maxLng),
+                ),
+                70.0,
               ),
-              60.0,
-            ),
-          );
+            );
+          } catch (_) {
+            _mapController!.animateCamera(
+              CameraUpdate.newLatLngZoom(
+                LatLng((minLat + maxLat) / 2, (minLng + maxLng) / 2),
+                9.5,
+              ),
+            );
+          }
         }
       }
     } catch (e) {
@@ -1512,7 +1537,9 @@ class _MapViewScreenState extends State<MapViewScreen> with TickerProviderStateM
                               final p = await _locationService.getCurrentLocation();
                               if (p != null) {
                                 origin = LatLng(p.latitude, p.longitude);
-                                _userPos = origin;
+                                setState(() {
+                                  _userPos = origin;
+                                });
                               }
                             } catch (_) {}
                           }
@@ -1525,6 +1552,8 @@ class _MapViewScreenState extends State<MapViewScreen> with TickerProviderStateM
                             setState(() {
                               _followUser = false;
                             });
+                            await Future.delayed(const Duration(milliseconds: 200));
+                            if (!mounted) return;
                             await _fetchAndDrawRoute(
                               selectedResult.latLng,
                               title: selectedResult.title,
@@ -2495,6 +2524,113 @@ class LocationSearchDelegate extends SearchDelegate<SearchResult?> {
 
   LocationSearchDelegate({this.currentPosition});
 
+  @visibleForTesting
+  Future<List<SearchResult>> getSuggestionsForTesting(String input) => _getSuggestions(input);
+
+  // Major Tamil Nadu Hubs & Destinations for instant 0-latency matching
+  static final List<SearchResult> _tamilNaduDestinations = [
+    const SearchResult(
+      latLng: LatLng(9.9252, 78.1198),
+      title: 'Madurai',
+      subtitle: 'Cultural Capital • Meenakshi Amman Temple, Tamil Nadu',
+    ),
+    const SearchResult(
+      latLng: LatLng(9.9193, 78.1099),
+      title: 'Madurai Junction Railway Station',
+      subtitle: 'Madurai Central, Tamil Nadu',
+    ),
+    const SearchResult(
+      latLng: LatLng(9.9312, 78.1524),
+      title: 'Madurai Mattuthavani Bus Stand',
+      subtitle: 'Integrated Bus Terminus (MIBT), Madurai, Tamil Nadu',
+    ),
+    const SearchResult(
+      latLng: LatLng(9.8363, 78.0939),
+      title: 'Madurai International Airport',
+      subtitle: 'Avaniyapuram, Madurai, Tamil Nadu',
+    ),
+    const SearchResult(
+      latLng: LatLng(13.0827, 80.2707),
+      title: 'Chennai',
+      subtitle: 'Capital City of Tamil Nadu',
+    ),
+    const SearchResult(
+      latLng: LatLng(13.0823, 80.2755),
+      title: 'Chennai Central Railway Station',
+      subtitle: 'Puratchi Thalaivar Dr. M.G.R. Central, Chennai',
+    ),
+    const SearchResult(
+      latLng: LatLng(12.9900, 80.1693),
+      title: 'Chennai International Airport',
+      subtitle: 'Meenambakkam, Chennai, Tamil Nadu',
+    ),
+    const SearchResult(
+      latLng: LatLng(11.0168, 76.9558),
+      title: 'Coimbatore',
+      subtitle: 'Manchester of South India, Tamil Nadu',
+    ),
+    const SearchResult(
+      latLng: LatLng(11.6643, 78.1460),
+      title: 'Salem',
+      subtitle: 'Steel City, Tamil Nadu',
+    ),
+    const SearchResult(
+      latLng: LatLng(10.7905, 78.7047),
+      title: 'Tiruchirappalli (Trichy)',
+      subtitle: 'Rockfort City, Central Tamil Nadu',
+    ),
+    const SearchResult(
+      latLng: LatLng(10.9601, 78.0766),
+      title: 'Karur',
+      subtitle: 'Textile Capital, Tamil Nadu',
+    ),
+    const SearchResult(
+      latLng: LatLng(10.3673, 77.9803),
+      title: 'Dindigul',
+      subtitle: 'Lock City, Tamil Nadu',
+    ),
+    const SearchResult(
+      latLng: LatLng(8.7139, 77.7567),
+      title: 'Tirunelveli',
+      subtitle: 'Halwa City, Tamil Nadu',
+    ),
+    const SearchResult(
+      latLng: LatLng(8.0883, 77.5385),
+      title: 'Kanyakumari',
+      subtitle: 'Southern Tip of India, Tamil Nadu',
+    ),
+    const SearchResult(
+      latLng: LatLng(12.9165, 79.1325),
+      title: 'Vellore',
+      subtitle: 'Fort City, Tamil Nadu',
+    ),
+    const SearchResult(
+      latLng: LatLng(10.7870, 79.1378),
+      title: 'Thanjavur',
+      subtitle: 'Brihadisvara Temple, Tamil Nadu',
+    ),
+    const SearchResult(
+      latLng: LatLng(11.3410, 77.7172),
+      title: 'Erode',
+      subtitle: 'Turmeric City, Tamil Nadu',
+    ),
+    const SearchResult(
+      latLng: LatLng(11.1085, 77.3411),
+      title: 'Tiruppur',
+      subtitle: 'Knitwear Capital, Tamil Nadu',
+    ),
+    const SearchResult(
+      latLng: LatLng(12.7412, 77.8241),
+      title: 'Hosur',
+      subtitle: 'Industrial Hub, Krishnagiri, Tamil Nadu',
+    ),
+    const SearchResult(
+      latLng: LatLng(11.0544, 78.0486),
+      title: 'M. Kumarasamy College of Engineering (MKCE)',
+      subtitle: 'Karur - Salem Highway, Thalavapalayam',
+    ),
+  ];
+
   // Local Campus POIs (MKCE Campus landmark fallbacks for instant precision)
   static final List<SearchResult> _campusPOIs = [
     const SearchResult(
@@ -2536,7 +2672,31 @@ class LocationSearchDelegate extends SearchDelegate<SearchResult?> {
     final List<SearchResult> results = [];
     final qLower = queryText.toLowerCase();
 
-    // 1. Campus POIs: ONLY include if user is within 10km of MKCE campus OR query explicitly asks for MKCE
+    // 1. Instant Match: Tamil Nadu Major Hubs (e.g. Madurai, Chennai, Coimbatore, Salem)
+    for (final hub in _tamilNaduDestinations) {
+      final titleLower = hub.title.toLowerCase();
+      final subLower = hub.subtitle?.toLowerCase() ?? '';
+      if (titleLower.contains(qLower) || subLower.contains(qLower)) {
+        double? distKm;
+        if (currentPosition != null) {
+          distKm = Geolocator.distanceBetween(
+                currentPosition!.latitude,
+                currentPosition!.longitude,
+                hub.latLng.latitude,
+                hub.latLng.longitude,
+              ) /
+              1000.0;
+        }
+        results.add(SearchResult(
+          latLng: hub.latLng,
+          title: hub.title,
+          subtitle: hub.subtitle,
+          distanceKm: distKm,
+        ));
+      }
+    }
+
+    // 2. Campus POIs: ONLY include if user is within 10km of MKCE campus OR query explicitly asks for MKCE
     bool isNearCampus = false;
     if (currentPosition != null) {
       final distToCampus = Geolocator.distanceBetween(
@@ -2569,17 +2729,23 @@ class LocationSearchDelegate extends SearchDelegate<SearchResult?> {
                 ) /
                 1000.0;
           }
-          results.add(SearchResult(
-            latLng: poi.latLng,
-            title: poi.title,
-            subtitle: poi.subtitle,
-            distanceKm: distKm,
-          ));
+          final isDuplicate = results.any((r) =>
+              r.title.toLowerCase() == poi.title.toLowerCase() ||
+              ((r.latLng.latitude - poi.latLng.latitude).abs() < 0.001 &&
+                  (r.latLng.longitude - poi.latLng.longitude).abs() < 0.001));
+          if (!isDuplicate) {
+            results.add(SearchResult(
+              latLng: poi.latLng,
+              title: poi.title,
+              subtitle: poi.subtitle,
+              distanceKm: distKm,
+            ));
+          }
         }
       }
     }
 
-    // 2. Fetch from OpenStreetMap Nominatim with strict localized viewbox first
+    // 3. Fetch from OpenStreetMap Nominatim with soft regional viewbox bias
     try {
       String osmQuery = queryText;
       if (qLower == 'mkce') {
@@ -2588,13 +2754,13 @@ class LocationSearchDelegate extends SearchDelegate<SearchResult?> {
 
       String osmUrlStr = 'https://nominatim.openstreetmap.org/search?q=${Uri.encodeComponent(osmQuery)}&format=json&addressdetails=1&limit=10&countrycodes=in';
       if (currentPosition != null) {
-        // Bias search towards a ~35km bounding box around user position for guaranteed short-distance precision
-        final delta = 0.32;
+        // Soft viewbox bias without hard &bounded=1 so major cities like Madurai are never filtered out
+        final delta = 1.2;
         final minLon = currentPosition!.longitude - delta;
         final maxLon = currentPosition!.longitude + delta;
         final minLat = currentPosition!.latitude - delta;
         final maxLat = currentPosition!.latitude + delta;
-        osmUrlStr += '&viewbox=$minLon,$maxLat,$maxLon,$minLat&bounded=1';
+        osmUrlStr += '&viewbox=$minLon,$maxLat,$maxLon,$minLat';
       }
 
       var osmResp = await http.get(
@@ -2603,8 +2769,7 @@ class LocationSearchDelegate extends SearchDelegate<SearchResult?> {
       ).timeout(const Duration(seconds: 4));
 
       var data = osmResp.statusCode == 200 ? (json.decode(osmResp.body) as List? ?? []) : [];
-      // If localized bounded search yielded 0 results, fallback to nationwide search for long-distance queries
-      if (data.isEmpty && currentPosition != null) {
+      if (data.isEmpty) {
         final fallbackUrl = 'https://nominatim.openstreetmap.org/search?q=${Uri.encodeComponent(osmQuery)}&format=json&addressdetails=1&limit=8&countrycodes=in';
         osmResp = await http.get(
           Uri.parse(fallbackUrl),
@@ -2655,7 +2820,7 @@ class LocationSearchDelegate extends SearchDelegate<SearchResult?> {
       debugPrint('OSM search error: $e');
     }
 
-    // 3. Fetch from Photon Komoot (filtered strictly to India)
+    // 4. Fetch from Photon Komoot (filtered strictly to India)
     try {
       String photonUrl = 'https://photon.komoot.io/api/?q=${Uri.encodeComponent(queryText)}&limit=10';
       if (currentPosition != null) {
@@ -2676,7 +2841,7 @@ class LocationSearchDelegate extends SearchDelegate<SearchResult?> {
           final country = props['country']?.toString().toLowerCase() ?? '';
           final countryCode = props['countrycode']?.toString().toUpperCase() ?? '';
 
-          // Reject foreign locations (e.g. South Dakota, Germany, etc.)
+          // Reject foreign locations
           final isIndia = countryCode == 'IN' || country.contains('india') || country.isEmpty;
           if (!isIndia) continue;
 
@@ -2725,14 +2890,32 @@ class LocationSearchDelegate extends SearchDelegate<SearchResult?> {
       debugPrint('Photon search error: $e');
     }
 
-    // 4. Sort results by distance ascending so short-distance / nearby locations always appear first!
-    if (currentPosition != null) {
-      results.sort((a, b) {
-        final distA = a.distanceKm ?? 99999.0;
-        final distB = b.distanceKm ?? 99999.0;
-        return distA.compareTo(distB);
-      });
-    }
+    // 5. Smart Relevance & Proximity Ranking:
+    // Tier 0: Exact match with query (e.g. "Madurai" == "Madurai")
+    // Tier 1: Title starts with query (e.g. "Madurai Junction", "Madurai Airport")
+    // Tier 2: General match
+    // Within each tier, sort by distance ascending so closest places win!
+    results.sort((a, b) {
+      final aTitle = a.title.toLowerCase().trim();
+      final bTitle = b.title.toLowerCase().trim();
+
+      int tier(String t) {
+        if (t == qLower) return 0;
+        if (t.startsWith(qLower)) return 1;
+        return 2;
+      }
+
+      final tierA = tier(aTitle);
+      final tierB = tier(bTitle);
+
+      if (tierA != tierB) {
+        return tierA.compareTo(tierB);
+      }
+
+      final distA = a.distanceKm ?? 99999.0;
+      final distB = b.distanceKm ?? 99999.0;
+      return distA.compareTo(distB);
+    });
 
     return results;
   }
