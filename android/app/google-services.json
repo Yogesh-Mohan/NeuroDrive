@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "858743498536",
+    "firebase_url": "https://neurodrive-be33a-default-rtdb.firebaseio.com",
     "project_id": "neurodrive-be33a",
     "storage_bucket": "neurodrive-be33a.firebasestorage.app"
   },

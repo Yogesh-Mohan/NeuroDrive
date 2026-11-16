@@ -16,4 +16,5 @@ class AppRoutes {
   static const String profile = '/profile';
   static const String vehicle = '/vehicle';
   static const String emergencyContacts = '/emergency-contacts';
+  static const String v2vRadar = '/v2v-radar';
 }

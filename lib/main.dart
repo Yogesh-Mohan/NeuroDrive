@@ -15,6 +15,7 @@ import 'screens/offline_maps_screen.dart';
 import 'screens/profile_screen.dart';
 import 'screens/vehicle_profile_screen.dart';
 import 'screens/emergency_contacts_screen.dart';
+import 'screens/v2v_radar_screen.dart';
 import 'core/services/notification_service.dart';
 import 'core/services/sync_service.dart';
 
@@ -71,6 +72,7 @@ class NeuroDriveApp extends StatelessWidget {
         AppRoutes.profile: (context) => const ProfileScreen(),
         AppRoutes.vehicle: (context) => const VehicleProfileScreen(),
         AppRoutes.emergencyContacts: (context) => const EmergencyContactsScreen(),
+        AppRoutes.v2vRadar: (context) => const V2VRadarScreen(),
       },
     );
   }

@@ -9,6 +9,8 @@ import '../widgets/sos_dialog_helper.dart';
 import '../widgets/sync_status_badge.dart';
 import '../widgets/copilot_sheet.dart';
 import '../main_shell.dart';
+import '../core/models/v2v_telemetry.dart';
+import '../core/services/v2v_radar_service.dart';
 
 class HomeDashboardScreen extends StatefulWidget {
   const HomeDashboardScreen({super.key});
@@ -39,6 +41,7 @@ class _HomeDashboardScreenState extends State<HomeDashboardScreen> {
   void initState() {
     super.initState();
     _startListening();
+    V2VRadarService().initialize(initialMode: V2VConnectionMode.firebaseRealtime);
   }
 
   void _startListening() async {
@@ -286,17 +289,144 @@ class _HomeDashboardScreenState extends State<HomeDashboardScreen> {
                     icon: Icons.signal_cellular_alt_rounded,
                     color: _gpsStatus == 'Good' ? Colors.greenAccent : Colors.orangeAccent,
                   ),
-                  _buildMetricCard(
-                    title: 'Nearby Vehicles',
-                    value: '12',
-                    unit: '',
-                    icon: Icons.directions_car_rounded,
-                    color: primaryColor,
+                  StreamBuilder<V2VTelemetry>(
+                    stream: V2VRadarService().telemetryStream,
+                    initialData: V2VRadarService().latestTelemetry,
+                    builder: (context, snapshot) {
+                      final telemetry = snapshot.data ?? V2VTelemetry.initial();
+                      final distCm = telemetry.distanceCm;
+
+                      final isCritical = telemetry.status == 'CRITICAL';
+                      final isCaution = telemetry.status == 'CAUTION';
+                      final cardColor = !telemetry.isOnline
+                          ? primaryColor
+                          : (isCritical
+                              ? const Color(0xFFFF3366)
+                              : (isCaution ? const Color(0xFFFFB74D) : const Color(0xFF00FF88)));
+
+                      // Format distance: Show in cm if < 100cm, else in meters
+                      final String valStr;
+                      final String unitStr;
+                      if (!telemetry.isOnline || distCm <= 0) {
+                        valStr = '--';
+                        unitStr = '';
+                      } else if (distCm < 100) {
+                        valStr = distCm.toStringAsFixed(1);
+                        unitStr = 'cm';
+                      } else {
+                        valStr = (distCm / 100.0).toStringAsFixed(2);
+                        unitStr = 'm';
+                      }
+
+                      final String titleStr = telemetry.isOnline
+                          ? (isCritical
+                              ? '⚠️ CRITICAL'
+                              : (isCaution ? '⚡ CAUTION' : 'Nearby Vehicle'))
+                          : 'Nearby Device';
+
+                      return InkWell(
+                        onTap: () => Navigator.pushNamed(context, AppRoutes.v2vRadar),
+                        borderRadius: BorderRadius.circular(20),
+                        child: _buildMetricCard(
+                          title: titleStr,
+                          value: valStr,
+                          unit: unitStr,
+                          icon: Icons.directions_car_rounded,
+                          color: cardColor,
+                        ),
+                      );
+                    },
                   ),
                 ],
               ),
 
-              const SizedBox(height: 24),
+              const SizedBox(height: 18),
+
+              // V2V Ultrasonic Radar Live Cockpit Launcher Card
+              StreamBuilder<V2VTelemetry>(
+                stream: V2VRadarService().telemetryStream,
+                initialData: V2VRadarService().latestTelemetry,
+                builder: (context, snapshot) {
+                  final telemetry = snapshot.data ?? V2VTelemetry.initial();
+                  final isOnline = telemetry.isOnline;
+                  final statusText = isOnline && telemetry.distanceCm > 0
+                      ? 'Live Radar: ${telemetry.distanceCm.toStringAsFixed(1)} cm • ${telemetry.status}'
+                      : 'Live Ultrasonic Arc & Collision Guard';
+
+                  final glowColor = isOnline
+                      ? (telemetry.status == 'CRITICAL'
+                          ? const Color(0xFFFF3366)
+                          : (telemetry.status == 'CAUTION'
+                              ? const Color(0xFFFFB74D)
+                              : const Color(0xFF00FF88)))
+                      : const Color(0xFF00FF88);
+
+                  return InkWell(
+                    onTap: () => Navigator.pushNamed(context, AppRoutes.v2vRadar),
+                    borderRadius: BorderRadius.circular(20),
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 14),
+                      decoration: BoxDecoration(
+                        gradient: const LinearGradient(
+                          colors: [Color(0xFF07192C), Color(0xFF0B2844)],
+                        ),
+                        borderRadius: BorderRadius.circular(20),
+                        border: Border.all(
+                          color: glowColor.withValues(alpha: 0.5),
+                          width: 1.2,
+                        ),
+                        boxShadow: [
+                          BoxShadow(
+                            color: glowColor.withValues(alpha: 0.16),
+                            blurRadius: 16,
+                            spreadRadius: 1,
+                          ),
+                        ],
+                      ),
+                      child: Row(
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.all(10),
+                            decoration: BoxDecoration(
+                              color: glowColor.withValues(alpha: 0.15),
+                              shape: BoxShape.circle,
+                            ),
+                            child: Icon(Icons.radar_rounded, color: glowColor, size: 24),
+                          ),
+                          const SizedBox(width: 14),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const Text(
+                                  'MIST V2V Radar Cockpit',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 15,
+                                  ),
+                                ),
+                                const SizedBox(height: 2),
+                                Text(
+                                  statusText,
+                                  style: TextStyle(
+                                    color: glowColor,
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          const Icon(Icons.arrow_forward_ios_rounded, color: Colors.white54, size: 16),
+                        ],
+                      ),
+                    ),
+                  );
+                },
+              ),
+
+              const SizedBox(height: 20),
 
               // Start Drive Large Button
               SizedBox(

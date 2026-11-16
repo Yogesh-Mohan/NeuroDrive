@@ -14,6 +14,9 @@ import '../core/services/road_damage_service.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import '../widgets/copilot_sheet.dart';
 import 'trip_details_screen.dart';
+import '../core/models/v2v_telemetry.dart';
+import '../core/services/v2v_radar_service.dart';
+import 'v2v_radar_screen.dart';
 
 class SearchResult {
   final LatLng latLng;
@@ -222,10 +225,14 @@ class MapViewScreen extends StatefulWidget {
   State<MapViewScreen> createState() => _MapViewScreenState();
 }
 
-class _MapViewScreenState extends State<MapViewScreen> {
+class _MapViewScreenState extends State<MapViewScreen> with TickerProviderStateMixin {
   GoogleMapController? _mapController;
   final LocationService _locationService = LocationService();
   StreamSubscription<Position>? _positionStreamSubscription;
+
+  // In-Drive Forward Radar HUD
+  bool _isRadarOverlayOn = true;
+  late final AnimationController _radarSweepController;
 
   // Real GPS coordinate
   LatLng? _userPos;
@@ -284,6 +291,11 @@ class _MapViewScreenState extends State<MapViewScreen> {
   @override
   void initState() {
     super.initState();
+    _radarSweepController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 2200),
+    )..repeat();
+    V2VRadarService().initialize(initialMode: V2VConnectionMode.localEsp32);
     _startLocationTracking();
     _loadRoadDamageDataset();
     _initTts();
@@ -313,6 +325,7 @@ class _MapViewScreenState extends State<MapViewScreen> {
 
   @override
   void dispose() {
+    _radarSweepController.dispose();
     _positionStreamSubscription?.cancel();
     _durationTimer?.cancel();
     _advanceAlertDismissTimer?.cancel();
@@ -570,6 +583,7 @@ class _MapViewScreenState extends State<MapViewScreen> {
 
     setState(() {
       _isDriveModeOn = true;
+      _isRadarOverlayOn = true;
       _followUser = true;
       _startTime = DateTime.now();
       _totalDistanceMeters = 0.0;
@@ -1755,10 +1769,30 @@ class _MapViewScreenState extends State<MapViewScreen> {
               Positioned(
                 right: 16,
                 bottom: _isDriveModeOn
-                    ? 180
+                    ? (_isRadarOverlayOn ? 335 : 180)
                     : (_routeDistance != null ? 140 : 20),
                 child: Column(
                   children: [
+                    if (_isDriveModeOn) ...[
+                      FloatingActionButton.small(
+                        heroTag: 'map_radar_toggle_btn',
+                        onPressed: () {
+                          setState(() {
+                            _isRadarOverlayOn = !_isRadarOverlayOn;
+                          });
+                        },
+                        backgroundColor: _isRadarOverlayOn
+                            ? const Color(0xFF00FF88)
+                            : const Color(0xFF112240),
+                        tooltip: _isRadarOverlayOn ? 'Turn Radar OFF' : 'Turn Radar ON',
+                        child: Icon(
+                          Icons.radar_rounded,
+                          color: _isRadarOverlayOn ? const Color(0xFF0A192F) : const Color(0xFF00FF88),
+                          size: 20,
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                    ],
                     FloatingActionButton.small(
                       heroTag: 'heatmap_toggle',
                       onPressed: () {
@@ -1991,6 +2025,192 @@ class _MapViewScreenState extends State<MapViewScreen> {
                 ),
               ),
 
+            // Live In-Map Forward Radar Cockpit HUD (When DRIVING & RADAR ON)
+            if (_isDriveModeOn && _isRadarOverlayOn)
+              Positioned(
+                bottom: 185,
+                left: 16,
+                right: 16,
+                child: StreamBuilder<V2VTelemetry>(
+                  stream: V2VRadarService().telemetryStream,
+                  initialData: V2VRadarService().latestTelemetry,
+                  builder: (context, snapshot) {
+                    final telemetry = snapshot.data ?? V2VTelemetry.initial();
+                    final isCritical = telemetry.status == 'CRITICAL';
+                    final isCaution = telemetry.status == 'CAUTION';
+                    final radarStatusColor = isCritical
+                        ? const Color(0xFFFF3366)
+                        : (isCaution ? const Color(0xFFFFB74D) : const Color(0xFF00FF88));
+
+                    final distM = (telemetry.distanceCm / 100.0);
+
+                    return Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFF071422).withValues(alpha: 0.94),
+                        borderRadius: BorderRadius.circular(20),
+                        border: Border.all(
+                          color: radarStatusColor.withValues(alpha: 0.7),
+                          width: 1.5,
+                        ),
+                        boxShadow: [
+                          BoxShadow(
+                            color: radarStatusColor.withValues(alpha: 0.2),
+                            blurRadius: 16,
+                            spreadRadius: 1,
+                          ),
+                        ],
+                      ),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          // Top Status Bar
+                          Row(
+                            children: [
+                              Container(
+                                width: 8,
+                                height: 8,
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: radarStatusColor,
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: radarStatusColor,
+                                      blurRadius: 6,
+                                      spreadRadius: 1,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              const SizedBox(width: 8),
+                              const Text(
+                                'FORWARD RADAR (CAR AHEAD)',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 11,
+                                  letterSpacing: 1.0,
+                                ),
+                              ),
+                              const Spacer(),
+                              Container(
+                                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                                decoration: BoxDecoration(
+                                  color: radarStatusColor.withValues(alpha: 0.15),
+                                  borderRadius: BorderRadius.circular(8),
+                                  border: Border.all(color: radarStatusColor, width: 0.8),
+                                ),
+                                child: Text(
+                                  telemetry.status,
+                                  style: TextStyle(
+                                    color: radarStatusColor,
+                                    fontSize: 10,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(width: 6),
+                              InkWell(
+                                onTap: () => setState(() => _isRadarOverlayOn = false),
+                                child: const Icon(Icons.close, color: Colors.white60, size: 18),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 6),
+
+                          // Center Content: Left Mini Sweeping Arc + Right Distance readout
+                          Row(
+                            children: [
+                              // Animated Radar Arc
+                              SizedBox(
+                                width: 140,
+                                height: 85,
+                                child: AnimatedBuilder(
+                                  animation: _radarSweepController,
+                                  builder: (context, child) {
+                                    return CustomPaint(
+                                      painter: RadarArcPainter(
+                                        sweepProgress: _radarSweepController.value,
+                                        distanceCm: telemetry.distanceCm,
+                                        statusColor: radarStatusColor,
+                                        useCentimeters: true,
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ),
+                              const SizedBox(width: 12),
+                              // Live Distance Display
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    const Text(
+                                      'DISTANCE TO CAR',
+                                      style: TextStyle(
+                                        color: Color(0xFF88A0C0),
+                                        fontSize: 9,
+                                        fontWeight: FontWeight.bold,
+                                        letterSpacing: 0.8,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 2),
+                                    Row(
+                                      crossAxisAlignment: CrossAxisAlignment.baseline,
+                                      textBaseline: TextBaseline.alphabetic,
+                                      children: [
+                                        Text(
+                                          distM.toStringAsFixed(2),
+                                          style: TextStyle(
+                                            color: radarStatusColor,
+                                            fontSize: 26,
+                                            fontWeight: FontWeight.bold,
+                                            height: 1.0,
+                                          ),
+                                        ),
+                                        const SizedBox(width: 4),
+                                        Text(
+                                          'm',
+                                          style: TextStyle(
+                                            color: radarStatusColor,
+                                            fontSize: 13,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        const SizedBox(width: 6),
+                                        Text(
+                                          '(${telemetry.distanceCm.toStringAsFixed(1)} cm)',
+                                          style: TextStyle(
+                                            color: radarStatusColor.withValues(alpha: 0.7),
+                                            fontSize: 11,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    const SizedBox(height: 4),
+                                    Text(
+                                      isCritical
+                                          ? '⚠️ TOO CLOSE! BRAKE NOW'
+                                          : (isCaution ? '⚡ PROXIMITY CAUTION' : '✅ SAFE GAP AHEAD'),
+                                      style: TextStyle(
+                                        color: radarStatusColor,
+                                        fontSize: 10,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                ),
+              ),
+
             // Live Driving Navigation HUD (When DRIVING)
             if (_isDriveModeOn)
               Positioned(
@@ -2157,7 +2377,51 @@ class _MapViewScreenState extends State<MapViewScreen> {
                               ),
                             ),
                           ),
-                          const SizedBox(width: 12),
+                          const SizedBox(width: 8),
+                          // Radar Toggle Pill
+                          InkWell(
+                            onTap: () => setState(() => _isRadarOverlayOn = !_isRadarOverlayOn),
+                            borderRadius: BorderRadius.circular(10),
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+                              decoration: BoxDecoration(
+                                color: _isRadarOverlayOn
+                                    ? const Color(0xFF00FF88).withValues(alpha: 0.18)
+                                    : const Color(0xFF112240),
+                                borderRadius: BorderRadius.circular(10),
+                                border: Border.all(
+                                  color: _isRadarOverlayOn
+                                      ? const Color(0xFF00FF88)
+                                      : Colors.white24,
+                                  width: 1,
+                                ),
+                              ),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Icon(
+                                    Icons.radar_rounded,
+                                    size: 16,
+                                    color: _isRadarOverlayOn
+                                        ? const Color(0xFF00FF88)
+                                        : Colors.white70,
+                                  ),
+                                  const SizedBox(width: 4),
+                                  Text(
+                                    _isRadarOverlayOn ? 'RADAR ON' : 'RADAR OFF',
+                                    style: TextStyle(
+                                      color: _isRadarOverlayOn
+                                          ? const Color(0xFF00FF88)
+                                          : Colors.white70,
+                                      fontSize: 11,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: 8),
                           // Stop Driving Button
                           ElevatedButton.icon(
                             onPressed: _isSavingTrip
