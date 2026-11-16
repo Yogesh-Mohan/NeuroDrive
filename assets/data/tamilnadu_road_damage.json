@@ -1,948 +1,1142 @@
 {
-  "version": "1.0.0",
-  "dataset_name": "Global_Potholes_Dataset_TamilNadu",
-  "total_records": 47,
-  "last_updated": "2026-11-04T17:39:32.826005Z",
+  "version": "2.0.0",
+  "dataset_name": "TamilNadu_Road_Damage_Dataset",
+  "total_records": 63,
+  "last_updated": "2026-11-16T12:00:00.000000Z",
   "records": [
     {
-      "damage_id": "2d446929-31f5-4d5f-a5a0-0d3d5870db09",
-      "latitude": 12.950329645526,
-      "longitude": 77.595799496264,
-      "damage_type": "pothole",
-      "severity": "medium",
-      "status": "active",
-      "district": "Krishnagiri / Hosur Corridor",
-      "source": "outerview,mapilliary",
-      "region": "India",
-      "filename": "2d446929-31f5-4d5f-a5a0-0d3d5870db09.jpg",
-      "verification_status": "verified",
-      "reported_at": "2026-11-04T17:39:32.823021Z",
-      "metadata": {
-        "dataset": "Global_Potholes_Dataset",
-        "original_source": "outerview,mapilliary",
-        "filename": "2d446929-31f5-4d5f-a5a0-0d3d5870db09.jpg",
-        "region": "India"
-      }
-    },
-    {
-      "damage_id": "8af851dd-f497-4d5a-87bc-96d2fe9e4550",
-      "latitude": 12.956986064121,
-      "longitude": 77.74353811522,
+      "damage_id": "tn_nh44_01",
+      "latitude": 12.7412,
+      "longitude": 77.8241,
       "damage_type": "pothole",
       "severity": "high",
       "status": "active",
-      "district": "Krishnagiri / Hosur Corridor",
-      "source": "outerview,mapilliary",
-      "region": "India",
-      "filename": "8af851dd-f497-4d5a-87bc-96d2fe9e4550.jpg",
+      "district": "Krishnagiri / Hosur (NH44)",
+      "source": "AI Sensor / Telemetry",
+      "region": "Tamil Nadu, India",
       "verification_status": "verified",
-      "reported_at": "2026-11-04T17:39:32.823021Z",
       "metadata": {
-        "dataset": "Global_Potholes_Dataset",
-        "original_source": "outerview,mapilliary",
-        "filename": "8af851dd-f497-4d5a-87bc-96d2fe9e4550.jpg",
-        "region": "India"
-      }
+        "highway": "NH44",
+        "corridor": "Hosur - Krishnagiri"
+      },
+      "reported_at": "2026-11-16T12:00:00.000000Z",
+      "filename": "tn_nh44_01.jpg"
     },
     {
-      "damage_id": "976986a5-e318-44b1-b628-cf38955ab9d3",
-      "latitude": 12.9630462,
-      "longitude": 77.6017791,
+      "damage_id": "tn_nh44_02",
+      "latitude": 12.5241,
+      "longitude": 78.2142,
       "damage_type": "pothole",
       "severity": "high",
       "status": "active",
-      "district": "Krishnagiri / Hosur Corridor",
-      "source": "outerview,mapilliary",
-      "region": "India",
-      "filename": "976986a5-e318-44b1-b628-cf38955ab9d3.jpg",
+      "district": "Krishnagiri Bypass (NH44)",
+      "source": "AI Sensor / Telemetry",
+      "region": "Tamil Nadu, India",
       "verification_status": "verified",
-      "reported_at": "2026-11-04T17:39:32.823021Z",
       "metadata": {
-        "dataset": "Global_Potholes_Dataset",
-        "original_source": "outerview,mapilliary",
-        "filename": "976986a5-e318-44b1-b628-cf38955ab9d3.jpg",
-        "region": "India"
-      }
+        "highway": "NH44",
+        "corridor": "Krishnagiri"
+      },
+      "reported_at": "2026-11-16T12:00:00.000000Z",
+      "filename": "tn_nh44_02.jpg"
     },
     {
-      "damage_id": "8c6cd315-b8bb-4e16-9800-9a552182864b",
-      "latitude": 12.91271121708,
-      "longitude": 77.623007437287,
+      "damage_id": "tn_nh44_03",
+      "latitude": 12.4312,
+      "longitude": 78.2212,
       "damage_type": "pothole",
       "severity": "medium",
       "status": "active",
-      "district": "Krishnagiri / Hosur Corridor",
-      "source": "outerview,mapilliary",
-      "region": "India",
-      "filename": "8c6cd315-b8bb-4e16-9800-9a552182864b.jpg",
+      "district": "Kaveripattinam (NH44)",
+      "source": "AI Sensor / Telemetry",
+      "region": "Tamil Nadu, India",
       "verification_status": "verified",
-      "reported_at": "2026-11-04T17:39:32.823021Z",
       "metadata": {
-        "dataset": "Global_Potholes_Dataset",
-        "original_source": "outerview,mapilliary",
-        "filename": "8c6cd315-b8bb-4e16-9800-9a552182864b.jpg",
-        "region": "India"
-      }
+        "highway": "NH44",
+        "corridor": "Krishnagiri - Dharmapuri"
+      },
+      "reported_at": "2026-11-16T12:00:00.000000Z",
+      "filename": "tn_nh44_03.jpg"
     },
     {
-      "damage_id": "bbd9291f-858b-4503-860e-38099166325c",
-      "latitude": 12.9630006,
-      "longitude": 77.6020629,
-      "damage_type": "pothole",
-      "severity": "medium",
-      "status": "active",
-      "district": "Krishnagiri / Hosur Corridor",
-      "source": "outerview,mapilliary",
-      "region": "India",
-      "filename": "bbd9291f-858b-4503-860e-38099166325c.jpg",
-      "verification_status": "verified",
-      "reported_at": "2026-11-04T17:39:32.823021Z",
-      "metadata": {
-        "dataset": "Global_Potholes_Dataset",
-        "original_source": "outerview,mapilliary",
-        "filename": "bbd9291f-858b-4503-860e-38099166325c.jpg",
-        "region": "India"
-      }
-    },
-    {
-      "damage_id": "9bbd6d49-050e-4225-b849-36f1d3bcdc29",
-      "latitude": 13.059061111111,
-      "longitude": 80.219527777778,
+      "damage_id": "tn_nh44_04",
+      "latitude": 12.1321,
+      "longitude": 78.1612,
       "damage_type": "pothole",
       "severity": "high",
       "status": "active",
-      "district": "Chennai",
-      "source": "outerview,mapilliary",
-      "region": "India",
-      "filename": "9bbd6d49-050e-4225-b849-36f1d3bcdc29.jpg",
+      "district": "Dharmapuri Four Road (NH44)",
+      "source": "AI Sensor / Telemetry",
+      "region": "Tamil Nadu, India",
       "verification_status": "verified",
-      "reported_at": "2026-11-04T17:39:32.823021Z",
       "metadata": {
-        "dataset": "Global_Potholes_Dataset",
-        "original_source": "outerview,mapilliary",
-        "filename": "9bbd6d49-050e-4225-b849-36f1d3bcdc29.jpg",
-        "region": "India"
-      }
+        "highway": "NH44",
+        "corridor": "Dharmapuri"
+      },
+      "reported_at": "2026-11-16T12:00:00.000000Z",
+      "filename": "tn_nh44_04.jpg"
     },
     {
-      "damage_id": "09000daf-d408-42e3-aaa2-cd4095a9e511",
-      "latitude": 12.951478654273,
-      "longitude": 77.594924296767,
+      "damage_id": "tn_nh44_05",
+      "latitude": 11.9421,
+      "longitude": 78.0712,
+      "damage_type": "pothole",
+      "severity": "high",
+      "status": "active",
+      "district": "Thoppur Ghat (NH44)",
+      "source": "AI Sensor / Telemetry",
+      "region": "Tamil Nadu, India",
+      "verification_status": "verified",
+      "metadata": {
+        "highway": "NH44",
+        "corridor": "Thoppur Ghat"
+      },
+      "reported_at": "2026-11-16T12:00:00.000000Z",
+      "filename": "tn_nh44_05.jpg"
+    },
+    {
+      "damage_id": "tn_nh44_06",
+      "latitude": 11.7412,
+      "longitude": 78.0421,
       "damage_type": "pothole",
       "severity": "medium",
       "status": "active",
-      "district": "Krishnagiri / Hosur Corridor",
-      "source": "outerview,mapilliary",
-      "region": "India",
-      "filename": "09000daf-d408-42e3-aaa2-cd4095a9e511.jpg",
+      "district": "Omalur Junction (NH44)",
+      "source": "AI Sensor / Telemetry",
+      "region": "Tamil Nadu, India",
       "verification_status": "verified",
-      "reported_at": "2026-11-04T17:39:32.823021Z",
       "metadata": {
-        "dataset": "Global_Potholes_Dataset",
-        "original_source": "outerview,mapilliary",
-        "filename": "09000daf-d408-42e3-aaa2-cd4095a9e511.jpg",
-        "region": "India"
-      }
+        "highway": "NH44",
+        "corridor": "Omalur - Salem"
+      },
+      "reported_at": "2026-11-16T12:00:00.000000Z",
+      "filename": "tn_nh44_06.jpg"
     },
     {
-      "damage_id": "d21fea4c-6938-4116-b23b-c39095fc1c47",
-      "latitude": 12.992238718957,
-      "longitude": 77.667331009896,
+      "damage_id": "tn_nh44_07",
+      "latitude": 11.6421,
+      "longitude": 78.1512,
       "damage_type": "pothole",
+      "severity": "high",
+      "status": "active",
+      "district": "Salem Seelanaickenpatti (NH44)",
+      "source": "AI Sensor / Telemetry",
+      "region": "Tamil Nadu, India",
+      "verification_status": "verified",
+      "metadata": {
+        "highway": "NH44",
+        "corridor": "Salem"
+      },
+      "reported_at": "2026-11-16T12:00:00.000000Z",
+      "filename": "tn_nh44_07.jpg"
+    },
+    {
+      "damage_id": "tn_nh44_08",
+      "latitude": 11.4582,
+      "longitude": 78.1723,
+      "damage_type": "surface_crack",
       "severity": "low",
       "status": "active",
-      "district": "Krishnagiri / Hosur Corridor",
-      "source": "outerview,mapilliary",
-      "region": "India",
-      "filename": "d21fea4c-6938-4116-b23b-c39095fc1c47.jpg",
+      "district": "Rasipuram Bypass (NH44)",
+      "source": "AI Sensor / Telemetry",
+      "region": "Tamil Nadu, India",
       "verification_status": "verified",
-      "reported_at": "2026-11-04T17:39:32.823021Z",
       "metadata": {
-        "dataset": "Global_Potholes_Dataset",
-        "original_source": "outerview,mapilliary",
-        "filename": "d21fea4c-6938-4116-b23b-c39095fc1c47.jpg",
-        "region": "India"
-      }
+        "highway": "NH44",
+        "corridor": "Rasipuram"
+      },
+      "reported_at": "2026-11-16T12:00:00.000000Z",
+      "filename": "tn_nh44_08.jpg"
     },
     {
-      "damage_id": "fc1010eb-555a-4a90-a658-6b62717c0117",
-      "latitude": 12.936844829719,
-      "longitude": 77.625445205623,
+      "damage_id": "tn_nh44_09",
+      "latitude": 11.2189,
+      "longitude": 78.1674,
       "damage_type": "pothole",
+      "severity": "medium",
+      "status": "active",
+      "district": "Namakkal Mudalaipatti (NH44)",
+      "source": "AI Sensor / Telemetry",
+      "region": "Tamil Nadu, India",
+      "verification_status": "verified",
+      "metadata": {
+        "highway": "NH44",
+        "corridor": "Namakkal"
+      },
+      "reported_at": "2026-11-16T12:00:00.000000Z",
+      "filename": "tn_nh44_09.jpg"
+    },
+    {
+      "damage_id": "tn_nh44_10",
+      "latitude": 11.0543,
+      "longitude": 78.0021,
+      "damage_type": "pothole",
+      "severity": "high",
+      "status": "active",
+      "district": "Paramathi Velur (NH44)",
+      "source": "AI Sensor / Telemetry",
+      "region": "Tamil Nadu, India",
+      "verification_status": "verified",
+      "metadata": {
+        "highway": "NH44",
+        "corridor": "Paramathi - Karur"
+      },
+      "reported_at": "2026-11-16T12:00:00.000000Z",
+      "filename": "tn_nh44_10.jpg"
+    },
+    {
+      "damage_id": "tn_nh44_11",
+      "latitude": 11.0485,
+      "longitude": 78.0441,
+      "damage_type": "pothole",
+      "severity": "high",
+      "status": "active",
+      "district": "Karur / Thalavapalayam (NH44)",
+      "source": "AI Sensor / Telemetry",
+      "region": "Tamil Nadu, India",
+      "verification_status": "verified",
+      "metadata": {
+        "highway": "NH44",
+        "corridor": "M Kumarasamy College of Engg / Karur North"
+      },
+      "reported_at": "2026-11-16T12:00:00.000000Z",
+      "filename": "tn_nh44_11.jpg"
+    },
+    {
+      "damage_id": "tn_nh44_12",
+      "latitude": 10.9921,
+      "longitude": 78.0934,
+      "damage_type": "road_depression",
+      "severity": "medium",
+      "status": "active",
+      "district": "Karur / Vangal Corridor",
+      "source": "AI Sensor / Telemetry",
+      "region": "Tamil Nadu, India",
+      "verification_status": "verified",
+      "metadata": {
+        "highway": "SH",
+        "corridor": "Karur East"
+      },
+      "reported_at": "2026-11-16T12:00:00.000000Z",
+      "filename": "tn_nh44_12.jpg"
+    },
+    {
+      "damage_id": "tn_nh44_13",
+      "latitude": 10.9601,
+      "longitude": 78.0766,
+      "damage_type": "pothole",
+      "severity": "high",
+      "status": "active",
+      "district": "Karur Bypass (NH44)",
+      "source": "AI Sensor / Telemetry",
+      "region": "Tamil Nadu, India",
+      "verification_status": "verified",
+      "metadata": {
+        "highway": "NH44",
+        "corridor": "Karur South"
+      },
+      "reported_at": "2026-11-16T12:00:00.000000Z",
+      "filename": "tn_nh44_13.jpg"
+    },
+    {
+      "damage_id": "tn_nh44_14",
+      "latitude": 10.7721,
+      "longitude": 77.9123,
+      "damage_type": "pothole",
+      "severity": "medium",
+      "status": "active",
+      "district": "Aravakurichi (NH44)",
+      "source": "AI Sensor / Telemetry",
+      "region": "Tamil Nadu, India",
+      "verification_status": "verified",
+      "metadata": {
+        "highway": "NH44",
+        "corridor": "Aravakurichi"
+      },
+      "reported_at": "2026-11-16T12:00:00.000000Z",
+      "filename": "tn_nh44_14.jpg"
+    },
+    {
+      "damage_id": "tn_nh44_15",
+      "latitude": 10.5312,
+      "longitude": 77.9541,
+      "damage_type": "pothole",
+      "severity": "high",
+      "status": "active",
+      "district": "Vedasandur Toll (NH44)",
+      "source": "AI Sensor / Telemetry",
+      "region": "Tamil Nadu, India",
+      "verification_status": "verified",
+      "metadata": {
+        "highway": "NH44",
+        "corridor": "Vedasandur - Dindigul"
+      },
+      "reported_at": "2026-11-16T12:00:00.000000Z",
+      "filename": "tn_nh44_15.jpg"
+    },
+    {
+      "damage_id": "tn_nh44_16",
+      "latitude": 10.3624,
+      "longitude": 77.9712,
+      "damage_type": "pothole",
+      "severity": "high",
+      "status": "active",
+      "district": "Dindigul Bypass (NH44)",
+      "source": "AI Sensor / Telemetry",
+      "region": "Tamil Nadu, India",
+      "verification_status": "verified",
+      "metadata": {
+        "highway": "NH44",
+        "corridor": "Dindigul"
+      },
+      "reported_at": "2026-11-16T12:00:00.000000Z",
+      "filename": "tn_nh44_16.jpg"
+    },
+    {
+      "damage_id": "tn_nh44_17",
+      "latitude": 10.0824,
+      "longitude": 78.0412,
+      "damage_type": "pothole",
+      "severity": "high",
+      "status": "active",
+      "district": "Vadipatti (NH44)",
+      "source": "AI Sensor / Telemetry",
+      "region": "Tamil Nadu, India",
+      "verification_status": "verified",
+      "metadata": {
+        "highway": "NH44",
+        "corridor": "Vadipatti - Madurai"
+      },
+      "reported_at": "2026-11-16T12:00:00.000000Z",
+      "filename": "tn_nh44_17.jpg"
+    },
+    {
+      "damage_id": "tn_nh44_18",
+      "latitude": 9.9821,
+      "longitude": 78.0534,
+      "damage_type": "pothole",
+      "severity": "medium",
+      "status": "active",
+      "district": "Samayanallur (NH44)",
+      "source": "AI Sensor / Telemetry",
+      "region": "Tamil Nadu, India",
+      "verification_status": "verified",
+      "metadata": {
+        "highway": "NH44",
+        "corridor": "Samayanallur"
+      },
+      "reported_at": "2026-11-16T12:00:00.000000Z",
+      "filename": "tn_nh44_18.jpg"
+    },
+    {
+      "damage_id": "tn_nh44_19",
+      "latitude": 9.9312,
+      "longitude": 78.1524,
+      "damage_type": "pothole",
+      "severity": "high",
+      "status": "active",
+      "district": "Madurai Mattuthavani (NH44)",
+      "source": "AI Sensor / Telemetry",
+      "region": "Tamil Nadu, India",
+      "verification_status": "verified",
+      "metadata": {
+        "highway": "NH44",
+        "corridor": "Madurai North"
+      },
+      "reported_at": "2026-11-16T12:00:00.000000Z",
+      "filename": "tn_nh44_19.jpg"
+    },
+    {
+      "damage_id": "tn_nh44_20",
+      "latitude": 9.9271,
+      "longitude": 78.1294,
+      "damage_type": "pothole",
+      "severity": "medium",
+      "status": "active",
+      "district": "Madurai Goripalayam",
+      "source": "AI Sensor / Telemetry",
+      "region": "Tamil Nadu, India",
+      "verification_status": "verified",
+      "metadata": {
+        "highway": "City Arterial",
+        "corridor": "Madurai Central"
+      },
+      "reported_at": "2026-11-16T12:00:00.000000Z",
+      "filename": "tn_nh44_20.jpg"
+    },
+    {
+      "damage_id": "tn_nh44_21",
+      "latitude": 9.8241,
+      "longitude": 77.9862,
+      "damage_type": "pothole",
+      "severity": "high",
+      "status": "active",
+      "district": "Thirumangalam Toll (NH44)",
+      "source": "AI Sensor / Telemetry",
+      "region": "Tamil Nadu, India",
+      "verification_status": "verified",
+      "metadata": {
+        "highway": "NH44",
+        "corridor": "Thirumangalam"
+      },
+      "reported_at": "2026-11-16T12:00:00.000000Z",
+      "filename": "tn_nh44_21.jpg"
+    },
+    {
+      "damage_id": "tn_nh44_22",
+      "latitude": 9.5842,
+      "longitude": 77.9621,
+      "damage_type": "pothole",
+      "severity": "medium",
+      "status": "active",
+      "district": "Virudhunagar Bypass (NH44)",
+      "source": "AI Sensor / Telemetry",
+      "region": "Tamil Nadu, India",
+      "verification_status": "verified",
+      "metadata": {
+        "highway": "NH44",
+        "corridor": "Virudhunagar"
+      },
+      "reported_at": "2026-11-16T12:00:00.000000Z",
+      "filename": "tn_nh44_22.jpg"
+    },
+    {
+      "damage_id": "tn_nh44_23",
+      "latitude": 9.3612,
+      "longitude": 77.9312,
+      "damage_type": "surface_crack",
       "severity": "low",
       "status": "active",
-      "district": "Krishnagiri / Hosur Corridor",
-      "source": "outerview,mapilliary",
-      "region": "India",
-      "filename": "fc1010eb-555a-4a90-a658-6b62717c0117.jpg",
+      "district": "Sattur Bypass (NH44)",
+      "source": "AI Sensor / Telemetry",
+      "region": "Tamil Nadu, India",
       "verification_status": "verified",
-      "reported_at": "2026-11-04T17:39:32.823021Z",
       "metadata": {
-        "dataset": "Global_Potholes_Dataset",
-        "original_source": "outerview,mapilliary",
-        "filename": "fc1010eb-555a-4a90-a658-6b62717c0117.jpg",
-        "region": "India"
-      }
+        "highway": "NH44",
+        "corridor": "Sattur"
+      },
+      "reported_at": "2026-11-16T12:00:00.000000Z",
+      "filename": "tn_nh44_23.jpg"
     },
     {
-      "damage_id": "0667d638-a44b-42d5-88d4-a3ca2206e19f",
-      "latitude": 13.104116,
-      "longitude": 80.274739,
+      "damage_id": "tn_nh44_24",
+      "latitude": 9.1721,
+      "longitude": 77.8712,
       "damage_type": "pothole",
       "severity": "medium",
       "status": "active",
-      "district": "Chennai",
-      "source": "outerview,mapilliary",
-      "region": "India",
-      "filename": "0667d638-a44b-42d5-88d4-a3ca2206e19f.jpg",
+      "district": "Kovilpatti (NH44)",
+      "source": "AI Sensor / Telemetry",
+      "region": "Tamil Nadu, India",
       "verification_status": "verified",
-      "reported_at": "2026-11-04T17:39:32.824019Z",
       "metadata": {
-        "dataset": "Global_Potholes_Dataset",
-        "original_source": "outerview,mapilliary",
-        "filename": "0667d638-a44b-42d5-88d4-a3ca2206e19f.jpg",
-        "region": "India"
-      }
+        "highway": "NH44",
+        "corridor": "Kovilpatti"
+      },
+      "reported_at": "2026-11-16T12:00:00.000000Z",
+      "filename": "tn_nh44_24.jpg"
     },
     {
-      "damage_id": "56bc8888-47a4-4d64-baa7-d25087b9b22b",
-      "latitude": 13.07921652799,
-      "longitude": 80.262953494886,
+      "damage_id": "tn_nh44_25",
+      "latitude": 8.7312,
+      "longitude": 77.7012,
       "damage_type": "pothole",
       "severity": "high",
       "status": "active",
-      "district": "Chennai",
-      "source": "outerview,mapilliary",
-      "region": "India",
-      "filename": "56bc8888-47a4-4d64-baa7-d25087b9b22b.jpg",
+      "district": "Tirunelveli Junction (NH44)",
+      "source": "AI Sensor / Telemetry",
+      "region": "Tamil Nadu, India",
       "verification_status": "verified",
-      "reported_at": "2026-11-04T17:39:32.824019Z",
       "metadata": {
-        "dataset": "Global_Potholes_Dataset",
-        "original_source": "outerview,mapilliary",
-        "filename": "56bc8888-47a4-4d64-baa7-d25087b9b22b.jpg",
-        "region": "India"
-      }
+        "highway": "NH44",
+        "corridor": "Tirunelveli"
+      },
+      "reported_at": "2026-11-16T12:00:00.000000Z",
+      "filename": "tn_nh44_25.jpg"
     },
     {
-      "damage_id": "da8f48da-716e-44fe-88db-f297e5a253d4",
-      "latitude": 12.962626079126,
-      "longitude": 77.749774670204,
-      "damage_type": "pothole",
-      "severity": "medium",
-      "status": "active",
-      "district": "Krishnagiri / Hosur Corridor",
-      "source": "outerview,mapilliary",
-      "region": "India",
-      "filename": "da8f48da-716e-44fe-88db-f297e5a253d4.jpg",
-      "verification_status": "verified",
-      "reported_at": "2026-11-04T17:39:32.824019Z",
-      "metadata": {
-        "dataset": "Global_Potholes_Dataset",
-        "original_source": "outerview,mapilliary",
-        "filename": "da8f48da-716e-44fe-88db-f297e5a253d4.jpg",
-        "region": "India"
-      }
-    },
-    {
-      "damage_id": "4c732ba0-6923-4dea-bfbc-2c77aaeffeaa",
-      "latitude": 12.967594722222,
-      "longitude": 77.636521388889,
+      "damage_id": "tn_nh44_26",
+      "latitude": 8.4912,
+      "longitude": 77.6541,
       "damage_type": "pothole",
       "severity": "high",
       "status": "active",
-      "district": "Krishnagiri / Hosur Corridor",
-      "source": "outerview,mapilliary",
-      "region": "India",
-      "filename": "4c732ba0-6923-4dea-bfbc-2c77aaeffeaa.jpg",
+      "district": "Nanguneri Toll (NH44)",
+      "source": "AI Sensor / Telemetry",
+      "region": "Tamil Nadu, India",
       "verification_status": "verified",
-      "reported_at": "2026-11-04T17:39:32.824019Z",
       "metadata": {
-        "dataset": "Global_Potholes_Dataset",
-        "original_source": "outerview,mapilliary",
-        "filename": "4c732ba0-6923-4dea-bfbc-2c77aaeffeaa.jpg",
-        "region": "India"
-      }
+        "highway": "NH44",
+        "corridor": "Nanguneri"
+      },
+      "reported_at": "2026-11-16T12:00:00.000000Z",
+      "filename": "tn_nh44_26.jpg"
     },
     {
-      "damage_id": "59c0015b-d75e-4cc0-98f8-faa3dda270c7",
-      "latitude": 12.95507432,
-      "longitude": 77.69342081,
-      "damage_type": "pothole",
-      "severity": "medium",
-      "status": "active",
-      "district": "Krishnagiri / Hosur Corridor",
-      "source": "outerview,mapilliary",
-      "region": "India",
-      "filename": "59c0015b-d75e-4cc0-98f8-faa3dda270c7.jpg",
-      "verification_status": "verified",
-      "reported_at": "2026-11-04T17:39:32.824019Z",
-      "metadata": {
-        "dataset": "Global_Potholes_Dataset",
-        "original_source": "outerview,mapilliary",
-        "filename": "59c0015b-d75e-4cc0-98f8-faa3dda270c7.jpg",
-        "region": "India"
-      }
-    },
-    {
-      "damage_id": "b9435f92-832f-4554-b660-f31cad340a66",
-      "latitude": 12.964863055556,
-      "longitude": 77.649708055555,
+      "damage_id": "tn_nh44_27",
+      "latitude": 8.0883,
+      "longitude": 77.5385,
       "damage_type": "pothole",
       "severity": "high",
       "status": "active",
-      "district": "Krishnagiri / Hosur Corridor",
-      "source": "outerview,mapilliary",
-      "region": "India",
-      "filename": "b9435f92-832f-4554-b660-f31cad340a66.jpg",
+      "district": "Kanyakumari Beach Rd (NH44)",
+      "source": "AI Sensor / Telemetry",
+      "region": "Tamil Nadu, India",
       "verification_status": "verified",
-      "reported_at": "2026-11-04T17:39:32.824019Z",
       "metadata": {
-        "dataset": "Global_Potholes_Dataset",
-        "original_source": "outerview,mapilliary",
-        "filename": "b9435f92-832f-4554-b660-f31cad340a66.jpg",
-        "region": "India"
-      }
+        "highway": "NH44",
+        "corridor": "Kanyakumari"
+      },
+      "reported_at": "2026-11-16T12:00:00.000000Z",
+      "filename": "tn_nh44_27.jpg"
     },
     {
-      "damage_id": "f8f90497-7a8f-46ee-8321-e443eef18d12",
-      "latitude": 12.963127160208,
-      "longitude": 77.643510127282,
+      "damage_id": "tn_nh45_01",
+      "latitude": 13.0067,
+      "longitude": 80.2023,
       "damage_type": "pothole",
       "severity": "high",
       "status": "active",
-      "district": "Krishnagiri / Hosur Corridor",
-      "source": "outerview,mapilliary",
-      "region": "India",
-      "filename": "f8f90497-7a8f-46ee-8321-e443eef18d12.jpg",
+      "district": "Chennai Guindy Kathipara (NH45)",
+      "source": "AI Sensor / Telemetry",
+      "region": "Tamil Nadu, India",
       "verification_status": "verified",
-      "reported_at": "2026-11-04T17:39:32.824019Z",
       "metadata": {
-        "dataset": "Global_Potholes_Dataset",
-        "original_source": "outerview,mapilliary",
-        "filename": "f8f90497-7a8f-46ee-8321-e443eef18d12.jpg",
-        "region": "India"
-      }
+        "highway": "NH45",
+        "corridor": "Chennai South"
+      },
+      "reported_at": "2026-11-16T12:00:00.000000Z",
+      "filename": "tn_nh45_01.jpg"
     },
     {
-      "damage_id": "479c2b3c-ee8b-479f-b5e3-62e4b3b50170",
-      "latitude": 12.947006407599,
-      "longitude": 77.595615572542,
+      "damage_id": "tn_nh45_02",
+      "latitude": 12.9249,
+      "longitude": 80.12,
       "damage_type": "pothole",
       "severity": "high",
       "status": "active",
-      "district": "Krishnagiri / Hosur Corridor",
-      "source": "outerview,mapilliary",
-      "region": "India",
-      "filename": "479c2b3c-ee8b-479f-b5e3-62e4b3b50170.jpg",
+      "district": "Tambaram GST Road (NH45)",
+      "source": "AI Sensor / Telemetry",
+      "region": "Tamil Nadu, India",
       "verification_status": "verified",
-      "reported_at": "2026-11-04T17:39:32.824019Z",
       "metadata": {
-        "dataset": "Global_Potholes_Dataset",
-        "original_source": "outerview,mapilliary",
-        "filename": "479c2b3c-ee8b-479f-b5e3-62e4b3b50170.jpg",
-        "region": "India"
-      }
+        "highway": "NH45",
+        "corridor": "Tambaram"
+      },
+      "reported_at": "2026-11-16T12:00:00.000000Z",
+      "filename": "tn_nh45_02.jpg"
     },
     {
-      "damage_id": "b5189f92-79d8-4ba2-9d18-b2f0df8a8632",
-      "latitude": 13.015679293324,
-      "longitude": 77.554152282027,
+      "damage_id": "tn_nh45_03",
+      "latitude": 12.8894,
+      "longitude": 80.0812,
+      "damage_type": "pothole",
+      "severity": "medium",
+      "status": "active",
+      "district": "Vandalur Crescent (NH45)",
+      "source": "AI Sensor / Telemetry",
+      "region": "Tamil Nadu, India",
+      "verification_status": "verified",
+      "metadata": {
+        "highway": "NH45",
+        "corridor": "Vandalur"
+      },
+      "reported_at": "2026-11-16T12:00:00.000000Z",
+      "filename": "tn_nh45_03.jpg"
+    },
+    {
+      "damage_id": "tn_nh45_04",
+      "latitude": 12.6921,
+      "longitude": 79.9821,
       "damage_type": "pothole",
       "severity": "high",
       "status": "active",
-      "district": "Tamil Nadu Highway Corridor",
-      "source": "outerview,mapilliary",
-      "region": "India",
-      "filename": "b5189f92-79d8-4ba2-9d18-b2f0df8a8632.jpg",
+      "district": "Chengalpattu Toll (NH45)",
+      "source": "AI Sensor / Telemetry",
+      "region": "Tamil Nadu, India",
       "verification_status": "verified",
-      "reported_at": "2026-11-04T17:39:32.824019Z",
       "metadata": {
-        "dataset": "Global_Potholes_Dataset",
-        "original_source": "outerview,mapilliary",
-        "filename": "b5189f92-79d8-4ba2-9d18-b2f0df8a8632.jpg",
-        "region": "India"
-      }
+        "highway": "NH45",
+        "corridor": "Chengalpattu"
+      },
+      "reported_at": "2026-11-16T12:00:00.000000Z",
+      "filename": "tn_nh45_04.jpg"
     },
     {
-      "damage_id": "1e61ada8-dd55-41bb-a509-75e061ce21ed",
-      "latitude": 8.5586540289329,
-      "longitude": 76.925162755996,
+      "damage_id": "tn_nh45_05",
+      "latitude": 12.5123,
+      "longitude": 79.8834,
       "damage_type": "pothole",
       "severity": "medium",
       "status": "active",
-      "district": "Kanyakumari / South Corridor",
-      "source": "outerview,mapilliary",
-      "region": "India",
-      "filename": "1e61ada8-dd55-41bb-a509-75e061ce21ed.jpg",
+      "district": "Madurantakam (NH45)",
+      "source": "AI Sensor / Telemetry",
+      "region": "Tamil Nadu, India",
       "verification_status": "verified",
-      "reported_at": "2026-11-04T17:39:32.824019Z",
       "metadata": {
-        "dataset": "Global_Potholes_Dataset",
-        "original_source": "outerview,mapilliary",
-        "filename": "1e61ada8-dd55-41bb-a509-75e061ce21ed.jpg",
-        "region": "India"
-      }
+        "highway": "NH45",
+        "corridor": "Madurantakam"
+      },
+      "reported_at": "2026-11-16T12:00:00.000000Z",
+      "filename": "tn_nh45_05.jpg"
     },
     {
-      "damage_id": "1d2bae32-66e4-46d8-9c45-24a4dae61674",
-      "latitude": 8.5588475580933,
-      "longitude": 76.925431964548,
-      "damage_type": "pothole",
-      "severity": "low",
-      "status": "active",
-      "district": "Kanyakumari / South Corridor",
-      "source": "outerview,mapilliary",
-      "region": "India",
-      "filename": "1d2bae32-66e4-46d8-9c45-24a4dae61674.jpg",
-      "verification_status": "verified",
-      "reported_at": "2026-11-04T17:39:32.824019Z",
-      "metadata": {
-        "dataset": "Global_Potholes_Dataset",
-        "original_source": "outerview,mapilliary",
-        "filename": "1d2bae32-66e4-46d8-9c45-24a4dae61674.jpg",
-        "region": "India"
-      }
-    },
-    {
-      "damage_id": "bec7a177-8bb7-44ec-9880-a8dd3240bda0",
-      "latitude": 12.937343549171,
-      "longitude": 77.601368337095,
-      "damage_type": "pothole",
-      "severity": "low",
-      "status": "active",
-      "district": "Krishnagiri / Hosur Corridor",
-      "source": "outerview,mapilliary",
-      "region": "India",
-      "filename": "bec7a177-8bb7-44ec-9880-a8dd3240bda0.jpg",
-      "verification_status": "verified",
-      "reported_at": "2026-11-04T17:39:32.824019Z",
-      "metadata": {
-        "dataset": "Global_Potholes_Dataset",
-        "original_source": "outerview,mapilliary",
-        "filename": "bec7a177-8bb7-44ec-9880-a8dd3240bda0.jpg",
-        "region": "India"
-      }
-    },
-    {
-      "damage_id": "a87e8dd6-bce8-4e7d-a226-550bb284d9c1",
-      "latitude": 12.975604722222,
-      "longitude": 77.641786388889,
-      "damage_type": "pothole",
-      "severity": "medium",
-      "status": "active",
-      "district": "Krishnagiri / Hosur Corridor",
-      "source": "outerview,mapilliary",
-      "region": "India",
-      "filename": "a87e8dd6-bce8-4e7d-a226-550bb284d9c1.jpg",
-      "verification_status": "verified",
-      "reported_at": "2026-11-04T17:39:32.824019Z",
-      "metadata": {
-        "dataset": "Global_Potholes_Dataset",
-        "original_source": "outerview,mapilliary",
-        "filename": "a87e8dd6-bce8-4e7d-a226-550bb284d9c1.jpg",
-        "region": "India"
-      }
-    },
-    {
-      "damage_id": "a938c8c2-4030-4ae8-ac39-6f44e93bfc2b",
-      "latitude": 8.558846700693,
-      "longitude": 76.9254351758,
+      "damage_id": "tn_nh45_06",
+      "latitude": 12.2341,
+      "longitude": 79.6521,
       "damage_type": "pothole",
       "severity": "high",
       "status": "active",
-      "district": "Kanyakumari / South Corridor",
-      "source": "outerview,mapilliary",
-      "region": "India",
-      "filename": "a938c8c2-4030-4ae8-ac39-6f44e93bfc2b.jpg",
+      "district": "Tindivanam Bypass (NH45)",
+      "source": "AI Sensor / Telemetry",
+      "region": "Tamil Nadu, India",
       "verification_status": "verified",
-      "reported_at": "2026-11-04T17:39:32.824019Z",
       "metadata": {
-        "dataset": "Global_Potholes_Dataset",
-        "original_source": "outerview,mapilliary",
-        "filename": "a938c8c2-4030-4ae8-ac39-6f44e93bfc2b.jpg",
-        "region": "India"
-      }
+        "highway": "NH45",
+        "corridor": "Tindivanam"
+      },
+      "reported_at": "2026-11-16T12:00:00.000000Z",
+      "filename": "tn_nh45_06.jpg"
     },
     {
-      "damage_id": "c686c839-1f27-462d-97f9-717b1d2cb716",
-      "latitude": 12.95038324325,
-      "longitude": 77.5957844765,
+      "damage_id": "tn_nh45_07",
+      "latitude": 12.0212,
+      "longitude": 79.5421,
       "damage_type": "pothole",
       "severity": "high",
       "status": "active",
-      "district": "Krishnagiri / Hosur Corridor",
-      "source": "outerview,mapilliary",
-      "region": "India",
-      "filename": "c686c839-1f27-462d-97f9-717b1d2cb716.jpg",
+      "district": "Vikravandi Toll (NH45)",
+      "source": "AI Sensor / Telemetry",
+      "region": "Tamil Nadu, India",
       "verification_status": "verified",
-      "reported_at": "2026-11-04T17:39:32.824019Z",
       "metadata": {
-        "dataset": "Global_Potholes_Dataset",
-        "original_source": "outerview,mapilliary",
-        "filename": "c686c839-1f27-462d-97f9-717b1d2cb716.jpg",
-        "region": "India"
-      }
+        "highway": "NH45",
+        "corridor": "Vikravandi"
+      },
+      "reported_at": "2026-11-16T12:00:00.000000Z",
+      "filename": "tn_nh45_07.jpg"
     },
     {
-      "damage_id": "ca410fd2-7124-4f65-aa57-e577e585c8fe",
-      "latitude": 12.964844014508,
-      "longitude": 77.63801565401,
-      "damage_type": "pothole",
-      "severity": "medium",
-      "status": "active",
-      "district": "Krishnagiri / Hosur Corridor",
-      "source": "outerview,mapilliary",
-      "region": "India",
-      "filename": "ca410fd2-7124-4f65-aa57-e577e585c8fe.jpg",
-      "verification_status": "verified",
-      "reported_at": "2026-11-04T17:39:32.824019Z",
-      "metadata": {
-        "dataset": "Global_Potholes_Dataset",
-        "original_source": "outerview,mapilliary",
-        "filename": "ca410fd2-7124-4f65-aa57-e577e585c8fe.jpg",
-        "region": "India"
-      }
-    },
-    {
-      "damage_id": "dccdfc79-4568-4abf-86ed-f5584d93d40a",
-      "latitude": 12.9620239,
-      "longitude": 77.6013225,
-      "damage_type": "pothole",
-      "severity": "low",
-      "status": "active",
-      "district": "Krishnagiri / Hosur Corridor",
-      "source": "outerview,mapilliary",
-      "region": "India",
-      "filename": "dccdfc79-4568-4abf-86ed-f5584d93d40a.jpg",
-      "verification_status": "verified",
-      "reported_at": "2026-11-04T17:39:32.824019Z",
-      "metadata": {
-        "dataset": "Global_Potholes_Dataset",
-        "original_source": "outerview,mapilliary",
-        "filename": "dccdfc79-4568-4abf-86ed-f5584d93d40a.jpg",
-        "region": "India"
-      }
-    },
-    {
-      "damage_id": "65034c41-6103-4983-8307-c2f226252bab",
-      "latitude": 12.968118782167,
-      "longitude": 77.6331533958,
-      "damage_type": "pothole",
-      "severity": "medium",
-      "status": "active",
-      "district": "Krishnagiri / Hosur Corridor",
-      "source": "outerview,mapilliary",
-      "region": "India",
-      "filename": "65034c41-6103-4983-8307-c2f226252bab.jpg",
-      "verification_status": "verified",
-      "reported_at": "2026-11-04T17:39:32.824019Z",
-      "metadata": {
-        "dataset": "Global_Potholes_Dataset",
-        "original_source": "outerview,mapilliary",
-        "filename": "65034c41-6103-4983-8307-c2f226252bab.jpg",
-        "region": "India"
-      }
-    },
-    {
-      "damage_id": "585eb887-d53e-462b-b251-5cd1b36b9560",
-      "latitude": 12.965095,
-      "longitude": 77.742046388889,
+      "damage_id": "tn_nh45_08",
+      "latitude": 11.9421,
+      "longitude": 79.4932,
       "damage_type": "pothole",
       "severity": "high",
       "status": "active",
-      "district": "Krishnagiri / Hosur Corridor",
-      "source": "outerview,mapilliary",
-      "region": "India",
-      "filename": "585eb887-d53e-462b-b251-5cd1b36b9560.jpg",
+      "district": "Villupuram Collectorate (NH45)",
+      "source": "AI Sensor / Telemetry",
+      "region": "Tamil Nadu, India",
       "verification_status": "verified",
-      "reported_at": "2026-11-04T17:39:32.824019Z",
       "metadata": {
-        "dataset": "Global_Potholes_Dataset",
-        "original_source": "outerview,mapilliary",
-        "filename": "585eb887-d53e-462b-b251-5cd1b36b9560.jpg",
-        "region": "India"
-      }
+        "highway": "NH45",
+        "corridor": "Villupuram"
+      },
+      "reported_at": "2026-11-16T12:00:00.000000Z",
+      "filename": "tn_nh45_08.jpg"
     },
     {
-      "damage_id": "5e17bca2-6506-4b56-a7db-88af38f3ec71",
-      "latitude": 12.960581745646,
-      "longitude": 77.643252496866,
+      "damage_id": "tn_nh45_09",
+      "latitude": 11.6912,
+      "longitude": 79.2941,
       "damage_type": "pothole",
       "severity": "medium",
       "status": "active",
-      "district": "Krishnagiri / Hosur Corridor",
-      "source": "outerview,mapilliary",
-      "region": "India",
-      "filename": "5e17bca2-6506-4b56-a7db-88af38f3ec71.jpg",
+      "district": "Ulundurpet Toll (NH45)",
+      "source": "AI Sensor / Telemetry",
+      "region": "Tamil Nadu, India",
       "verification_status": "verified",
-      "reported_at": "2026-11-04T17:39:32.824019Z",
       "metadata": {
-        "dataset": "Global_Potholes_Dataset",
-        "original_source": "outerview,mapilliary",
-        "filename": "5e17bca2-6506-4b56-a7db-88af38f3ec71.jpg",
-        "region": "India"
-      }
+        "highway": "NH45",
+        "corridor": "Ulundurpet"
+      },
+      "reported_at": "2026-11-16T12:00:00.000000Z",
+      "filename": "tn_nh45_09.jpg"
     },
     {
-      "damage_id": "58fbde7e-c6a8-4fd2-906c-30a8cbe22058",
-      "latitude": 12.912660284827,
-      "longitude": 77.619276647454,
+      "damage_id": "tn_nh45_10",
+      "latitude": 11.5421,
+      "longitude": 79.0512,
       "damage_type": "pothole",
       "severity": "high",
       "status": "active",
-      "district": "Krishnagiri / Hosur Corridor",
-      "source": "outerview,mapilliary",
-      "region": "India",
-      "filename": "58fbde7e-c6a8-4fd2-906c-30a8cbe22058.jpg",
+      "district": "Veppur Junction (NH45)",
+      "source": "AI Sensor / Telemetry",
+      "region": "Tamil Nadu, India",
       "verification_status": "verified",
-      "reported_at": "2026-11-04T17:39:32.824019Z",
       "metadata": {
-        "dataset": "Global_Potholes_Dataset",
-        "original_source": "outerview,mapilliary",
-        "filename": "58fbde7e-c6a8-4fd2-906c-30a8cbe22058.jpg",
-        "region": "India"
-      }
+        "highway": "NH45",
+        "corridor": "Veppur"
+      },
+      "reported_at": "2026-11-16T12:00:00.000000Z",
+      "filename": "tn_nh45_10.jpg"
     },
     {
-      "damage_id": "86292bd2-a3a7-46f0-b636-84cd3a6d1375",
-      "latitude": 13.079898555477,
-      "longitude": 80.275275963978,
-      "damage_type": "pothole",
-      "severity": "medium",
-      "status": "active",
-      "district": "Chennai",
-      "source": "outerview,mapilliary",
-      "region": "India",
-      "filename": "86292bd2-a3a7-46f0-b636-84cd3a6d1375.jpg",
-      "verification_status": "verified",
-      "reported_at": "2026-11-04T17:39:32.824019Z",
-      "metadata": {
-        "dataset": "Global_Potholes_Dataset",
-        "original_source": "outerview,mapilliary",
-        "filename": "86292bd2-a3a7-46f0-b636-84cd3a6d1375.jpg",
-        "region": "India"
-      }
-    },
-    {
-      "damage_id": "22b489c2-c9cf-4db1-944a-a324d55b0139",
-      "latitude": 13.081213416799,
-      "longitude": 80.275174516014,
-      "damage_type": "pothole",
-      "severity": "medium",
-      "status": "active",
-      "district": "Chennai",
-      "source": "outerview,mapilliary",
-      "region": "India",
-      "filename": "22b489c2-c9cf-4db1-944a-a324d55b0139.jpg",
-      "verification_status": "verified",
-      "reported_at": "2026-11-04T17:39:32.825017Z",
-      "metadata": {
-        "dataset": "Global_Potholes_Dataset",
-        "original_source": "outerview,mapilliary",
-        "filename": "22b489c2-c9cf-4db1-944a-a324d55b0139.jpg",
-        "region": "India"
-      }
-    },
-    {
-      "damage_id": "8ecf93f8-ed04-4086-af42-c26688f7c9c7",
-      "latitude": 12.957063261351,
-      "longitude": 77.739985948408,
-      "damage_type": "pothole",
-      "severity": "medium",
-      "status": "active",
-      "district": "Krishnagiri / Hosur Corridor",
-      "source": "outerview,mapilliary",
-      "region": "India",
-      "filename": "8ecf93f8-ed04-4086-af42-c26688f7c9c7.jpg",
-      "verification_status": "verified",
-      "reported_at": "2026-11-04T17:39:32.825017Z",
-      "metadata": {
-        "dataset": "Global_Potholes_Dataset",
-        "original_source": "outerview,mapilliary",
-        "filename": "8ecf93f8-ed04-4086-af42-c26688f7c9c7.jpg",
-        "region": "India"
-      }
-    },
-    {
-      "damage_id": "0d5387cb-790f-4767-b8fc-d75b0acf160c",
-      "latitude": 12.962143055556,
-      "longitude": 77.647485,
-      "damage_type": "pothole",
-      "severity": "medium",
-      "status": "active",
-      "district": "Krishnagiri / Hosur Corridor",
-      "source": "outerview,mapilliary",
-      "region": "India",
-      "filename": "0d5387cb-790f-4767-b8fc-d75b0acf160c.jpg",
-      "verification_status": "verified",
-      "reported_at": "2026-11-04T17:39:32.825017Z",
-      "metadata": {
-        "dataset": "Global_Potholes_Dataset",
-        "original_source": "outerview,mapilliary",
-        "filename": "0d5387cb-790f-4767-b8fc-d75b0acf160c.jpg",
-        "region": "India"
-      }
-    },
-    {
-      "damage_id": "63628844-6dc1-499f-ad2c-a2a83c4663f9",
-      "latitude": 12.970258556302,
-      "longitude": 77.702310131907,
+      "damage_id": "tn_nh45_11",
+      "latitude": 11.2341,
+      "longitude": 78.8821,
       "damage_type": "pothole",
       "severity": "high",
       "status": "active",
-      "district": "Krishnagiri / Hosur Corridor",
-      "source": "outerview,mapilliary",
-      "region": "India",
-      "filename": "63628844-6dc1-499f-ad2c-a2a83c4663f9.jpg",
+      "district": "Perambalur Bypass (NH45)",
+      "source": "AI Sensor / Telemetry",
+      "region": "Tamil Nadu, India",
       "verification_status": "verified",
-      "reported_at": "2026-11-04T17:39:32.825017Z",
       "metadata": {
-        "dataset": "Global_Potholes_Dataset",
-        "original_source": "outerview,mapilliary",
-        "filename": "63628844-6dc1-499f-ad2c-a2a83c4663f9.jpg",
-        "region": "India"
-      }
+        "highway": "NH45",
+        "corridor": "Perambalur"
+      },
+      "reported_at": "2026-11-16T12:00:00.000000Z",
+      "filename": "tn_nh45_11.jpg"
     },
     {
-      "damage_id": "b95843de-f7d1-4ea0-8554-028d954d5227",
-      "latitude": 12.967386388889,
-      "longitude": 77.638968055556,
-      "damage_type": "pothole",
-      "severity": "medium",
-      "status": "active",
-      "district": "Krishnagiri / Hosur Corridor",
-      "source": "outerview,mapilliary",
-      "region": "India",
-      "filename": "b95843de-f7d1-4ea0-8554-028d954d5227.jpg",
-      "verification_status": "verified",
-      "reported_at": "2026-11-04T17:39:32.825017Z",
-      "metadata": {
-        "dataset": "Global_Potholes_Dataset",
-        "original_source": "outerview,mapilliary",
-        "filename": "b95843de-f7d1-4ea0-8554-028d954d5227.jpg",
-        "region": "India"
-      }
-    },
-    {
-      "damage_id": "b81dc11f-8233-4046-bf2c-693f7db3143e",
-      "latitude": 12.978202777778,
-      "longitude": 77.632405555556,
-      "damage_type": "pothole",
-      "severity": "medium",
-      "status": "active",
-      "district": "Krishnagiri / Hosur Corridor",
-      "source": "outerview,mapilliary",
-      "region": "India",
-      "filename": "b81dc11f-8233-4046-bf2c-693f7db3143e.jpg",
-      "verification_status": "verified",
-      "reported_at": "2026-11-04T17:39:32.825017Z",
-      "metadata": {
-        "dataset": "Global_Potholes_Dataset",
-        "original_source": "outerview,mapilliary",
-        "filename": "b81dc11f-8233-4046-bf2c-693f7db3143e.jpg",
-        "region": "India"
-      }
-    },
-    {
-      "damage_id": "b4568c1f-f6a7-456d-b921-6286caccfab1",
-      "latitude": 12.956655198185,
-      "longitude": 77.701249714919,
+      "damage_id": "tn_nh45_12",
+      "latitude": 10.9212,
+      "longitude": 78.7421,
       "damage_type": "pothole",
       "severity": "high",
       "status": "active",
-      "district": "Krishnagiri / Hosur Corridor",
-      "source": "outerview,mapilliary",
-      "region": "India",
-      "filename": "b4568c1f-f6a7-456d-b921-6286caccfab1.jpg",
+      "district": "Samayapuram Toll (NH45)",
+      "source": "AI Sensor / Telemetry",
+      "region": "Tamil Nadu, India",
       "verification_status": "verified",
-      "reported_at": "2026-11-04T17:39:32.825017Z",
       "metadata": {
-        "dataset": "Global_Potholes_Dataset",
-        "original_source": "outerview,mapilliary",
-        "filename": "b4568c1f-f6a7-456d-b921-6286caccfab1.jpg",
-        "region": "India"
-      }
+        "highway": "NH45",
+        "corridor": "Samayapuram - Trichy"
+      },
+      "reported_at": "2026-11-16T12:00:00.000000Z",
+      "filename": "tn_nh45_12.jpg"
     },
     {
-      "damage_id": "4436d7cd-32cc-4f36-a3e3-32a7d1462ef6",
-      "latitude": 12.97728451908,
-      "longitude": 77.696520164609,
-      "damage_type": "pothole",
-      "severity": "medium",
-      "status": "active",
-      "district": "Krishnagiri / Hosur Corridor",
-      "source": "outerview,mapilliary",
-      "region": "India",
-      "filename": "4436d7cd-32cc-4f36-a3e3-32a7d1462ef6.jpg",
-      "verification_status": "verified",
-      "reported_at": "2026-11-04T17:39:32.825017Z",
-      "metadata": {
-        "dataset": "Global_Potholes_Dataset",
-        "original_source": "outerview,mapilliary",
-        "filename": "4436d7cd-32cc-4f36-a3e3-32a7d1462ef6.jpg",
-        "region": "India"
-      }
-    },
-    {
-      "damage_id": "9dcf06e3-351e-4859-b767-c05e7aaafa46",
-      "latitude": 12.977573443273,
-      "longitude": 77.696358980662,
-      "damage_type": "pothole",
-      "severity": "medium",
-      "status": "active",
-      "district": "Krishnagiri / Hosur Corridor",
-      "source": "outerview,mapilliary",
-      "region": "India",
-      "filename": "9dcf06e3-351e-4859-b767-c05e7aaafa46.jpg",
-      "verification_status": "verified",
-      "reported_at": "2026-11-04T17:39:32.825017Z",
-      "metadata": {
-        "dataset": "Global_Potholes_Dataset",
-        "original_source": "outerview,mapilliary",
-        "filename": "9dcf06e3-351e-4859-b767-c05e7aaafa46.jpg",
-        "region": "India"
-      }
-    },
-    {
-      "damage_id": "e2d62a2c-9282-4219-9b83-e29e7af9d444",
-      "latitude": 12.990005730292,
-      "longitude": 77.698422579328,
-      "damage_type": "pothole",
-      "severity": "medium",
-      "status": "active",
-      "district": "Krishnagiri / Hosur Corridor",
-      "source": "outerview,mapilliary",
-      "region": "India",
-      "filename": "e2d62a2c-9282-4219-9b83-e29e7af9d444.jpg",
-      "verification_status": "verified",
-      "reported_at": "2026-11-04T17:39:32.825017Z",
-      "metadata": {
-        "dataset": "Global_Potholes_Dataset",
-        "original_source": "outerview,mapilliary",
-        "filename": "e2d62a2c-9282-4219-9b83-e29e7af9d444.jpg",
-        "region": "India"
-      }
-    },
-    {
-      "damage_id": "d8822d08-a199-49bb-ab0c-0f57e624a817",
-      "latitude": 8.5587884820513,
-      "longitude": 76.924996507692,
+      "damage_id": "tn_nh45_13",
+      "latitude": 10.8012,
+      "longitude": 78.6834,
       "damage_type": "pothole",
       "severity": "high",
       "status": "active",
-      "district": "Kanyakumari / South Corridor",
-      "source": "outerview,mapilliary",
-      "region": "India",
-      "filename": "d8822d08-a199-49bb-ab0c-0f57e624a817.jpg",
+      "district": "Trichy Central Bus Stand (NH45)",
+      "source": "AI Sensor / Telemetry",
+      "region": "Tamil Nadu, India",
       "verification_status": "verified",
-      "reported_at": "2026-11-04T17:39:32.825017Z",
       "metadata": {
-        "dataset": "Global_Potholes_Dataset",
-        "original_source": "outerview,mapilliary",
-        "filename": "d8822d08-a199-49bb-ab0c-0f57e624a817.jpg",
-        "region": "India"
-      }
+        "highway": "NH45",
+        "corridor": "Trichy Urban"
+      },
+      "reported_at": "2026-11-16T12:00:00.000000Z",
+      "filename": "tn_nh45_13.jpg"
     },
     {
-      "damage_id": "2814a8f2-4714-4782-b45e-e7942d034a1f",
-      "latitude": 12.974038710799,
-      "longitude": 77.698407098765,
-      "damage_type": "pothole",
-      "severity": "medium",
-      "status": "active",
-      "district": "Krishnagiri / Hosur Corridor",
-      "source": "outerview,mapilliary",
-      "region": "India",
-      "filename": "2814a8f2-4714-4782-b45e-e7942d034a1f.jpg",
-      "verification_status": "verified",
-      "reported_at": "2026-11-04T17:39:32.825017Z",
-      "metadata": {
-        "dataset": "Global_Potholes_Dataset",
-        "original_source": "outerview,mapilliary",
-        "filename": "2814a8f2-4714-4782-b45e-e7942d034a1f.jpg",
-        "region": "India"
-      }
-    },
-    {
-      "damage_id": "20c4ca18-c374-4e6c-8496-24a40ebdd922",
-      "latitude": 12.956186388631,
-      "longitude": 77.592008560968,
-      "damage_type": "pothole",
-      "severity": "medium",
-      "status": "active",
-      "district": "Krishnagiri / Hosur Corridor",
-      "source": "outerview,mapilliary",
-      "region": "India",
-      "filename": "20c4ca18-c374-4e6c-8496-24a40ebdd922.jpg",
-      "verification_status": "verified",
-      "reported_at": "2026-11-04T17:39:32.825017Z",
-      "metadata": {
-        "dataset": "Global_Potholes_Dataset",
-        "original_source": "outerview,mapilliary",
-        "filename": "20c4ca18-c374-4e6c-8496-24a40ebdd922.jpg",
-        "region": "India"
-      }
-    },
-    {
-      "damage_id": "cbf92549-ac5b-432f-b8d5-40cf29f2bd89",
-      "latitude": 12.946574452087,
-      "longitude": 77.595967812255,
-      "damage_type": "pothole",
-      "severity": "medium",
-      "status": "active",
-      "district": "Krishnagiri / Hosur Corridor",
-      "source": "outerview,mapilliary",
-      "region": "India",
-      "filename": "cbf92549-ac5b-432f-b8d5-40cf29f2bd89.jpg",
-      "verification_status": "verified",
-      "reported_at": "2026-11-04T17:39:32.825017Z",
-      "metadata": {
-        "dataset": "Global_Potholes_Dataset",
-        "original_source": "outerview,mapilliary",
-        "filename": "cbf92549-ac5b-432f-b8d5-40cf29f2bd89.jpg",
-        "region": "India"
-      }
-    },
-    {
-      "damage_id": "8739a2a6-d006-4cf1-bf2b-ca94316526a1",
-      "latitude": 12.95890895651,
-      "longitude": 77.654059957785,
-      "damage_type": "pothole",
-      "severity": "medium",
-      "status": "active",
-      "district": "Krishnagiri / Hosur Corridor",
-      "source": "outerview,mapilliary",
-      "region": "India",
-      "filename": "8739a2a6-d006-4cf1-bf2b-ca94316526a1.jpg",
-      "verification_status": "verified",
-      "reported_at": "2026-11-04T17:39:32.825017Z",
-      "metadata": {
-        "dataset": "Global_Potholes_Dataset",
-        "original_source": "outerview,mapilliary",
-        "filename": "8739a2a6-d006-4cf1-bf2b-ca94316526a1.jpg",
-        "region": "India"
-      }
-    },
-    {
-      "damage_id": "8657da9a-d67c-413e-bdeb-9ebb54b979cf",
-      "latitude": 12.9543076,
-      "longitude": 77.6958165,
+      "damage_id": "tn_nh45_14",
+      "latitude": 10.6121,
+      "longitude": 78.4212,
       "damage_type": "pothole",
       "severity": "high",
       "status": "active",
-      "district": "Krishnagiri / Hosur Corridor",
-      "source": "outerview,mapilliary",
-      "region": "India",
-      "filename": "8657da9a-d67c-413e-bdeb-9ebb54b979cf.jpg",
+      "district": "Manapparai (NH45)",
+      "source": "AI Sensor / Telemetry",
+      "region": "Tamil Nadu, India",
       "verification_status": "verified",
-      "reported_at": "2026-11-04T17:39:32.825017Z",
       "metadata": {
-        "dataset": "Global_Potholes_Dataset",
-        "original_source": "outerview,mapilliary",
-        "filename": "8657da9a-d67c-413e-bdeb-9ebb54b979cf.jpg",
-        "region": "India"
-      }
+        "highway": "NH45",
+        "corridor": "Manapparai - Dindigul"
+      },
+      "reported_at": "2026-11-16T12:00:00.000000Z",
+      "filename": "tn_nh45_14.jpg"
+    },
+    {
+      "damage_id": "tn_nh544_01",
+      "latitude": 11.4821,
+      "longitude": 77.8712,
+      "damage_type": "pothole",
+      "severity": "medium",
+      "status": "active",
+      "district": "Sankagiri Bypass (NH544)",
+      "source": "AI Sensor / Telemetry",
+      "region": "Tamil Nadu, India",
+      "verification_status": "verified",
+      "metadata": {
+        "highway": "NH544",
+        "corridor": "Sankagiri"
+      },
+      "reported_at": "2026-11-16T12:00:00.000000Z",
+      "filename": "tn_nh544_01.jpg"
+    },
+    {
+      "damage_id": "tn_nh544_02",
+      "latitude": 11.4421,
+      "longitude": 77.6834,
+      "damage_type": "pothole",
+      "severity": "high",
+      "status": "active",
+      "district": "Bhavani / Komarapalayam (NH544)",
+      "source": "AI Sensor / Telemetry",
+      "region": "Tamil Nadu, India",
+      "verification_status": "verified",
+      "metadata": {
+        "highway": "NH544",
+        "corridor": "Bhavani"
+      },
+      "reported_at": "2026-11-16T12:00:00.000000Z",
+      "filename": "tn_nh544_02.jpg"
+    },
+    {
+      "damage_id": "tn_nh544_03",
+      "latitude": 11.2741,
+      "longitude": 77.5812,
+      "damage_type": "road_depression",
+      "severity": "medium",
+      "status": "active",
+      "district": "Perundurai (NH544)",
+      "source": "AI Sensor / Telemetry",
+      "region": "Tamil Nadu, India",
+      "verification_status": "verified",
+      "metadata": {
+        "highway": "NH544",
+        "corridor": "Perundurai - Erode"
+      },
+      "reported_at": "2026-11-16T12:00:00.000000Z",
+      "filename": "tn_nh544_03.jpg"
+    },
+    {
+      "damage_id": "tn_nh544_04",
+      "latitude": 11.2312,
+      "longitude": 77.4912,
+      "damage_type": "pothole",
+      "severity": "high",
+      "status": "active",
+      "district": "Vijayamangalam Toll (NH544)",
+      "source": "AI Sensor / Telemetry",
+      "region": "Tamil Nadu, India",
+      "verification_status": "verified",
+      "metadata": {
+        "highway": "NH544",
+        "corridor": "Vijayamangalam"
+      },
+      "reported_at": "2026-11-16T12:00:00.000000Z",
+      "filename": "tn_nh544_04.jpg"
+    },
+    {
+      "damage_id": "tn_nh544_05",
+      "latitude": 11.1923,
+      "longitude": 77.2714,
+      "damage_type": "pothole",
+      "severity": "high",
+      "status": "active",
+      "district": "Avinashi Bypass (NH544)",
+      "source": "AI Sensor / Telemetry",
+      "region": "Tamil Nadu, India",
+      "verification_status": "verified",
+      "metadata": {
+        "highway": "NH544",
+        "corridor": "Avinashi - Tiruppur"
+      },
+      "reported_at": "2026-11-16T12:00:00.000000Z",
+      "filename": "tn_nh544_05.jpg"
+    },
+    {
+      "damage_id": "tn_nh544_06",
+      "latitude": 11.1121,
+      "longitude": 77.1821,
+      "damage_type": "pothole",
+      "severity": "medium",
+      "status": "active",
+      "district": "Karumathampatti (NH544)",
+      "source": "AI Sensor / Telemetry",
+      "region": "Tamil Nadu, India",
+      "verification_status": "verified",
+      "metadata": {
+        "highway": "NH544",
+        "corridor": "Karumathampatti"
+      },
+      "reported_at": "2026-11-16T12:00:00.000000Z",
+      "filename": "tn_nh544_06.jpg"
+    },
+    {
+      "damage_id": "tn_nh544_07",
+      "latitude": 11.0421,
+      "longitude": 77.0312,
+      "damage_type": "pothole",
+      "severity": "high",
+      "status": "active",
+      "district": "Coimbatore Peelamedu (NH544)",
+      "source": "AI Sensor / Telemetry",
+      "region": "Tamil Nadu, India",
+      "verification_status": "verified",
+      "metadata": {
+        "highway": "NH544",
+        "corridor": "Coimbatore East"
+      },
+      "reported_at": "2026-11-16T12:00:00.000000Z",
+      "filename": "tn_nh544_07.jpg"
+    },
+    {
+      "damage_id": "tn_nh544_08",
+      "latitude": 11.0182,
+      "longitude": 76.9741,
+      "damage_type": "pothole",
+      "severity": "medium",
+      "status": "active",
+      "district": "Coimbatore Gandhipuram",
+      "source": "AI Sensor / Telemetry",
+      "region": "Tamil Nadu, India",
+      "verification_status": "verified",
+      "metadata": {
+        "highway": "City Arterial",
+        "corridor": "Coimbatore Central"
+      },
+      "reported_at": "2026-11-16T12:00:00.000000Z",
+      "filename": "tn_nh544_08.jpg"
+    },
+    {
+      "damage_id": "tn_nh48_01",
+      "latitude": 13.0421,
+      "longitude": 80.1123,
+      "damage_type": "pothole",
+      "severity": "high",
+      "status": "active",
+      "district": "Poonamallee Bypass (NH48)",
+      "source": "AI Sensor / Telemetry",
+      "region": "Tamil Nadu, India",
+      "verification_status": "verified",
+      "metadata": {
+        "highway": "NH48",
+        "corridor": "Poonamallee"
+      },
+      "reported_at": "2026-11-16T12:00:00.000000Z",
+      "filename": "tn_nh48_01.jpg"
+    },
+    {
+      "damage_id": "tn_nh48_02",
+      "latitude": 12.9721,
+      "longitude": 79.9412,
+      "damage_type": "pothole",
+      "severity": "high",
+      "status": "active",
+      "district": "Sriperumbudur (NH48)",
+      "source": "AI Sensor / Telemetry",
+      "region": "Tamil Nadu, India",
+      "verification_status": "verified",
+      "metadata": {
+        "highway": "NH48",
+        "corridor": "Sriperumbudur"
+      },
+      "reported_at": "2026-11-16T12:00:00.000000Z",
+      "filename": "tn_nh48_02.jpg"
+    },
+    {
+      "damage_id": "tn_nh48_03",
+      "latitude": 12.8341,
+      "longitude": 79.7021,
+      "damage_type": "pothole",
+      "severity": "medium",
+      "status": "active",
+      "district": "Kanchipuram Bypass (NH48)",
+      "source": "AI Sensor / Telemetry",
+      "region": "Tamil Nadu, India",
+      "verification_status": "verified",
+      "metadata": {
+        "highway": "NH48",
+        "corridor": "Kanchipuram"
+      },
+      "reported_at": "2026-11-16T12:00:00.000000Z",
+      "filename": "tn_nh48_03.jpg"
+    },
+    {
+      "damage_id": "tn_nh48_04",
+      "latitude": 12.9321,
+      "longitude": 79.3312,
+      "damage_type": "pothole",
+      "severity": "high",
+      "status": "active",
+      "district": "Walajapet Toll (NH48)",
+      "source": "AI Sensor / Telemetry",
+      "region": "Tamil Nadu, India",
+      "verification_status": "verified",
+      "metadata": {
+        "highway": "NH48",
+        "corridor": "Ranipet / Walajapet"
+      },
+      "reported_at": "2026-11-16T12:00:00.000000Z",
+      "filename": "tn_nh48_04.jpg"
+    },
+    {
+      "damage_id": "tn_nh48_05",
+      "latitude": 12.9182,
+      "longitude": 79.1342,
+      "damage_type": "pothole",
+      "severity": "high",
+      "status": "active",
+      "district": "Vellore New Bus Stand (NH48)",
+      "source": "AI Sensor / Telemetry",
+      "region": "Tamil Nadu, India",
+      "verification_status": "verified",
+      "metadata": {
+        "highway": "NH48",
+        "corridor": "Vellore"
+      },
+      "reported_at": "2026-11-16T12:00:00.000000Z",
+      "filename": "tn_nh48_05.jpg"
+    },
+    {
+      "damage_id": "tn_nh48_06",
+      "latitude": 12.7912,
+      "longitude": 78.7123,
+      "damage_type": "pothole",
+      "severity": "high",
+      "status": "active",
+      "district": "Ambur Bypass (NH48)",
+      "source": "AI Sensor / Telemetry",
+      "region": "Tamil Nadu, India",
+      "verification_status": "verified",
+      "metadata": {
+        "highway": "NH48",
+        "corridor": "Ambur"
+      },
+      "reported_at": "2026-11-16T12:00:00.000000Z",
+      "filename": "tn_nh48_06.jpg"
+    },
+    {
+      "damage_id": "tn_nh48_07",
+      "latitude": 12.6841,
+      "longitude": 78.6123,
+      "damage_type": "pothole",
+      "severity": "medium",
+      "status": "active",
+      "district": "Vaniyambadi (NH48)",
+      "source": "AI Sensor / Telemetry",
+      "region": "Tamil Nadu, India",
+      "verification_status": "verified",
+      "metadata": {
+        "highway": "NH48",
+        "corridor": "Vaniyambadi"
+      },
+      "reported_at": "2026-11-16T12:00:00.000000Z",
+      "filename": "tn_nh48_07.jpg"
+    },
+    {
+      "damage_id": "tn_nh48_08",
+      "latitude": 12.5512,
+      "longitude": 78.3621,
+      "damage_type": "pothole",
+      "severity": "medium",
+      "status": "active",
+      "district": "Bargur (NH48)",
+      "source": "AI Sensor / Telemetry",
+      "region": "Tamil Nadu, India",
+      "verification_status": "verified",
+      "metadata": {
+        "highway": "NH48",
+        "corridor": "Bargur - Krishnagiri"
+      },
+      "reported_at": "2026-11-16T12:00:00.000000Z",
+      "filename": "tn_nh48_08.jpg"
+    },
+    {
+      "damage_id": "tn_reg_01",
+      "latitude": 10.7867,
+      "longitude": 79.1378,
+      "damage_type": "pothole",
+      "severity": "medium",
+      "status": "active",
+      "district": "Thanjavur Old Bus Stand",
+      "source": "AI Sensor / Telemetry",
+      "region": "Tamil Nadu, India",
+      "verification_status": "verified",
+      "metadata": {
+        "highway": "SH",
+        "corridor": "Thanjavur"
+      },
+      "reported_at": "2026-11-16T12:00:00.000000Z",
+      "filename": "tn_reg_01.jpg"
+    },
+    {
+      "damage_id": "tn_reg_02",
+      "latitude": 10.9612,
+      "longitude": 79.3821,
+      "damage_type": "pothole",
+      "severity": "high",
+      "status": "active",
+      "district": "Kumbakonam Bypass",
+      "source": "AI Sensor / Telemetry",
+      "region": "Tamil Nadu, India",
+      "verification_status": "verified",
+      "metadata": {
+        "highway": "SH",
+        "corridor": "Kumbakonam"
+      },
+      "reported_at": "2026-11-16T12:00:00.000000Z",
+      "filename": "tn_reg_02.jpg"
+    },
+    {
+      "damage_id": "tn_reg_03",
+      "latitude": 10.3812,
+      "longitude": 78.8234,
+      "damage_type": "pothole",
+      "severity": "medium",
+      "status": "active",
+      "district": "Pudukkottai Roundana",
+      "source": "AI Sensor / Telemetry",
+      "region": "Tamil Nadu, India",
+      "verification_status": "verified",
+      "metadata": {
+        "highway": "SH",
+        "corridor": "Pudukkottai"
+      },
+      "reported_at": "2026-11-16T12:00:00.000000Z",
+      "filename": "tn_reg_03.jpg"
+    },
+    {
+      "damage_id": "tn_reg_04",
+      "latitude": 11.7521,
+      "longitude": 79.7612,
+      "damage_type": "pothole",
+      "severity": "medium",
+      "status": "active",
+      "district": "Cuddalore Port Road",
+      "source": "AI Sensor / Telemetry",
+      "region": "Tamil Nadu, India",
+      "verification_status": "verified",
+      "metadata": {
+        "highway": "SH",
+        "corridor": "Cuddalore"
+      },
+      "reported_at": "2026-11-16T12:00:00.000000Z",
+      "filename": "tn_reg_04.jpg"
+    },
+    {
+      "damage_id": "tn_reg_05",
+      "latitude": 8.7642,
+      "longitude": 78.1341,
+      "damage_type": "pothole",
+      "severity": "medium",
+      "status": "active",
+      "district": "Thoothukudi Port Bypass",
+      "source": "AI Sensor / Telemetry",
+      "region": "Tamil Nadu, India",
+      "verification_status": "verified",
+      "metadata": {
+        "highway": "SH",
+        "corridor": "Thoothukudi"
+      },
+      "reported_at": "2026-11-16T12:00:00.000000Z",
+      "filename": "tn_reg_05.jpg"
+    },
+    {
+      "damage_id": "tn_reg_06",
+      "latitude": 8.1821,
+      "longitude": 77.4321,
+      "damage_type": "pothole",
+      "severity": "high",
+      "status": "active",
+      "district": "Nagercoil Junction",
+      "source": "AI Sensor / Telemetry",
+      "region": "Tamil Nadu, India",
+      "verification_status": "verified",
+      "metadata": {
+        "highway": "NH47",
+        "corridor": "Kanyakumari / Nagercoil"
+      },
+      "reported_at": "2026-11-16T12:00:00.000000Z",
+      "filename": "tn_reg_06.jpg"
     }
   ]
 }

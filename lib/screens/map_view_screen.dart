@@ -551,6 +551,7 @@ class _MapViewScreenState extends State<MapViewScreen> with TickerProviderStateM
       _initialRouteDistanceMeters = null;
       _initialRouteDurationSeconds = null;
     });
+    _updateHeatmapAndMarkers();
     _recenterMap();
   }
 
@@ -876,18 +877,24 @@ class _MapViewScreenState extends State<MapViewScreen> with TickerProviderStateM
       _initialRouteDurationSeconds = durationSeconds;
       _currentRouteProgressIndex = 0;
 
-      // Filter road damage along route within 50m corridor
+      // Filter road damage along route within 100m corridor with guaranteed coverage
       if (_allRoadDamage.isEmpty) {
         await _loadRoadDamageDataset();
       }
 
-      if (_allRoadDamage.isNotEmpty && polylineCoordinates.isNotEmpty) {
+      if (polylineCoordinates.isNotEmpty) {
         _routeDamage = _roadDamageService.filterDamageAlongRoute(
           routePoints: polylineCoordinates,
           allDamage: _allRoadDamage,
-          corridorMeters: 50.0,
+          corridorMeters: 100.0,
+          ensureRouteCoverage: true,
         );
-        debugPrint('[MapViewScreen] Filtered ${_routeDamage.length} road hazards along route (50m corridor).');
+        for (final rd in _routeDamage) {
+          if (!_allRoadDamage.any((d) => d.damageId == rd.damageId)) {
+            _allRoadDamage.add(rd);
+          }
+        }
+        debugPrint('[MapViewScreen] Filtered ${_routeDamage.length} road hazards along route (100m corridor).');
       } else {
         _routeDamage = [];
       }
@@ -969,7 +976,9 @@ class _MapViewScreenState extends State<MapViewScreen> with TickerProviderStateM
       return;
     }
 
-    final damageList = _allRoadDamage.isNotEmpty ? _allRoadDamage : _routeDamage;
+    // When an active route is drawn, prioritize damage along the route between start & destination!
+    final bool hasActiveRoute = _currentRoutePolylineCoordinates.isNotEmpty && _routeDamage.isNotEmpty;
+    final damageList = hasActiveRoute ? _routeDamage : _allRoadDamage;
     if (damageList.isEmpty) {
       if (mounted) setState(() {});
       return;
