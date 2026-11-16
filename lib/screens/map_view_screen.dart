@@ -13,6 +13,7 @@ import '../core/models/road_damage_model.dart';
 import '../core/services/road_damage_service.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import '../widgets/copilot_sheet.dart';
+import '../widgets/neural_copilot_orb.dart';
 import 'trip_details_screen.dart';
 import '../core/models/v2v_telemetry.dart';
 import '../core/services/v2v_radar_service.dart';
@@ -1843,30 +1844,6 @@ class _MapViewScreenState extends State<MapViewScreen> with TickerProviderStateM
                         color: _followUser ? Colors.white : primaryColor,
                       ),
                     ),
-                    const SizedBox(height: 10),
-                    // NeuroCopilot AI Floating Trigger
-                    FloatingActionButton(
-                      heroTag: 'map_copilot_btn',
-                      onPressed: () {
-                        showModalBottomSheet(
-                          context: context,
-                          isScrollControlled: true,
-                          backgroundColor: Colors.transparent,
-                          builder: (ctx) => CopilotSheet(
-                            currentLocationName: null,
-                            latitude: _userPos?.latitude,
-                            longitude: _userPos?.longitude,
-
-                            destinationName: _destinationTitle,
-                            currentSpeedKmh: _currentSpeedKmh,
-                            alertCount: 0,
-                          ),
-                        );
-                      },
-                      backgroundColor: const Color(0xFF00E5FF),
-                      elevation: 8,
-                      child: const Icon(Icons.smart_toy_rounded, color: Color(0xFF0A192F), size: 28),
-                    ),
                   ],
                 ),
               ),
@@ -2475,6 +2452,27 @@ class _MapViewScreenState extends State<MapViewScreen> with TickerProviderStateM
                   child: CircularProgressIndicator(color: primaryColor),
                 ),
               ),
+
+            // Futuristic Holographic Neural Orb (Draggable AI In-Car Copilot)
+            NeuralCopilotOrb(
+              initialOnLeft: true,
+              initialYFraction: 0.42,
+              onTap: () {
+                showModalBottomSheet(
+                  context: context,
+                  isScrollControlled: true,
+                  backgroundColor: Colors.transparent,
+                  builder: (ctx) => CopilotSheet(
+                    currentLocationName: null,
+                    latitude: _userPos?.latitude,
+                    longitude: _userPos?.longitude,
+                    destinationName: _destinationTitle,
+                    currentSpeedKmh: _currentSpeedKmh,
+                    alertCount: 0,
+                  ),
+                );
+              },
+            ),
           ],
         ),
       ),

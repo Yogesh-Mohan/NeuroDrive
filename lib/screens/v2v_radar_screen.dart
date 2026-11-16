@@ -493,101 +493,173 @@ class _V2VRadarScreenState extends State<V2VRadarScreen>
 
                   const SizedBox(height: 12),
 
-                  // Proximity Alert Count & Status Row
-                  StreamBuilder<int>(
-                    stream: _radarService.alertCountStream,
-                    initialData: _radarService.proximityAlertCount,
-                    builder: (context, alertSnapshot) {
-                      final alertCount = alertSnapshot.data ?? 0;
-                      final hasAlerts = alertCount > 0;
+                  // ADAS Multi-Zone Proximity Guard (Safe / Caution / Critical)
+                  StreamBuilder<ProximityZoneStats>(
+                    stream: _radarService.zoneStatsStream,
+                    initialData: _radarService.zoneStats,
+                    builder: (context, statsSnapshot) {
+                      final stats = statsSnapshot.data ?? _radarService.zoneStats;
+                      final isSafe = stats.currentZone == 'SAFE';
+                      final isCaution = stats.currentZone == 'CAUTION';
+                      final isCritical = stats.currentZone == 'CRITICAL';
+
+                      final activeColor = isCritical
+                          ? const Color(0xFFFF3366)
+                          : (isCaution ? const Color(0xFFFFB74D) : radarGreen);
 
                       return Container(
                         width: double.infinity,
-                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                        padding: const EdgeInsets.all(16),
                         decoration: BoxDecoration(
-                          color: hasAlerts
-                              ? const Color(0xFFFF3366).withValues(alpha: 0.08)
-                              : const Color(0xFF0C1A2E),
-                          borderRadius: BorderRadius.circular(18),
+                          color: const Color(0xFF0C1A2E),
+                          borderRadius: BorderRadius.circular(20),
                           border: Border.all(
-                            color: hasAlerts
-                                ? const Color(0xFFFF3366).withValues(alpha: 0.6)
-                                : Colors.white10,
-                            width: hasAlerts ? 1.5 : 1.0,
+                            color: activeColor.withValues(alpha: isSafe ? 0.3 : 0.7),
+                            width: isSafe ? 1.0 : 1.5,
                           ),
-                        ),
-                        child: Row(
-                          children: [
-                            Container(
-                              padding: const EdgeInsets.all(8),
-                              decoration: BoxDecoration(
-                                color: (hasAlerts
-                                        ? const Color(0xFFFF3366)
-                                        : radarGreen)
-                                    .withValues(alpha: 0.15),
-                                shape: BoxShape.circle,
-                              ),
-                              child: Icon(
-                                hasAlerts
-                                    ? Icons.warning_amber_rounded
-                                    : Icons.verified_user_rounded,
-                                color: hasAlerts
-                                    ? const Color(0xFFFF3366)
-                                    : radarGreen,
-                                size: 20,
-                              ),
+                          boxShadow: [
+                            BoxShadow(
+                              color: activeColor.withValues(alpha: isSafe ? 0.05 : 0.2),
+                              blurRadius: 16,
+                              spreadRadius: 1,
                             ),
-                            const SizedBox(width: 12),
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    hasAlerts
-                                        ? 'PROXIMITY ALERTS TRIGGERED'
-                                        : 'NO PROXIMITY ALERTS',
+                          ],
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            // Header: Title + Active Zone Pill
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Row(
+                                  children: [
+                                    Icon(Icons.shield_outlined, color: activeColor, size: 18),
+                                    const SizedBox(width: 8),
+                                    const Text(
+                                      'ADAS PROXIMITY ZONES',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.bold,
+                                        letterSpacing: 1.0,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Container(
+                                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                                  decoration: BoxDecoration(
+                                    color: activeColor.withValues(alpha: 0.18),
+                                    borderRadius: BorderRadius.circular(12),
+                                    border: Border.all(color: activeColor, width: 1),
+                                  ),
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Container(
+                                        width: 7,
+                                        height: 7,
+                                        decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          color: activeColor,
+                                        ),
+                                      ),
+                                      const SizedBox(width: 6),
+                                      Text(
+                                        stats.currentZone,
+                                        style: TextStyle(
+                                          color: activeColor,
+                                          fontSize: 11,
+                                          fontWeight: FontWeight.bold,
+                                          letterSpacing: 0.8,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 14),
+
+                            // 3-Zone Interactive Visual Bar
+                            Row(
+                              children: [
+                                // Zone 1: Safe (> 15 cm)
+                                Expanded(
+                                  child: _buildZoneBadge(
+                                    title: 'SAFE',
+                                    range: '> 15 cm',
+                                    color: radarGreen,
+                                    isActive: isSafe,
+                                    icon: Icons.check_circle_outline_rounded,
+                                    count: null,
+                                  ),
+                                ),
+                                const SizedBox(width: 8),
+                                // Zone 2: Caution (8 – 15 cm)
+                                Expanded(
+                                  child: _buildZoneBadge(
+                                    title: 'CAUTION',
+                                    range: '8 – 15 cm',
+                                    color: const Color(0xFFFFB74D),
+                                    isActive: isCaution,
+                                    icon: Icons.warning_amber_rounded,
+                                    count: stats.cautionCount,
+                                  ),
+                                ),
+                                const SizedBox(width: 8),
+                                // Zone 3: Critical (< 8 cm)
+                                Expanded(
+                                  child: _buildZoneBadge(
+                                    title: 'CRITICAL',
+                                    range: '< 8 cm',
+                                    color: const Color(0xFFFF3366),
+                                    isActive: isCritical,
+                                    icon: Icons.dangerous_rounded,
+                                    count: stats.criticalCount,
+                                  ),
+                                ),
+                              ],
+                            ),
+
+                            const SizedBox(height: 12),
+                            const Divider(color: Colors.white10, height: 1),
+                            const SizedBox(height: 10),
+
+                            // Footer: Guidance advice + Total Alerts Counter
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: Text(
+                                    isCritical
+                                        ? '🚨 COLLISION RISK: Brake immediately!'
+                                        : (isCaution
+                                            ? '⚠️ OBJECT NEARBY: Decelerate & hold distance.'
+                                            : '🟢 SAFE CLEARANCE: Safe following distance maintained.'),
                                     style: TextStyle(
-                                      color: hasAlerts
-                                          ? const Color(0xFFFF3366)
-                                          : radarGreen,
+                                      color: isSafe ? const Color(0xFF88A0C0) : activeColor,
+                                      fontSize: 11,
+                                      fontWeight: isSafe ? FontWeight.normal : FontWeight.w600,
+                                    ),
+                                  ),
+                                ),
+                                Container(
+                                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                                  decoration: BoxDecoration(
+                                    color: Colors.white.withValues(alpha: 0.08),
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  child: Text(
+                                    '${stats.totalCount} Alert${stats.totalCount == 1 ? "" : "s"}',
+                                    style: const TextStyle(
+                                      color: Colors.white70,
                                       fontSize: 11,
                                       fontWeight: FontWeight.bold,
-                                      letterSpacing: 0.8,
                                     ),
                                   ),
-                                  const SizedBox(height: 2),
-                                  Text(
-                                    hasAlerts
-                                        ? 'Critical closeness detected $alertCount time${alertCount > 1 ? 's' : ''}'
-                                        : 'All clear — safe distance maintained',
-                                    style: TextStyle(
-                                      color: Colors.white.withValues(alpha: 0.6),
-                                      fontSize: 12,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            // Alert count badge
-                            Container(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 12, vertical: 6),
-                              decoration: BoxDecoration(
-                                color: hasAlerts
-                                    ? const Color(0xFFFF3366)
-                                    : radarGreen.withValues(alpha: 0.2),
-                                borderRadius: BorderRadius.circular(14),
-                              ),
-                              child: Text(
-                                '$alertCount',
-                                style: TextStyle(
-                                  color: hasAlerts
-                                      ? Colors.white
-                                      : radarGreen,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
                                 ),
-                              ),
+                              ],
                             ),
                           ],
                         ),
@@ -825,6 +897,81 @@ class _V2VRadarScreenState extends State<V2VRadarScreen>
               fontWeight: FontWeight.bold,
             ),
           ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildZoneBadge({
+    required String title,
+    required String range,
+    required Color color,
+    required bool isActive,
+    required IconData icon,
+    required int? count,
+  }) {
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 8),
+      decoration: BoxDecoration(
+        color: isActive ? color.withValues(alpha: 0.18) : const Color(0xFF071422),
+        borderRadius: BorderRadius.circular(14),
+        border: Border.all(
+          color: isActive ? color : Colors.white12,
+          width: isActive ? 1.8 : 1.0,
+        ),
+        boxShadow: isActive
+            ? [
+                BoxShadow(
+                  color: color.withValues(alpha: 0.25),
+                  blurRadius: 10,
+                  spreadRadius: 1,
+                ),
+              ]
+            : null,
+      ),
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(icon, color: isActive ? color : Colors.white54, size: 14),
+              const SizedBox(width: 4),
+              Text(
+                title,
+                style: TextStyle(
+                  color: isActive ? color : Colors.white70,
+                  fontSize: 11,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 3),
+          Text(
+            range,
+            style: TextStyle(
+              color: Colors.white.withValues(alpha: 0.5),
+              fontSize: 9,
+            ),
+          ),
+          if (count != null) ...[
+            const SizedBox(height: 6),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+              decoration: BoxDecoration(
+                color: (count > 0 ? color : Colors.white10).withValues(alpha: 0.2),
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: Text(
+                '$count logged',
+                style: TextStyle(
+                  color: count > 0 ? color : Colors.white54,
+                  fontSize: 9,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          ],
         ],
       ),
     );

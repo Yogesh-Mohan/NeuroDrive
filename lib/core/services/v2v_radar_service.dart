@@ -12,6 +12,39 @@ import '../models/v2v_telemetry.dart';
 import '../models/alert_model.dart';
 import 'alert_service.dart';
 
+/// Real-time statistics across the 3 ADAS Proximity zones (Safe, Caution, Critical)
+class ProximityZoneStats {
+  final int cautionCount;
+  final int criticalCount;
+  final int totalCount;
+  final String currentZone; // 'SAFE', 'CAUTION', 'CRITICAL'
+  final double distanceCm;
+
+  const ProximityZoneStats({
+    this.cautionCount = 0,
+    this.criticalCount = 0,
+    this.totalCount = 0,
+    this.currentZone = 'SAFE',
+    this.distanceCm = 0.0,
+  });
+
+  ProximityZoneStats copyWith({
+    int? cautionCount,
+    int? criticalCount,
+    int? totalCount,
+    String? currentZone,
+    double? distanceCm,
+  }) {
+    return ProximityZoneStats(
+      cautionCount: cautionCount ?? this.cautionCount,
+      criticalCount: criticalCount ?? this.criticalCount,
+      totalCount: totalCount ?? this.totalCount,
+      currentZone: currentZone ?? this.currentZone,
+      distanceCm: distanceCm ?? this.distanceCm,
+    );
+  }
+}
+
 enum V2VConnectionMode {
   cloudFirestore,
   firebaseRealtime,
@@ -40,12 +73,24 @@ class V2VRadarService {
   StreamSubscription? _wsSubscription;
   Timer? _pollingTimer;
   Timer? _simulationTimer;
-  DateTime? _lastAlertSpokenTime;
-  DateTime? _lastProximityAlertSavedTime;
+  DateTime? _lastCriticalSpokenTime;
+  DateTime? _lastCautionSpokenTime;
+  DateTime? _lastCriticalAlertSavedTime;
+  DateTime? _lastCautionAlertSavedTime;
 
-  // Proximity alert tracking
-  int _proximityAlertCount = 0;
-  int get proximityAlertCount => _proximityAlertCount;
+  // Multi-Zone proximity alert tracking
+  int _cautionAlertCount = 0;
+  int _criticalAlertCount = 0;
+  int get cautionAlertCount => _cautionAlertCount;
+  int get criticalAlertCount => _criticalAlertCount;
+  int get proximityAlertCount => _cautionAlertCount + _criticalAlertCount;
+
+  ProximityZoneStats _zoneStats = const ProximityZoneStats();
+  ProximityZoneStats get zoneStats => _zoneStats;
+
+  final _zoneStatsController = StreamController<ProximityZoneStats>.broadcast();
+  Stream<ProximityZoneStats> get zoneStatsStream => _zoneStatsController.stream;
+
   final _alertCountController = StreamController<int>.broadcast();
   Stream<int> get alertCountStream => _alertCountController.stream;
 
@@ -423,34 +468,63 @@ class V2VRadarService {
     _latestTelemetry = telemetry;
     _telemetryController.add(telemetry);
 
-    // Trigger proximity alert when status is CRITICAL (person/vehicle too close - red on radar)
-    if (telemetry.status == 'CRITICAL') {
-      final now = DateTime.now();
+    final now = DateTime.now();
+    final status = telemetry.status; // 'CRITICAL', 'CAUTION', or 'SAFE'
 
-      // TTS voice warning (every 4 seconds)
-      if (_lastAlertSpokenTime == null || now.difference(_lastAlertSpokenTime!).inSeconds >= 4) {
-        _lastAlertSpokenTime = now;
+    if (status == 'CRITICAL') {
+      // 1. Critical Zone (< 8 cm): Urgent TTS warning (every 4 seconds)
+      if (_lastCriticalSpokenTime == null ||
+          now.difference(_lastCriticalSpokenTime!).inSeconds >= 4) {
+        _lastCriticalSpokenTime = now;
         _tts.speak('Warning! Vehicle ahead too close!');
       }
 
-      // Save proximity alert (throttle: one alert per 10 seconds to avoid spam)
-      if (_lastProximityAlertSavedTime == null || now.difference(_lastProximityAlertSavedTime!).inSeconds >= 10) {
-        _lastProximityAlertSavedTime = now;
-        _saveProximityAlert(telemetry);
+      // 2. Critical Zone: Save critical alert (throttle: 10 seconds)
+      if (_lastCriticalAlertSavedTime == null ||
+          now.difference(_lastCriticalAlertSavedTime!).inSeconds >= 10) {
+        _lastCriticalAlertSavedTime = now;
+        _saveProximityAlert(telemetry, isCritical: true);
+      }
+    } else if (status == 'CAUTION') {
+      // 1. Caution Zone (8 – 15 cm): Soft informational TTS warning (every 8 seconds)
+      if (_lastCautionSpokenTime == null ||
+          now.difference(_lastCautionSpokenTime!).inSeconds >= 8) {
+        _lastCautionSpokenTime = now;
+        _tts.speak('Caution. Object detected nearby.');
+      }
+
+      // 2. Caution Zone: Save caution alert (throttle: 15 seconds)
+      if (_lastCautionAlertSavedTime == null ||
+          now.difference(_lastCautionAlertSavedTime!).inSeconds >= 15) {
+        _lastCautionAlertSavedTime = now;
+        _saveProximityAlert(telemetry, isCritical: false);
       }
     }
+
+    _zoneStats = ProximityZoneStats(
+      cautionCount: _cautionAlertCount,
+      criticalCount: _criticalAlertCount,
+      totalCount: _cautionAlertCount + _criticalAlertCount,
+      currentZone: status,
+      distanceCm: telemetry.distanceCm,
+    );
+    _zoneStatsController.add(_zoneStats);
+    _alertCountController.add(_zoneStats.totalCount);
   }
 
-  /// Create and store a proximity alert when radar detects critical closeness
-  void _saveProximityAlert(V2VTelemetry telemetry) {
+  /// Create and store a proximity alert for CAUTION or CRITICAL zone
+  void _saveProximityAlert(V2VTelemetry telemetry, {required bool isCritical}) {
     final now = DateTime.now();
-    final alertId = 'radar_prox_${now.millisecondsSinceEpoch}';
+    final prefix = isCritical ? 'crit' : 'caut';
+    final alertId = 'radar_prox_${prefix}_${now.millisecondsSinceEpoch}';
 
     final alert = AlertModel(
       id: alertId,
-      alertType: 'PROXIMITY_ALERT',
-      severity: 'critical',
-      message: 'Radar proximity alert! Object detected at ${telemetry.distanceCm.toStringAsFixed(1)} cm — too close!',
+      alertType: isCritical ? 'PROXIMITY_CRITICAL' : 'PROXIMITY_CAUTION',
+      severity: isCritical ? 'critical' : 'caution',
+      message: isCritical
+          ? 'Radar proximity CRITICAL! Object detected at ${telemetry.distanceCm.toStringAsFixed(1)} cm — immediate collision risk!'
+          : 'Radar proximity CAUTION! Object detected at ${telemetry.distanceCm.toStringAsFixed(1)} cm — maintain safe distance.',
       source: 'V2VRadar',
       distance: telemetry.distanceMeters,
       relativeSpeed: telemetry.closingSpeedKmh,
@@ -459,9 +533,11 @@ class V2VRadarService {
       isSynced: false,
     );
 
-    // Increment alert count
-    _proximityAlertCount++;
-    _alertCountController.add(_proximityAlertCount);
+    if (isCritical) {
+      _criticalAlertCount++;
+    } else {
+      _cautionAlertCount++;
+    }
 
     // Store in local list
     _proximityAlerts.add(alert);
@@ -469,22 +545,28 @@ class V2VRadarService {
     // Save to AlertService (Firestore + SQLite + SharedPrefs)
     try {
       AlertService().saveDirectAlert(alert);
-      debugPrint('[V2VRadar] Proximity alert #$_proximityAlertCount saved: ${telemetry.distanceCm} cm');
+      debugPrint(
+        '[V2VRadar] ${isCritical ? "CRITICAL" : "CAUTION"} alert saved: ${telemetry.distanceCm} cm (Total: ${_cautionAlertCount + _criticalAlertCount})',
+      );
     } catch (e) {
       debugPrint('[V2VRadar] Failed to save proximity alert: $e');
     }
   }
 
-  /// Reset alert count (e.g. when starting new session)
+  /// Reset alert count across all zones (e.g. when starting new session)
   void resetAlertCount() {
-    _proximityAlertCount = 0;
+    _cautionAlertCount = 0;
+    _criticalAlertCount = 0;
     _proximityAlerts.clear();
+    _zoneStats = const ProximityZoneStats();
+    _zoneStatsController.add(_zoneStats);
     _alertCountController.add(0);
   }
 
   void dispose() {
     _stopAllSources();
     _telemetryController.close();
+    _zoneStatsController.close();
     _alertCountController.close();
   }
 }

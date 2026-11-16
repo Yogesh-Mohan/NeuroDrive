@@ -11,6 +11,7 @@ import '../core/services/trip_service.dart';
 import '../widgets/sos_dialog_helper.dart';
 import 'trip_details_screen.dart';
 import '../widgets/copilot_sheet.dart';
+import '../widgets/neural_copilot_orb.dart';
 
 class LiveMapScreen extends StatefulWidget {
   const LiveMapScreen({super.key});
@@ -733,15 +734,6 @@ class _LiveMapScreenState extends State<LiveMapScreen> {
                       child: const Icon(Icons.my_location_rounded, color: primaryColor),
                     ),
                   const SizedBox(height: 12),
-                  // NeuroCopilot AI Floating Trigger
-                  FloatingActionButton(
-                    heroTag: 'copilot_live_btn',
-                    onPressed: _openCopilotSheet,
-                    backgroundColor: const Color(0xFF00E5FF),
-                    elevation: 8,
-                    child: const Icon(Icons.psychology_rounded, color: Color(0xFF0D1B2A), size: 30),
-                  ),
-                  const SizedBox(height: 12),
                   FloatingActionButton(
                     heroTag: 'sos_live_map_btn',
                     onPressed: () => SosDialogHelper.showSosConfirmationDialog(
@@ -836,6 +828,12 @@ class _LiveMapScreenState extends State<LiveMapScreen> {
                   ],
                 ),
               ),
+            ),
+
+            // Futuristic Holographic Neural Orb (Draggable AI In-Car Copilot)
+            NeuralCopilotOrb(
+              initialOnLeft: true,
+              onTap: _openCopilotSheet,
             ),
           ],
         ),
